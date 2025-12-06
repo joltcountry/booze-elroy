@@ -21,6 +21,13 @@ local spritesheetText8
 -- Global stuff
 g = {}
 g.chars = require("characters")
+g.power = {
+        x = 20,
+        y = 120,
+}
+g.power.animator = function()
+    return graphics.animations.power
+end
 
 function love.load()
 

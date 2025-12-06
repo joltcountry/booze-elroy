@@ -5,7 +5,7 @@ chars.pac = {
     x = 50,
     y = 50,
     dir = 0, -- 0 = right, 1 down, 2 left, 3 right
-    speed = 1
+    speed = 1.20
 }
 chars.pac.animator = function()
    return graphics.animations.pac[g.chars.pac.dir]
@@ -15,7 +15,7 @@ chars.blinky = {
     x = 70,
     y = 120,
     dir = 1,
-    speed = 1
+    speed = .85
 }
 chars.blinky.animator = function()
     return graphics.animations.blinky[g.chars.blinky.dir]
@@ -25,7 +25,7 @@ chars.pinky = {
     x = 90,
     y = 120,
     dir = 2,
-    speed = 1
+    speed = .75
 }
 chars.pinky.animator = function()
     return graphics.animations.pinky[g.chars.pinky.dir]
@@ -35,7 +35,7 @@ chars.inky = {
     x = 20,
     y = 120,
     dir = 3,
-    speed = 1
+    speed = .75
 }
 chars.inky.animator = function()
     return graphics.animations.inky[g.chars.inky.dir]
@@ -45,7 +45,7 @@ chars.clyde = {
     x = 55,
     y = 120,
     dir = 0,
-    speed = .8
+    speed = .75
 }
 chars.clyde.animator = function()
     return graphics.animations.clyde[g.chars.clyde.dir]

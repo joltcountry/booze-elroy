@@ -114,6 +114,11 @@ local animations = {
         frames = {70,71},
         speed = 10,
     },
+    power = {
+        spr = "spr8",
+        frames = {2, 3},
+        speed = 8
+    }
 }
 
 return animations
