@@ -35,10 +35,17 @@ end
 
 function game.draw()
     love.graphics.push()
-    love.graphics.scale(6,6)
+    love.graphics.scale(5,5)
     for name, char in pairs(g.chars) do
         graphics.draw(char, char.x, char.y)
     end
+
+    graphics.print("welcome to", 16, 15, 0)
+    graphics.print("booze elroy!", 104, 15, 6)
+
+
+
+
     love.graphics.pop()
 end
 

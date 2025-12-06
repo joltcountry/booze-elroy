@@ -13,7 +13,7 @@ end
 
 chars.blinky = {
     x = 70,
-    y = 70,
+    y = 120,
     dir = 1,
     speed = 1
 }
@@ -23,7 +23,7 @@ end
 
 chars.pinky = {
     x = 90,
-    y = 80,
+    y = 120,
     dir = 2,
     speed = 1
 }
@@ -33,7 +33,7 @@ end
 
 chars.inky = {
     x = 20,
-    y = 80,
+    y = 120,
     dir = 3,
     speed = 1
 }
@@ -43,12 +43,32 @@ end
 
 chars.clyde = {
     x = 55,
-    y = 100,
+    y = 120,
     dir = 0,
     speed = .8
 }
 chars.clyde.animator = function()
     return graphics.animations.clyde[g.chars.clyde.dir]
+end
+
+chars.booze = {
+    x = 0,
+    y = 10,
+    dir = 0,
+    speed = 0
+}
+chars.booze.animator = function()
+    return graphics.animations.booze
+end
+
+chars.booze2 = {
+    x = 200,
+    y = 10,
+    dir = 0,
+    speed = 0
+}
+chars.booze2.animator = function()
+    return graphics.animations.booze
 end
 
 return chars

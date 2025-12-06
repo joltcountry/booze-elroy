@@ -109,6 +109,11 @@ local animations = {
             speed = 10,
         },
     },
+    booze = {
+        spr = "spr16",
+        frames = {70,71},
+        speed = 10,
+    },
 }
 
 return animations
