@@ -60,12 +60,12 @@ function graphics.spriteChart()
         -- Arrange sprites in a grid, e.g., 10 per row
         local spritesPerRow = 10
         local x = 700 + ((i - 1) % spritesPerRow) * 24  -- 16px + margin
-        local y = 300 + math.floor((i - 1) / spritesPerRow) * 32
+        local y = 300 + math.floor((i - 1) / spritesPerRow) * 40
         love.graphics.draw(sprites.spr8.sheet, quad, x, y)
         local c = i
         if c > 3 and c < 13 then c = c - 3 end
         if c > 12 then c = string.sub(alphabet, c-12, c-12) end
-        love.graphics.print(c, x, y + 18)
+        love.graphics.print(c, x, y + 10)
     end
     love.graphics.pop()
 
@@ -78,6 +78,10 @@ graphics.draw = function(o, x, y)
     local a = o.animator()
     o.frame = o.frame or 1
     love.graphics.draw(sprites[a.spr].sheet, sprites[a.spr].quads[a.frames[o.frame]], x, y)
+end
+
+graphics.drawSprite = function(s, i, x, y)
+    love.graphics.draw(sprites[s].sheet, sprites[s].quads[i], x, y)
 end
 
 graphics.print = function(s, x, y, o)

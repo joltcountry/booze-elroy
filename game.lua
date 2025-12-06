@@ -1,4 +1,6 @@
+local maze = require("maze")
 local graphics = require("graphics")
+
 local game = {}
 
 -- Game state variables
@@ -44,17 +46,17 @@ end
 
 function game.draw()
     love.graphics.push()
-    love.graphics.scale(5,5)
+    love.graphics.scale(3,3)
     for name, char in pairs(g.chars) do
         graphics.draw(char, char.x, char.y)
     end
     graphics.draw(g.power, g.power.x, g.power.y)
-    
+
     graphics.print("welcome to", 16, 15, 0)
     graphics.print("booze elroy!", 104, 15, 6)
 
 
-
+    maze.draw()
 
     love.graphics.pop()
 end

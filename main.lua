@@ -32,7 +32,7 @@ end
 function love.load()
 
     love.window.setTitle("Booze Elroy")
-    love.graphics.setBackgroundColor(.1,.4, .3)
+    love.graphics.setBackgroundColor(.02,.1, .08)
     love.graphics.setDefaultFilter("nearest", "nearest")
     graphics.init()
 
