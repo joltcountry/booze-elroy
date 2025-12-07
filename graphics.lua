@@ -3,7 +3,7 @@
 local graphics = {}
 local sprites = {}
 
-local textChars = 'ABCDEFGHIJKLMNO PQRSTUVWXYZ!©###0123456789/-"'
+local textChars = 'ABCDEFGHIJKLMNO PQRSTUVWXYZ!©##0123456789/-"'
 local alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 -- Split spritesheet images into 1D arrays (tables of subimages/quads)
 function graphics.splitSpritesheet(image, frameWidth, frameHeight)

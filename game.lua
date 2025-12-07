@@ -1,5 +1,6 @@
 local maze = require("maze")
 local graphics = require("graphics")
+local characters = require("characters")
 
 local game = {}
 
@@ -27,38 +28,54 @@ local move = function(c)
 
 end
 
+function game.start()
+
+    g.chars = require("characters")
+    local powers = maze.getPowers()
+    local dots = maze.getDots()
+    for _, p in ipairs(powers) do
+        table.insert(g.chars, {
+            x = p.x, y = p.y, animator = function() return graphics.animations.power end
+        })
+    end
+    for _, d in ipairs(dots) do
+        table.insert(g.chars, {
+            x = d.x, y = d.y, animator = function() return graphics.animations.dot end
+        })
+    end    
+
+end
+
 function game.update(dt)
     -- Called every fixed timestep (60 FPS) / frame
     fc = fc + 1
 
     for name, char in pairs(g.chars) do
-        move(char)
-        graphics.updateAnimation(char, fc)
-        if fc % 50 == 0 then
-            char.dir = (char.dir + 1) % 4
-            char.accum16 = 0
+        if char.speed then 
+            move(char)
         end
+        graphics.updateAnimation(char, fc)
 
     end
     
-    graphics.updateAnimation(g.power, fc)
 end
 
 function game.draw()
-    love.graphics.push()
-    love.graphics.scale(3,3)
+
+    love.graphics.setCanvas(gameCanvas)
+    love.graphics.clear(0, 0, 0, 1)
+    love.graphics.origin()
+
     for name, char in pairs(g.chars) do
         graphics.draw(char, char.x, char.y)
     end
-    graphics.draw(g.power, g.power.x, g.power.y)
 
-    graphics.print("welcome to", 16, 15, 0)
-    graphics.print("booze elroy!", 104, 15, 6)
+    graphics.print("1up   booze elroy!", g.state.xOffset + (2 * 8), 1, 0)
+    graphics.print("  00", g.state.xOffset + (2 * 9), 9, 0)
 
 
     maze.draw()
-
-    love.graphics.pop()
+    love.graphics.setCanvas()
 end
 
 return game

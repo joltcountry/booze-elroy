@@ -117,7 +117,12 @@ local animations = {
     power = {
         spr = "spr8",
         frames = {2, 3},
-        speed = 8
+        speed = 8,
+    },
+    dot = {
+        spr = "spr8",
+        frames = {1},
+        speed = 0,
     }
 }
 

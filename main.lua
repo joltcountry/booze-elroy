@@ -1,8 +1,14 @@
 -- Love2D Application
 -- Main entry point
+-- Global stuff
+g = {}
+g.state = {
+    xOffset = 0, yOffset = 24
+}
 
 local game = require("game")
 local graphics = require("graphics")
+local moonshine = require("moonshine")
 
 local windowWidth = 1920
 local windowHeight = 1080
@@ -18,23 +24,25 @@ local spritesheet16
 local spritesheet8
 local spritesheetText8
 
--- Global stuff
-g = {}
-g.chars = require("characters")
-g.power = {
-        x = 20,
-        y = 120,
-}
-g.power.animator = function()
-    return graphics.animations.power
-end
-
 function love.load()
+
+    gameCanvas = love.graphics.newCanvas(224, 288)
+    love.graphics.setDefaultFilter("nearest", "nearest")
+    effect = moonshine(moonshine.effects.crt)
+    .chain(moonshine.effects.scanlines)
+    effect.crt.distortionFactor = {1.06, 1.065}  -- horizontal/vertical bulge
+    effect.crt.feather = 0.03                    -- soften edges
+  
+    -- tweak scanlines
+    effect.scanlines.opacity = 0.4
+    effect.scanlines.thickness = 1.0
+
 
     love.window.setTitle("Booze Elroy")
     love.graphics.setBackgroundColor(.02,.1, .08)
     love.graphics.setDefaultFilter("nearest", "nearest")
     graphics.init()
+    game.start()
 
 end
 
@@ -50,9 +58,20 @@ function love.update(dt)
 end
 
 function love.draw()
+    game.draw()
+    effect(function()
+        local ww, wh = love.graphics.getWidth(), love.graphics.getHeight()
+        local gw, gh = gameCanvas:getWidth(), gameCanvas:getHeight()
+        local scale = math.min(ww / gw, wh / gh)
+
+        love.graphics.push()
+        love.graphics.translate((ww - gw * scale) / 2, (wh - gh * scale) / 2)
+        love.graphics.scale(scale, scale)
+        love.graphics.draw(gameCanvas, 0, 0)
+        love.graphics.pop()
+    end)
     graphics.spriteChart()
 
-    game.draw()
 end
 
 function love.keypressed(key)
