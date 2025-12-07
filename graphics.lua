@@ -44,31 +44,27 @@ function graphics.init()
 end
 
 function graphics.spriteChart()
-    love.graphics.push()
-    love.graphics.scale(2, 2)
 
     for i, quad in ipairs(sprites.spr16.quads) do
         -- Arrange sprites in a grid, e.g., 10 per row
         local spritesPerRow = 10
-        local x = 700 + ((i - 1) % spritesPerRow) * 24  -- 16px + margin
-        local y = 0 + math.floor((i - 1) / spritesPerRow) * 32
+        local x = (love.graphics.getWidth() / 4) * 3 + ((i - 1) % spritesPerRow) * 24  -- 16px + margin
+        local y = 30 + math.floor((i - 1) / spritesPerRow) * 32
         love.graphics.draw(sprites.spr16.sheet, quad, x, y)
         love.graphics.print(i, x, y + 18)
     end
 
-    for i, quad in ipairs(sprites.spr8.quads) do
-        -- Arrange sprites in a grid, e.g., 10 per row
-        local spritesPerRow = 10
-        local x = 700 + ((i - 1) % spritesPerRow) * 24  -- 16px + margin
-        local y = 300 + math.floor((i - 1) / spritesPerRow) * 40
-        love.graphics.draw(sprites.spr8.sheet, quad, x, y)
-        local c = i
-        if c > 3 and c < 13 then c = c - 3 end
-        if c > 12 then c = string.sub(alphabet, c-12, c-12) end
-        love.graphics.print(c, x, y + 10)
-    end
-    love.graphics.pop()
-
+    -- for i, quad in ipairs(sprites.spr8.quads) do
+    --     -- Arrange sprites in a grid, e.g., 10 per row
+    --     local spritesPerRow = 10
+    --     local x = 300 + ((i - 1) % spritesPerRow) * 24  -- 16px + margin
+    --     local y = 300 + math.floor((i - 1) / spritesPerRow) * 40
+    --     love.graphics.draw(sprites.spr8.sheet, quad, x, y)
+    --     local c = i
+    --     if c > 3 and c < 13 then c = c - 3 end
+    --     if c > 12 then c = string.sub(alphabet, c-12, c-12) end
+    --     love.graphics.print(c, x, y + 10)
+    -- end
 
 end
 

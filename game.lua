@@ -70,8 +70,8 @@ function game.draw()
         graphics.draw(char, char.x, char.y)
     end
 
-    graphics.print("1up   booze elroy!", g.state.xOffset + (2 * 8), 1, 0)
-    graphics.print("  00", g.state.xOffset + (2 * 9), 9, 0)
+    graphics.print("1up   booze elroy!", (2 * 8), 1, 0)
+    graphics.print("  00", (2 * 9), 9, 0)
 
 
     maze.draw()

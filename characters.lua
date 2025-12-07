@@ -2,8 +2,8 @@ local graphics = require("graphics")
 local chars = {}
 
 chars.pac = {
-    x = g.state.xOffset + (8 * 13),
-    y = g.state.yOffset + (8 * 22) + 4,
+    x = (8 * 13),
+    y = (8 * 25) + 4,
     dir = 2, -- 0 = right, 1 down, 2 left, 3 right
     speed = 0
 }

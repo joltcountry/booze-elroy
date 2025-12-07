@@ -1,9 +1,10 @@
 -- Love2D Application
 -- Main entry point
 -- Global stuff
-g = {}
+g = {
+    scale  = 2
+}
 g.state = {
-    xOffset = 0, yOffset = 24
 }
 
 local game = require("game")
@@ -25,21 +26,27 @@ local spritesheet8
 local spritesheetText8
 
 function love.load()
+    local gw, gh = 224, 288
 
-    gameCanvas = love.graphics.newCanvas(224, 288)
+    g.scale = love.graphics.getWidth() / gw / 2
+
+    gameCanvas = love.graphics.newCanvas(gw, gh)
+    crtCanvas  = love.graphics.newCanvas(gw * g.scale, gh * g.scale)
     love.graphics.setDefaultFilter("nearest", "nearest")
     effect = moonshine(moonshine.effects.crt)
     .chain(moonshine.effects.scanlines)
-    effect.crt.distortionFactor = {1.06, 1.065}  -- horizontal/vertical bulge
+    .chain(moonshine.effects.glow)
+    --.chain(moonshine.effects.chromasep)
+    effect.crt.distortionFactor = {1.03, 1.04}  -- horizontal/vertical bulge
     effect.crt.feather = 0.03                    -- soften edges
-  
     -- tweak scanlines
+    effect.glow.strength = 10
+    effect.glow.min_luma = .25
     effect.scanlines.opacity = 0.4
     effect.scanlines.thickness = 1.0
-
-
+    effect.resize(gw * g.scale, gh * g.scale)
     love.window.setTitle("Booze Elroy")
-    love.graphics.setBackgroundColor(.02,.1, .08)
+    love.graphics.setBackgroundColor(.1,.3, .2)
     love.graphics.setDefaultFilter("nearest", "nearest")
     graphics.init()
     game.start()
@@ -59,17 +66,28 @@ end
 
 function love.draw()
     game.draw()
-    effect(function()
-        local ww, wh = love.graphics.getWidth(), love.graphics.getHeight()
-        local gw, gh = gameCanvas:getWidth(), gameCanvas:getHeight()
-        local scale = math.min(ww / gw, wh / gh)
+    love.graphics.setCanvas(crtCanvas)
+    love.graphics.clear(0,0,0,1)
+    love.graphics.origin()
 
+    effect(function()
         love.graphics.push()
-        love.graphics.translate((ww - gw * scale) / 2, (wh - gh * scale) / 2)
-        love.graphics.scale(scale, scale)
+        love.graphics.scale(g.scale, g.scale)
         love.graphics.draw(gameCanvas, 0, 0)
         love.graphics.pop()
     end)
+
+    love.graphics.setCanvas()
+
+    local gw, gh = crtCanvas:getWidth(), crtCanvas:getHeight()
+    local ww, wh = love.graphics.getWidth(), love.graphics.getHeight()
+
+    effect.resize(gw, gh)
+
+    love.graphics.push()
+    love.graphics.draw(crtCanvas, ww / 2 - gw / 2, 0)
+    love.graphics.pop()
+
     graphics.spriteChart()
 
 end

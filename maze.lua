@@ -48,7 +48,7 @@ maze.getPowers = function()
     for y = 1, #map do
         for x = 1, #map[1] do
             local c = string.sub(map[y], x, x)
-            if (c == 'o') then table.insert(powers, {x=g.state.xOffset + (x - 1) *8, y=g.state.yOffset + (y - 1)*8}) end
+            if (c == 'o') then table.insert(powers, {x= (x - 1) *8, y=24 + (y - 1)*8}) end
         end
     end
     return powers
@@ -59,7 +59,7 @@ maze.getDots = function()
     for y = 1, #map do
         for x = 1, #map[1] do
             local c = string.sub(map[y], x, x)
-            if (c == '.') then table.insert(dots, {x=g.state.xOffset + (x-1)*8, y=g.state.yOffset + (y-1)*8}) end
+            if (c == '.') then table.insert(dots, {x= (x-1)*8, y=24 +(y-1)*8}) end
         end
     end
     return dots
@@ -77,7 +77,7 @@ maze.draw = function()
                 end
             end
             if spriteNum then
-                graphics.drawSprite("spr8", spriteNum + 3, g.state.xOffset + (x-1) * 8, g.state.yOffset + (y-1) * 8)
+                graphics.drawSprite("spr8", spriteNum + 3, (x-1) * 8,24 + (y-1) * 8)
             end
         end
     end
