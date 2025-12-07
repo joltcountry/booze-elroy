@@ -14,32 +14,32 @@ local spriteMap = {
     "6 ABBC ABBBC 78 ABBBC ABBC 9", --  3
     "6 7  8 7   8 78 7   8 7  8 9", --  4
     "6 DEEF DEEEF DF DEEEF DEEF 9", --  5
-    "#..........................#", --  6
-    "#.####.##.########.##.####.#", --  7
-    "#.####.##.########.##.####.#", --  8
-    "#......##....##....##......#", --  9
-    "######.##### ## #####.######", -- 10
-    "     #.##### ## #####.#     ", -- 11 (warp tunnels row; spaces = void)
-    "     #.##          ##.#     ", -- 12 (entrance to house row)
-    "     #.## ###HH### ##.#     ", -- 13
-    "######.## #HHHHHH# ##.######", -- 14
-    "      .   #HH==HH#   .      ", -- 15 (center row; gate ==)
-    "######.## #HHHHHH# ##.######", -- 16
-    "     #.## ######## ##.#     ", -- 17
-    "     #.##          ##.#     ", -- 18
-    "     #.## ######## ##.#     ", -- 19
-    "######.## ######## ##.######", -- 20
-    "#............##............#", -- 21
-    "#.####.#####.##.#####.####.#", -- 22
-    "#.####.#####.##.#####.####.#", -- 23
-    "#o..##.......^^.......##..o#", -- 24 (^^ above house: no-ghost tiles)
-    "###.##.##.########.##.##.###", -- 25
-    "#......##....##....##......#", -- 26
-    "#.##########.##.##########.#", -- 27
-    "#.##########.##.##########.#", -- 28
-    "#..........................#", -- 29
-    "############################", -- 30
-    "                            ", -- 31 (bottom “void” row; often unused)
+    "6                          9", --  6
+    "6 ABBC AC ABBBBBBC AC ABBC 9", --  7
+    "6 DEEF 78 DEEGHEEF 78 DEEF 9", --  8
+    "6      78    78    78      9", --  9
+    "IJJJJC 7KBBC 78 ABBL8 AJJJJM", -- 10
+    "     6 7HEEF DF DEEG8 9     ", -- 11 (warp tunnels row; spaces = void)
+    "     6 78          78 9     ", -- 12 (entrance to house row)
+    "     6 78 NJOPPQJR 78 9     ", -- 13
+    "22222F DF 9      6 DF D22222", -- 14
+    "          9      6          ", -- 15 (center row; gate ==)
+    "JJJJJC AC 9      6 AC AJJJJJ", -- 16
+    "     6 78 S222222T 78 9     ", -- 17
+    "     6 78          78 9     ", -- 18
+    "     6 78 ABBBBBBC 78 9     ", -- 19
+    "12222F DF DEEGHEEF DF D22225", -- 20
+    "6            78            9", -- 21
+    "6 ABBC ABBBC 78 ABBBC ABBC 9", -- 22
+    "6 DEG8 DEEEF DF DEEEF 7HEF 9", -- 23
+    "6   78                78   9", -- 24 (^^ above house: no-ghost tiles)
+    "XBC 78 AC ABBBBBBC AC 78 ABV", -- 25
+    "WEF DF 78 DEEGHEEF 78 DF DEU", -- 26
+    "6      78    78    78      9", -- 27
+    "6 ABBBBLKBBC 78 ABBLKBBBBC 9", -- 28
+    "6 DEEEEEEEEF DF DEEEEEEEEF 9", -- 29
+    "6                          9", -- 30
+    "IJJJJJJJJJJJJJJJJJJJJJJJJJJM", -- 31 (bottom “void” row; often unused)
 }
 maze.init = function()
 
