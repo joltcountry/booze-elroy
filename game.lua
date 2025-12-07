@@ -4,6 +4,8 @@ local characters = require("characters")
 
 local game = {}
 
+local fruits = require("fruits")
+
 -- Game state variables
 local fc = 0
 local speedFactor = 20/16 -- 1.25
@@ -70,11 +72,14 @@ function game.draw()
         graphics.draw(char, char.x, char.y)
     end
 
-    graphics.print("1up   booze elroy!", (2 * 8), 1, 0)
-    graphics.print("  00", (2 * 9), 9, 0)
-
+    graphics.print("1up   booze elroy! 2up", 24, 0, 0)
+    graphics.print("  00", 24, 8, 0)
 
     maze.draw()
+
+    graphics.drawSpriteAtTile(fruits.cherry.sheet, fruits.cherry.quad, 24,34)
+    graphics.drawSpriteAtTile("spr16", 61, 2, 34)
+    graphics.drawSpriteAtTile("spr16", 61, 4, 34)
     love.graphics.setCanvas()
 end
 

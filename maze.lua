@@ -5,6 +5,9 @@ maze = {}
 
 local map = {
     -- 28 columns each
+    "                            ",
+    "                            ",
+    "                            ",
     "1222222222222342222222222225", --  1
     "6............78............9", --  2
     "6.ABBC.ABBBC.78.ABBBC.ABBC.9", --  3
@@ -36,6 +39,7 @@ local map = {
     "6.DEEEEEEEEF.DF.DEEEEEEEEF.9", -- 29
     "6..........................9", -- 30
     "IJJJJJJJJJJJJJJJJJJJJJJJJJJM", -- 31 (bottom “void” row; often unused)
+    "                            ",
 }
 maze.init = function()
 
@@ -48,7 +52,7 @@ maze.getPowers = function()
     for y = 1, #map do
         for x = 1, #map[1] do
             local c = string.sub(map[y], x, x)
-            if (c == 'o') then table.insert(powers, {x= (x - 1) *8, y=24 + (y - 1)*8}) end
+            if (c == 'o') then table.insert(powers, {x= (x - 1) *8, y=(y - 1)*8}) end
         end
     end
     return powers
@@ -59,7 +63,7 @@ maze.getDots = function()
     for y = 1, #map do
         for x = 1, #map[1] do
             local c = string.sub(map[y], x, x)
-            if (c == '.') then table.insert(dots, {x= (x-1)*8, y=24 +(y-1)*8}) end
+            if (c == '.') then table.insert(dots, {x= (x-1)*8, y=(y-1)*8}) end
         end
     end
     return dots
@@ -77,7 +81,7 @@ maze.draw = function()
                 end
             end
             if spriteNum then
-                graphics.drawSprite("spr8", spriteNum + 3, (x-1) * 8,24 + (y-1) * 8)
+                graphics.drawSprite("spr8", spriteNum + 3, (x-1) * 8,(y-1) * 8)
             end
         end
     end

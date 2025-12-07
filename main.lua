@@ -28,7 +28,7 @@ local spritesheetText8
 function love.load()
     local gw, gh = 224, 288
 
-    g.scale = love.graphics.getWidth() / gw / 2
+    g.scale = love.graphics.getHeight() / gh
 
     gameCanvas = love.graphics.newCanvas(gw, gh)
     crtCanvas  = love.graphics.newCanvas(gw * g.scale, gh * g.scale)
@@ -36,14 +36,18 @@ function love.load()
     effect = moonshine(moonshine.effects.crt)
     .chain(moonshine.effects.scanlines)
     .chain(moonshine.effects.glow)
+    .chain(moonshine.effects.colorgradesimple)
+    --.chain(moonshine.effects.godsray)
     --.chain(moonshine.effects.chromasep)
     effect.crt.distortionFactor = {1.03, 1.04}  -- horizontal/vertical bulge
     effect.crt.feather = 0.03                    -- soften edges
     -- tweak scanlines
-    effect.glow.strength = 10
-    effect.glow.min_luma = .25
+    effect.glow.strength = 5
+    effect.glow.min_luma = .7
     effect.scanlines.opacity = 0.4
     effect.scanlines.thickness = 1.0
+    -- brighten things up (values > 1.0 brighten, < 1.0 darken)
+    effect.colorgradesimple.factors = {1.1, 1.1, 1.1}  -- 30% brighter
     effect.resize(gw * g.scale, gh * g.scale)
     love.window.setTitle("Booze Elroy")
     love.graphics.setBackgroundColor(.1,.3, .2)
@@ -62,6 +66,7 @@ function love.update(dt)
         game.update(fixed_dt)
         accumulator = accumulator - fixed_dt
     end
+
 end
 
 function love.draw()
@@ -73,6 +78,7 @@ function love.draw()
     effect(function()
         love.graphics.push()
         love.graphics.scale(g.scale, g.scale)
+        love.graphics.translate(0, 1)
         love.graphics.draw(gameCanvas, 0, 0)
         love.graphics.pop()
     end)

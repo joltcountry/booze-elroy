@@ -48,7 +48,7 @@ function graphics.spriteChart()
     for i, quad in ipairs(sprites.spr16.quads) do
         -- Arrange sprites in a grid, e.g., 10 per row
         local spritesPerRow = 10
-        local x = (love.graphics.getWidth() / 4) * 3 + ((i - 1) % spritesPerRow) * 24  -- 16px + margin
+        local x = (love.graphics.getWidth() / 6) * 5 + ((i - 1) % spritesPerRow) * 24  -- 16px + margin
         local y = 30 + math.floor((i - 1) / spritesPerRow) * 32
         love.graphics.draw(sprites.spr16.sheet, quad, x, y)
         love.graphics.print(i, x, y + 18)
@@ -90,6 +90,10 @@ graphics.print = function(s, x, y, o)
         love.graphics.draw(sprites.text8.sheet, sprites.text8.quads[(o * 64) + index], x, y)
         x = x + 8
     end
+end
+
+graphics.drawSpriteAtTile = function(s, i, x, y)
+    love.graphics.draw(sprites[s].sheet, sprites[s].quads[i], x * 8, y * 8)
 end
 
 graphics.updateAnimation = function(o, frameCounter)
