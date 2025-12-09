@@ -4,8 +4,6 @@
 g = {
     scale  = 2
 }
-g.state = {
-}
 
 local game = require("game")
 local graphics = require("graphics")
@@ -78,7 +76,7 @@ function love.draw()
     effect(function()
         love.graphics.push()
         love.graphics.scale(g.scale, g.scale)
-        love.graphics.translate(0, 1)
+        love.graphics.translate(1, 1)
         love.graphics.draw(gameCanvas, 0, 0)
         love.graphics.pop()
     end)

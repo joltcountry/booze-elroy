@@ -1,6 +1,14 @@
 local graphics = require("graphics")
 local indexes = '123456789ABCDEFGHIJKLMNOPQRSTUVWX'
 
+-- todo, centralize this somewhere, it's already in game.lua
+local deltas = {
+    [0] = { x = 1, y = 0},
+    [1] = { x = 0, y = 1},
+    [2] = { x = -1, y = 0},
+    [3] = { x = 0, y = -1}
+}
+
 maze = {}
 
 local map = {
@@ -41,10 +49,37 @@ local map = {
     "IJJJJJJJJJJJJJJJJJJJJJJJJJJM", -- 31 (bottom “void” row; often unused)
     "                            ",
 }
+
+local xPixels = #map[1]*8
+local yPixels = #map*8
+
+maze.getLoc = function(c)
+    local xTile = math.floor(c.x / 8)
+    local yTile = math.floor(c.y / 8)
+    local xOff = c.x % 8
+    local yOff = c.y % 8
+
+    return xTile, xOff, yTile, yOff
+end
+
 maze.init = function()
 
 
 
+end
+
+maze.isWall = function(x,y)
+    local c = string.sub(map[y+1], x+1, x+1)
+    if string.find(indexes, c, 1, true) then
+        return true
+    else
+        return false
+    end
+end
+
+maze.isBlocked = function(c, dir)
+    local xTile, xOff, yTile, yOff = maze.getLoc(c)
+    return maze.isWall(xTile + deltas[dir].x, yTile + deltas[dir].y)
 end
 
 maze.getPowers = function()

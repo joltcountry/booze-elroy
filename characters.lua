@@ -2,10 +2,10 @@ local graphics = require("graphics")
 local chars = {}
 
 chars.pac = {
-    x = (8 * 13),
-    y = (8 * 25) + 4,
+    x = (8 * 14),
+    y = (8 * 26) + 4,
     dir = 2, -- 0 = right, 1 down, 2 left, 3 right
-    speed = 0
+    speed = .80
 }
 chars.pac.animator = function()
    return graphics.animations.pac[g.chars.pac.dir]

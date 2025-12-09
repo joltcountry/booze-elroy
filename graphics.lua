@@ -73,7 +73,7 @@ graphics.animations = require("animations")
 graphics.draw = function(o, x, y)
     local a = o.animator()
     o.frame = o.frame or 1
-    love.graphics.draw(sprites[a.spr].sheet, sprites[a.spr].quads[a.frames[o.frame]], x, y)
+    love.graphics.draw(sprites[a.spr].sheet, sprites[a.spr].quads[a.frames[o.frame]], x - 8, y - 8)
 end
 
 graphics.drawSprite = function(s, i, x, y)
@@ -87,8 +87,8 @@ graphics.print = function(s, x, y, o)
     for i = 1, #str do
         local c = string.sub(str, i, i)
         local index = string.find(textChars, c)
-        love.graphics.draw(sprites.text8.sheet, sprites.text8.quads[(o * 64) + index], x, y)
-        x = x + 8
+        love.graphics.draw(sprites.text8.sheet, sprites.text8.quads[(o * 64) + index], x * 8, y * 8)
+        x = x + 1
     end
 end
 
