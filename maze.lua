@@ -26,7 +26,7 @@ local map = {
     "     6.78          78.9     ", -- 12 (entrance to house row)
     "     6.78 NJOPPQJR 78.9     ", -- 13
     "22222F.DF 9      6 DF.D22222", -- 14
-    "      .   9      6   .      ", -- 15 (center row; gate ==)
+    "_____ .   9      6   . _____", -- 15 (center row; gate ==)
     "JJJJJC.AC 9      6 AC.AJJJJJ", -- 16
     "     6.78 S222222T 78.9     ", -- 17
     "     6.78          78.9     ", -- 18
@@ -49,6 +49,9 @@ local map = {
 local xPixels = #map[1]*8
 local yPixels = #map*8
 
+maze.w = #map[1]
+maze.h = #map
+
 maze.getLoc = function(c)
     local xTile = math.floor(c.x / 8)
     local yTile = math.floor(c.y / 8)
@@ -65,12 +68,12 @@ maze.init = function()
 end
 
 maze.isWall = function(x,y)
-    local c = string.sub(map[y+1], x+1, x+1)
-    if string.find(indexes, c, 1, true) then
-        return true
-    else
+    if x < 0 or x >= #map[1] then
         return false
     end
+
+    local c = string.sub(map[y+1], x+1, x+1)
+    return string.find(indexes, c, 1, true) ~= nil
 end
 
 maze.isBlocked = function(c, dir)

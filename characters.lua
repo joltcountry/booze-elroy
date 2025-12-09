@@ -5,7 +5,7 @@ chars.pac = {
     x = (8 * 14),
     y = (8 * 26) + 4,
     dir = 2, -- 0 = right, 1 down, 2 left, 3 right
-    speed = 1,
+    speed = .8,
     turnWindow = 3
 }
 chars.pac.animator = function()

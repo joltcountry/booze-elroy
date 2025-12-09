@@ -29,6 +29,16 @@ local advance = function(c, xOff, yOff)
         if xOff < 4 then c.x = c.x + 1 end
         if xOff > 4 then c.x = c.x - 1 end
     end
+
+    -- check for wraparound
+    xTile, xOff, yTile, yOff = maze.getLoc(c)
+    if xTile == maze.w + 2 then
+        print(xOff)
+        c.x = -2 * 8 + xOff
+    elseif xTile == -3 then
+        print(xOff)
+        c.x = (maze.w + 1) * 8 + xOff
+    end
     c.moved = true
 end
 

@@ -52,7 +52,8 @@ function love.load()
     love.graphics.setBackgroundColor(.1,.3, .2)
     love.graphics.setDefaultFilter("nearest", "nearest")
     graphics.init()
-    game.start()
+    g.scene = game
+    g.scene.start()
 
 end
 
@@ -62,14 +63,14 @@ function love.update(dt)
     accumulator = accumulator + dt
     while accumulator >= fixed_dt do
         frameCounter = frameCounter + 1
-        game.update(fixed_dt)
+        g.scene.update(fixed_dt)
         accumulator = accumulator - fixed_dt
     end
 
 end
 
 function love.draw()
-    game.draw()
+    g.scene.draw()
     love.graphics.setCanvas(crtCanvas)
     love.graphics.clear(0,0,0,1)
     love.graphics.origin()
