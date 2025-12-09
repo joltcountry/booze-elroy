@@ -1,13 +1,9 @@
 local graphics = require("graphics")
+local constants = require("constants")
+
 local indexes = '123456789ABCDEFGHIJKLMNOPQRSTUVWX'
 
 -- todo, centralize this somewhere, it's already in game.lua
-local deltas = {
-    [0] = { x = 1, y = 0},
-    [1] = { x = 0, y = 1},
-    [2] = { x = -1, y = 0},
-    [3] = { x = 0, y = -1}
-}
 
 maze = {}
 
@@ -79,7 +75,7 @@ end
 
 maze.isBlocked = function(c, dir)
     local xTile, xOff, yTile, yOff = maze.getLoc(c)
-    return maze.isWall(xTile + deltas[dir].x, yTile + deltas[dir].y)
+    return maze.isWall(xTile + constants.deltas[dir].x, yTile + constants.deltas[dir].y)
 end
 
 maze.getPowers = function()

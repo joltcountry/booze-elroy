@@ -1,7 +1,7 @@
 local maze = require("maze")
 local graphics = require("graphics")
 local characters = require("characters")
-
+local constants = require("constants")
 local game = {}
 
 local fruits = require("fruits")
@@ -9,30 +9,49 @@ local fruits = require("fruits")
 -- Game state variables
 local fc = 0
 local speedFactor = 20/16 -- 1.25
-local deltas = {
-    [0] = { x = 1, y = 0},
-    [1] = { x = 0, y = 1},
-    [2] = { x = -1, y = 0},
-    [3] = { x = 0, y = -1}
+
+local joyDirs = {
+    right = 0,
+    down = 1,
+    left = 2,
+    up = 3
 }
 
-local move = function(c)
+local advance = function(c, xOff, yOff)
+    -- CLEAN THIS UP TOMORROW
+    c.x = c.x + constants.deltas[c.dir].x
+    c.y = c.y + constants.deltas[c.dir].y
 
-    xTile, xOff, yTile, yOff = maze.getLoc(c)
+    if c.dir % 2 == 0 then -- left/right, correct yOff
+        if yOff > 4 then c.y = c.y - 1 end
+        if yOff < 4 then c.y = c.y + 1 end
+    else
+        if xOff < 4 then c.x = c.x + 1 end
+        if xOff > 4 then c.x = c.x - 1 end
+    end
+    c.moved = true
+end
+
+local move = function(c)
+-- add iDir -- ghost should set iDir each tile, pac's iDir is set by joystick
     c.accum16 = c.accum16 or 0
     local speed16 = c.speed * speedFactor * 16
     c.accum16 = c.accum16 + speed16;
     while c.accum16 >= 16 do
+        xTile, xOff, yTile, yOff = maze.getLoc(c)
         c.accum16 = c.accum16 - 16;
-        if not maze.isBlocked(c, c.dir) or
+
+        if not maze.isBlocked(c, c.dir) or 
             (c.dir == 2 and xOff > 4) or
             (c.dir == 3 and yOff > 4) or
             (c.dir == 0 and xOff < 4) or
-            (c.dir == 1 and yOff < 4)
-            then 
-            -- CLEAN THIS UP TOMORROW
-            c.x = c.x + deltas[c.dir].x
-            c.y = c.y + deltas[c.dir].y
+            (c.dir == 1 and yOff < 4) then 
+            advance(c, xOff, yOff)
+        else 
+            if c.iDir and not maze.isBlocked(c, c.dir) then
+                c.dir = c.iDir
+                advance(c, xOff, yOff)
+            end
         end
     end
 
@@ -61,26 +80,46 @@ function game.update(dt)
     -- Called every fixed timestep (60 FPS) / frame
     fc = fc + 1
 
-    xTile, xOff, yTile, yOff = maze.getLoc(g.chars.pac)
-
-    if (love.keyboard.isDown('right') and yOff == 4 and not maze.isBlocked(g.chars.pac, 0)) then
-        g.chars.pac.dir=0
-    elseif (love.keyboard.isDown('up') and xOff == 4 and not maze.isBlocked(g.chars.pac, 3)) then
-        g.chars.pac.dir=3
-    elseif (love.keyboard.isDown('down') and xOff == 4 and not maze.isBlocked(g.chars.pac, 1)) then
-        g.chars.pac.dir=1
-    elseif (love.keyboard.isDown('left') and yOff == 4 and not maze.isBlocked(g.chars.pac, 2)) then
-        g.chars.pac.dir=2
+    -- Check for directional input
+    g.chars.pac.iDir = false
+    for joyDir, dir in pairs(joyDirs) do
+        if love.keyboard.isDown(joyDir) then g.chars.pac.iDir = dir end
     end
 
-    for name, char in pairs(g.chars) do
-        if char.speed then 
-            move(char)
+    -- decide whether to turn or not
+    -- can always turn around
+    for name, c in pairs(g.chars) do
+        xTile, xOff, yTile, yOff = maze.getLoc(c)
+
+        if c.iDir then
+            if math.abs(c.dir - c.iDir) == 2 then
+                c.dir = c.iDir
+            end
+
+            -- if turn
+            if (c.dir - c.iDir) % 2 == 1 then
+                local turnWindow = c.turnWindow or 0
+                if c.dir % 2 == 0 then -- left or right
+                    if not maze.isBlocked(c, c.iDir) and math.abs(xOff - 4) <= turnWindow then -- moving up or down
+                        c.dir = c.iDir
+                    end
+                elseif not maze.isBlocked(c, c.iDir) and math.abs(xOff - 4) <= turnWindow then
+                    c.dir = c.iDir
+                end
+            end
         end
-        graphics.updateAnimation(char, fc)
 
     end
-    
+
+    -- Move all characters if able
+    for name, char in pairs(g.chars) do
+        char.moved = false
+        move(char)
+        if (char.moved) then
+            graphics.updateAnimation(char, fc)
+        end
+    end
+
 end
 
 function game.draw()
@@ -107,6 +146,7 @@ function game.draw()
     love.graphics.print("PAC X/Y:      " .. g.chars.pac.x .. '/' .. g.chars.pac.y, 50, 50)
     love.graphics.print('PAC TILE X/Y: ' .. xTile .. "/" .. yTile, 50, 60)
     love.graphics.print('PAC OFF X/Y:  ' .. xOff .. "/" .. yOff, 50, 70)
+    love.graphics.print("DIR/IDIR: " .. g.chars.pac.dir .. "/" .. (g.chars.pac.iDir or 'X'), 50, 100)
 end
 
 return game
