@@ -33,10 +33,8 @@ local advance = function(c, xOff, yOff)
     -- check for wraparound
     xTile, xOff, yTile, yOff = maze.getLoc(c)
     if xTile == maze.w + 2 then
-        print(xOff)
         c.x = -2 * constants.tileSize + xOff
     elseif xTile == -3 then
-        print(xOff)
         c.x = (maze.w + 1) * constants.tileSize + xOff
     end
     c.moved = true
@@ -105,17 +103,17 @@ function game.update(dt)
     end
 
     -- decide whether to turn or not
-    -- can always turn around
     for name, c in pairs(g.chars) do
         xTile, xOff, yTile, yOff = maze.getLoc(c)
 
         if c.iDir then
+            -- can always turn around
             if math.abs(c.dir - c.iDir) == 2 then
                 c.dir = c.iDir
             end
 
-            -- if turn
-            if (c.dir - c.iDir) % 2 == 1 then
+            -- if perpendicular turn
+            if (c.dir - c.iDir) % 2 == 1 and xTile > 0 and xTile < maze.w then -- the xTile check is so he can't leave tunnel
                 local turnWindow = c.turnWindow or 0
                 if c.dir % 2 == 0 then -- left or right
                     if not maze.isBlocked(c, c.iDir) and math.abs(xOff - constants.centerLine) <= turnWindow then -- moving up or down
