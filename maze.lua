@@ -46,17 +46,17 @@ local map = {
     "                            ",
 }
 
-local xPixels = #map[1]*8
-local yPixels = #map*8
+local xPixels = #map[1]*constants.tileSize
+local yPixels = #map*constants.tileSize
 
 maze.w = #map[1]
 maze.h = #map
 
 maze.getLoc = function(c)
-    local xTile = math.floor(c.x / 8)
-    local yTile = math.floor(c.y / 8)
-    local xOff = c.x % 8
-    local yOff = c.y % 8
+    local xTile = math.floor(c.x / constants.tileSize)
+    local yTile = math.floor(c.y / constants.tileSize)
+    local xOff = c.x % constants.tileSize
+    local yOff = c.y % constants.tileSize
 
     return xTile, xOff, yTile, yOff
 end
@@ -86,7 +86,7 @@ maze.getPowers = function()
     for y = 1, #map do
         for x = 1, #map[1] do
             local c = string.sub(map[y], x, x)
-            if (c == 'o') then table.insert(powers, {x= (x - 1) *8, y=(y - 1)*8}) end
+            if (c == 'o') then table.insert(powers, {x= (x - 1), y=(y - 1)}) end
         end
     end
     return powers
@@ -97,7 +97,7 @@ maze.getDots = function()
     for y = 1, #map do
         for x = 1, #map[1] do
             local c = string.sub(map[y], x, x)
-            if (c == '.') then table.insert(dots, {x= (x-1)*8, y=(y-1)*8}) end
+            if (c == '.') then table.insert(dots, {x= (x-1), y=(y-1)}) end
         end
     end
     return dots
@@ -115,7 +115,7 @@ maze.draw = function()
                 end
             end
             if spriteNum then
-                graphics.drawSprite("spr8", spriteNum + 3, (x-1) * 8,(y-1) * 8)
+                graphics.drawSprite("spr8", spriteNum + 3, (x-1) * constants.tileSize,(y-1) * constants.tileSize)
             end
         end
     end
