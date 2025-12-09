@@ -39,13 +39,14 @@ function love.load()
     --.chain(moonshine.effects.chromasep)
     effect.crt.distortionFactor = {1.03, 1.04}  -- horizontal/vertical bulge
     effect.crt.feather = 0.03                    -- soften edges
-    -- tweak scanlines
+    -- -- tweak scanlines
     effect.glow.strength = 5
     effect.glow.min_luma = .7
-    effect.scanlines.opacity = 0.4
-    effect.scanlines.thickness = 1.0
-    -- brighten things up (values > 1.0 brighten, < 1.0 darken)
+    effect.scanlines.opacity = 0.3
+    effect.scanlines.thickness = 2.0
+    -- -- brighten things up (values > 1.0 brighten, < 1.0 darken)
     effect.colorgradesimple.factors = {1.1, 1.1, 1.1}  -- 30% brighter
+
     effect.resize(gw * g.scale, gh * g.scale)
     love.window.setTitle("Booze Elroy")
     love.graphics.setBackgroundColor(.1,.3, .2)
@@ -85,8 +86,6 @@ function love.draw()
 
     local gw, gh = crtCanvas:getWidth(), crtCanvas:getHeight()
     local ww, wh = love.graphics.getWidth(), love.graphics.getHeight()
-
-    effect.resize(gw, gh)
 
     love.graphics.push()
     love.graphics.draw(crtCanvas, ww / 2 - gw / 2, 0)

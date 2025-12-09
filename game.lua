@@ -105,7 +105,7 @@ function game.draw()
 
     xTile, xOff, yTile, yOff = maze.getLoc(g.chars.pac);
     love.graphics.print("PAC X/Y:      " .. g.chars.pac.x .. '/' .. g.chars.pac.y, 50, 50)
-    love.graphics.print('PAC TILE X/Y: ' .. xTile .. "/" .. yTile, 50, 0)
+    love.graphics.print('PAC TILE X/Y: ' .. xTile .. "/" .. yTile, 50, 60)
     love.graphics.print('PAC OFF X/Y:  ' .. xOff .. "/" .. yOff, 50, 70)
 end
 
