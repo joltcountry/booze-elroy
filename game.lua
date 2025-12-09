@@ -63,10 +63,10 @@ function game.update(dt)
 
     xTile, xOff, yTile, yOff = maze.getLoc(g.chars.pac)
 
-    if (love.keyboard.isDown('up') and xOff == 4 and not maze.isBlocked(g.chars.pac, 3)) then
-        g.chars.pac.dir=3
-    elseif (love.keyboard.isDown('right') and yOff == 4 and not maze.isBlocked(g.chars.pac, 0)) then
+    if (love.keyboard.isDown('right') and yOff == 4 and not maze.isBlocked(g.chars.pac, 0)) then
         g.chars.pac.dir=0
+    elseif (love.keyboard.isDown('up') and xOff == 4 and not maze.isBlocked(g.chars.pac, 3)) then
+        g.chars.pac.dir=3
     elseif (love.keyboard.isDown('down') and xOff == 4 and not maze.isBlocked(g.chars.pac, 1)) then
         g.chars.pac.dir=1
     elseif (love.keyboard.isDown('left') and yOff == 4 and not maze.isBlocked(g.chars.pac, 2)) then
