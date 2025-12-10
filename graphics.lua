@@ -91,7 +91,6 @@ end
 graphics.print = function(s, x, y, o)
     o = o or 0
     local str = string.upper(s)
-    
     for i = 1, #str do
         local c = string.sub(str, i, i)
         local index = string.find(textChars, c)
@@ -106,6 +105,7 @@ end
 
 graphics.updateAnimation = function(o, frameCounter)
     local a = o.animator()
+    o.frame = o.frame or 1 
     if frameCounter % a.speed == 0 then
         o.frame = (o.frame % #a.frames) + 1
     end

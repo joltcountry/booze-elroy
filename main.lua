@@ -5,7 +5,11 @@ g = {
     scale  = 2
 }
 
+-- SCENES
 local game = require("game")
+local attract = require("attract")
+
+
 local graphics = require("graphics")
 local moonshine = require("moonshine")
 
@@ -24,35 +28,41 @@ local spritesheet8
 local spritesheetText8
 
 function love.load()
+    -- Set filter FIRST, before creating any canvases or loading images
+    love.graphics.setDefaultFilter("nearest", "nearest")
+    
     local gw, gh = 224, 288
 
     g.scale = love.graphics.getHeight() / gh
 
     gameCanvas = love.graphics.newCanvas(gw, gh)
     crtCanvas  = love.graphics.newCanvas(gw * g.scale, gh * g.scale)
-    love.graphics.setDefaultFilter("nearest", "nearest")
+    
+    -- Explicitly set filter on canvases (they don't inherit default filter)
+    gameCanvas:setFilter("nearest", "nearest")
+    crtCanvas:setFilter("nearest", "nearest")
     effect = moonshine(moonshine.effects.crt)
-    .chain(moonshine.effects.scanlines)
+    --.chain(moonshine.effects.colorgradesimple)
     .chain(moonshine.effects.glow)
-    .chain(moonshine.effects.colorgradesimple)
+    .chain(moonshine.effects.gaussianblur)
+    .chain(moonshine.effects.scanlines)
     --.chain(moonshine.effects.godsray)
     --.chain(moonshine.effects.chromasep)
     effect.crt.distortionFactor = {1.03, 1.04}  -- horizontal/vertical bulge
     effect.crt.feather = 0.03                    -- soften edges
     -- -- tweak scanlines
     effect.glow.strength = 5
-    effect.glow.min_luma = .7
+    effect.glow.min_luma = .2
     effect.scanlines.opacity = 0.3
-    effect.scanlines.thickness = 2.0
+    effect.scanlines.thickness = .3
     -- -- brighten things up (values > 1.0 brighten, < 1.0 darken)
-    effect.colorgradesimple.factors = {1.1, 1.1, 1.1}  -- 30% brighter
+    --effect.colorgradesimple.factors = {1.1, 1.1, 1.1}  -- 30% brighter
 
     effect.resize(gw * g.scale, gh * g.scale)
     love.window.setTitle("Booze Elroy")
-    love.graphics.setBackgroundColor(.1,.3, .2)
-    love.graphics.setDefaultFilter("nearest", "nearest")
+    love.graphics.setBackgroundColor(.05,.12,.12)
     graphics.init()
-    g.scene = game
+    g.scene = attract
     g.scene.start()
 
 end
@@ -97,9 +107,11 @@ function love.draw()
 end
 
 function love.keypressed(key)
-    -- Handle key presses
+    -- global
     if key == "escape" then
         love.event.quit()
     end
+
+    if g.scene.keypressed then g.scene.keypressed(key) end
 end
 

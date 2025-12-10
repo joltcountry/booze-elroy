@@ -155,6 +155,7 @@ end
 function game.draw()
 
     love.graphics.setCanvas(gameCanvas)
+
     love.graphics.clear(0, 0, 0, 1)
     love.graphics.origin()
 
