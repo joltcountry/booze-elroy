@@ -23,7 +23,7 @@ function game.start()
     local dots = maze.getDots()
     for _, p in ipairs(powers) do
         table.insert(g.scenery, {
-            x = p.x, y = p.y, score = 50, skipCounter = 3, animator = function() return graphics.animations.power end
+            x = p.x, y = p.y, score = 50, skipCounter = 3, power = true, animator = function() return graphics.animations.power end
         })
     end
     for _, d in ipairs(dots) do
@@ -33,8 +33,12 @@ function game.start()
     end    
 
     level = {
+        pacSpeed = .8,
+        pacFrightenedSpeed = .9,
         tunnelSpeed = .4,
-        ghostSpeed = .75
+        ghostSpeed = .75,
+        frightened = 6 * 60,
+        frightenedSpeed = .5,
     }
 
 end
@@ -46,6 +50,21 @@ function game.update(dt)
     mode.handle()
 
     if g.state.running then
+
+        -- Decrease frightened counter if on
+        if g.frightened then
+            g.frightened = g.frightened - 1
+            if g.frightened == 0 then
+                g.frightened = false
+                g.chars.pac.speed = level.pacSpeed
+                for _, c in pairs(g.chars) do
+                    if c.target then
+                        c.speed = level.ghostSpeed
+                        c.frightened = false
+                    end
+                end
+            end
+        end
 
         -- Check for directional input
         g.chars.pac.iDir = false
@@ -67,14 +86,18 @@ function game.update(dt)
                     char:target()
                     if maze.isTunnel(newXTile, newYTile) then
                         char.speed = level.tunnelSpeed
-                    else
-                        char.speed = level.ghostSpeed
+                    else -- TODO fix all this per-ghost
+                        if char.frightened then
+                            char.speed = level.frightenedSpeed
+                        else
+                            char.speed = level.ghostSpeed
+                        end
                     end
                 end 
 
-                -- update animation
-                graphics.updateAnimation(char, fc)
             end
+            -- update animation
+            if char.moved or char.target then graphics.updateAnimation(char, fc) end
         end
 
         -- update scenery animation
@@ -88,10 +111,28 @@ function game.update(dt)
             if xTile == s.x and yTile == s.y then
                 g.score = g.score + s.score
                 g.chars.pac.skipCounter = s.skipCounter
+                if s.power then -- pac eats power pellet, ghosts get scared
+                    g.frightened = level.frightened
+                    g.chars.pac.speed = level.pacFrightenedSpeed
+                    for name, char in pairs(g.chars) do
+                        if char.target then
+                            char.frightened = true
+                            char.dir = (char.dir + 2) % 4
+                            char.speed = level.frightenedSpeed
+                            char:target()
+                        end
+                    end
+                end
                 table.remove(g.scenery, _)
             end
         end
+
+        if not g.highScore or g.score > g.highScore then
+            g.highScore = g.score
+        end
+
     end
+
 end
 
 function game.draw()
@@ -120,7 +161,8 @@ function game.draw()
         end
     end
 
-    graphics.print("1up   booze elroy! 2up", 3, 0, 0)
+    if fc % 32 < 16 then graphics.print("1up", 3, 0) end
+    graphics.print("high score", 9, 0)
     local score = g.score or 0
     local scoreText
     if score == 0 then
@@ -129,6 +171,11 @@ function game.draw()
         scoreText = string.rep(" ", 7 - tostring(score):len()) .. tostring(score)
     end
     graphics.print(scoreText, 0, 1, 0)
+
+    if g.highScore then
+        scoreText = string.rep(" ", 7 - tostring(g.highScore):len()) .. tostring(g.highScore)
+        graphics.print(scoreText, 10, 1)
+    end
 
     maze.draw()
 

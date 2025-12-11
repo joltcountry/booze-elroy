@@ -109,6 +109,16 @@ local animations = {
             speed = 10,
         },
     },
+    scaredBlue = {
+        spr = "spr16",
+        frames = {42, 43},
+        speed = 10
+    },
+    scaredWhite = {
+        spr = "spr16",
+        frames = {44, 45},
+        speed = 10
+    },
     booze = {
         spr = "spr16",
         frames = {70,71},

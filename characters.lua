@@ -57,7 +57,15 @@ chars.blinky = {
 
 }
 chars.blinky.animator = function()
-    return graphics.animations.blinky[g.chars.blinky.dir]
+    if g.frightened then
+        if g.frightened < 120 and math.floor(g.frightened / 14) % 2 == 0 then
+            return graphics.animations.scaredWhite
+        else
+            return graphics.animations.scaredBlue
+        end
+    else
+        return graphics.animations.blinky[g.chars.blinky.dir]
+    end
 end
 
 -- chars.pinky = {

@@ -45,13 +45,14 @@ function love.load()
     gameCanvas:setFilter("nearest", "nearest")
     crtCanvas:setFilter("nearest", "nearest")
     effect = moonshine(moonshine.effects.crt)
-    .chain(moonshine.effects.glow)
     .chain(moonshine.effects.gaussianblur)
+    --.chain(moonshine.effects.glow)
     .chain(moonshine.effects.scanlines)
     effect.crt.distortionFactor = {1.03, 1.04}  -- horizontal/vertical bulge
     effect.crt.feather = 0.03                    -- soften edges
-    effect.glow.strength = 5
-    effect.glow.min_luma = .2
+    --effect.glow.strength = 7
+    --effect.glow.min_luma = .8
+    effect.gaussianblur.sigma = 1.5
     effect.scanlines.opacity = 0.3
     effect.scanlines.thickness = .3
 
