@@ -9,21 +9,24 @@ logic.advance = function(c, xOff, yOff)
     c.x = c.x + constants.deltas[c.dir].x
     c.y = c.y + constants.deltas[c.dir].y
 
-    if c.dir % 2 == 0 then -- left/right, correct yOff
-        if yOff > constants.centerLine then c.y = c.y - 1 end
-        if yOff < constants.centerLine then c.y = c.y + 1 end
-    else
-        if xOff < constants.centerLine then c.x = c.x + 1 end
-        if xOff > constants.centerLine then c.x = c.x - 1 end
+    if not c.housing then
+        if c.dir % 2 == 0 then -- left/right, correct yOff
+            if yOff > constants.centerLine then c.y = c.y - 1 end
+            if yOff < constants.centerLine then c.y = c.y + 1 end
+        else
+            if xOff < constants.centerLine then c.x = c.x + 1 end
+            if xOff > constants.centerLine then c.x = c.x - 1 end
+        end
+
+        -- check for wraparound
+        xTile, xOff, yTile, yOff = maze.getLoc(c)
+        if xTile == maze.w + 2 then
+            c.x = -2 * constants.tileSize + xOff
+        elseif xTile == -3 then
+            c.x = (maze.w + 1) * constants.tileSize + xOff
+        end
     end
 
-    -- check for wraparound
-    xTile, xOff, yTile, yOff = maze.getLoc(c)
-    if xTile == maze.w + 2 then
-        c.x = -2 * constants.tileSize + xOff
-    elseif xTile == -3 then
-        c.x = (maze.w + 1) * constants.tileSize + xOff
-    end
     c.moved = true
 end
 
@@ -62,7 +65,10 @@ logic.turn = function(c)
 
     local xTile, xOff, yTile, yOff = maze.getLoc(c)
 
-    if c.iDir then
+    if c.housing then
+        if yOff == 0 then c.dir = 1 end
+        if yOff == 7 then c.dir = 3 end
+    elseif c.iDir then
         -- can always turn around
         if math.abs(c.dir - c.iDir) == 2 then
             c.dir = c.iDir
@@ -81,6 +87,17 @@ logic.turn = function(c)
         end
     end
 
+end
+
+logic.getGhostSpeed = function(c)
+    if c.elroy then
+        if #g.dots <= g.level.elroy2 then
+            return g.level.elroy2Speed
+        elseif #g.dots <= g.level.elroy1 then
+            return g.level.elroy1Speed
+        end
+    end
+    return g.level.ghostSpeed
 end
 
 return logic

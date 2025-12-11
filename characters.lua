@@ -19,6 +19,7 @@ chars.blinky = {
     y = (8 * 14) + 4,
     dir = 2,
     speed = .7,
+    elroy = true,
     target = function(self)
         if not self.iDir then
             self.iDir = self.dir
@@ -63,39 +64,50 @@ chars.blinky.animator = function()
         else
             return graphics.animations.scaredBlue
         end
+    elseif #g.dots <= g.level.elroy1 then
+        return graphics.animations.booze
     else
         return graphics.animations.blinky[g.chars.blinky.dir]
     end
 end
 
--- chars.pinky = {
---     x = 90,
---     y = 120,
---     dir = 2,
---     speed = .75
--- }
--- chars.pinky.animator = function()
---     return graphics.animations.pinky[g.chars.pinky.dir]
--- end
+chars.pinky = {
+    x = (8 * 14),
+    y = (8 * 17) + 4,
+    dir = 1,
+    speed = .35,
+    housing = true,
+    target = function(self)
+    end
+}
+chars.pinky.animator = function()
+    return graphics.animations.pinky[g.chars.pinky.dir]
+end
 
--- chars.inky = {
---     x = 20,
---     y = 120,
---     dir = 3,
---     speed = .75
--- }
--- chars.inky.animator = function()
---     return graphics.animations.inky[g.chars.inky.dir]
--- end
+chars.inky = {
+    x = (8 * 12),
+    y = (8 * 17) + 4,
+    dir = 3,
+    speed = .35,
+    housing = true,
+    target = function(self)
+    end
+}
+chars.inky.animator = function()
+    return graphics.animations.inky[g.chars.inky.dir]
+end
 
--- chars.clyde = {
---     x = 55,
---     y = 120,
---     dir = 0,
---     speed = .75
--- }
--- chars.clyde.animator = function()
---     return graphics.animations.clyde[g.chars.clyde.dir]
--- end
+chars.clyde = {
+    x = (8 * 16),
+    y = (8 * 17) + 4,
+    dir = 3,
+    speed = .35,
+    housing = true,
+    target = function(self)
+    end
+}
+chars.clyde.animator = function()
+    return graphics.animations.clyde[g.chars.clyde.dir]
+end
 
 return chars

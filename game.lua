@@ -21,24 +21,30 @@ function game.start()
     g.score = 0
     local powers = maze.getPowers()
     local dots = maze.getDots()
+    g.powers = {}
+    g.dots = {}
     for _, p in ipairs(powers) do
-        table.insert(g.scenery, {
-            x = p.x, y = p.y, score = 50, skipCounter = 3, power = true, animator = function() return graphics.animations.power end
+        table.insert(g.powers, {
+            x = p.x, y = p.y, score = 50, skipCounter = 3, animator = function() return graphics.animations.power end
         })
     end
     for _, d in ipairs(dots) do
-        table.insert(g.scenery, {
+        table.insert(g.dots, {
             x = d.x, y = d.y, score = 10, skipCounter = 1, animator = function() return graphics.animations.dot end
         })
     end    
 
-    level = {
+    g.level = {
         pacSpeed = .8,
         pacFrightenedSpeed = .9,
         tunnelSpeed = .4,
         ghostSpeed = .75,
         frightened = 6 * 60,
         frightenedSpeed = .5,
+        elroy1 = 20,
+        elroy1Speed = .8,
+        elroy2 = 10,
+        elroy2Speed = .85,
     }
 
 end
@@ -56,10 +62,10 @@ function game.update(dt)
             g.frightened = g.frightened - 1
             if g.frightened == 0 then
                 g.frightened = false
-                g.chars.pac.speed = level.pacSpeed
+                g.chars.pac.speed = g.level.pacSpeed
                 for _, c in pairs(g.chars) do
                     if c.target then
-                        c.speed = level.ghostSpeed
+                        c.speed = logic.getGhostSpeed(c)
                         c.frightened = false
                     end
                 end
@@ -85,12 +91,12 @@ function game.update(dt)
                 if (newXTile ~= oldXTile or newYTile ~= oldYTile) and char.target then
                     char:target()
                     if maze.isTunnel(newXTile, newYTile) then
-                        char.speed = level.tunnelSpeed
+                        char.speed = g.level.tunnelSpeed
                     else -- TODO fix all this per-ghost
                         if char.frightened then
-                            char.speed = level.frightenedSpeed
+                            char.speed = g.level.frightenedSpeed
                         else
-                            char.speed = level.ghostSpeed
+                            if not char.housing then char.speed = logic.getGhostSpeed(char) end
                         end
                     end
                 end 
@@ -101,32 +107,39 @@ function game.update(dt)
         end
 
         -- update scenery animation
-        for name, scenery in pairs(g.scenery) do
-            graphics.updateAnimation(scenery, fc)
+        for name, power in pairs(g.powers) do
+            graphics.updateAnimation(power, fc)
         end
 
         -- check for ate dots/pellets
         local xTile, xOff, yTile, yOff = maze.getLoc(g.chars.pac)
-        for _, s in ipairs(g.scenery) do
+        for _, s in ipairs(g.powers) do
             if xTile == s.x and yTile == s.y then
                 g.score = g.score + s.score
                 g.chars.pac.skipCounter = s.skipCounter
-                if s.power then -- pac eats power pellet, ghosts get scared
-                    g.frightened = level.frightened
-                    g.chars.pac.speed = level.pacFrightenedSpeed
-                    for name, char in pairs(g.chars) do
-                        if char.target then
-                            char.frightened = true
-                            char.dir = (char.dir + 2) % 4
-                            char.speed = level.frightenedSpeed
-                            char:target()
-                        end
+                g.frightened = g.level.frightened
+                g.chars.pac.speed = g.level.pacFrightenedSpeed
+                for name, char in pairs(g.chars) do
+                    if char.target then
+                        char.frightened = true
+                        char.dir = (char.dir + 2) % 4
+                        char.speed = g.level.frightenedSpeed
+                        char:target()
                     end
                 end
-                table.remove(g.scenery, _)
+                table.remove(g.powers, _)
             end
         end
 
+        for _, s in ipairs(g.dots) do
+            if xTile == s.x and yTile == s.y then
+                g.score = g.score + s.score
+                g.chars.pac.skipCounter = s.skipCounter
+                table.remove(g.dots, _)
+            end
+        end
+
+        -- Check for dot-instigated things like elroy and house-leavin'
         if not g.highScore or g.score > g.highScore then
             g.highScore = g.score
         end
@@ -151,7 +164,10 @@ function game.draw()
         graphics.print("ready!", 11, 20, 6)
     end
 
-    for name, scenery in pairs(g.scenery) do
+    for name, scenery in pairs(g.dots) do
+        graphics.drawScenery(scenery, scenery.x, scenery.y)
+    end
+    for name, scenery in pairs(g.powers) do
         graphics.drawScenery(scenery, scenery.x, scenery.y)
     end
 
