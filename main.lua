@@ -45,21 +45,15 @@ function love.load()
     gameCanvas:setFilter("nearest", "nearest")
     crtCanvas:setFilter("nearest", "nearest")
     effect = moonshine(moonshine.effects.crt)
-    --.chain(moonshine.effects.colorgradesimple)
     .chain(moonshine.effects.glow)
     .chain(moonshine.effects.gaussianblur)
     .chain(moonshine.effects.scanlines)
-    --.chain(moonshine.effects.godsray)
-    --.chain(moonshine.effects.chromasep)
     effect.crt.distortionFactor = {1.03, 1.04}  -- horizontal/vertical bulge
     effect.crt.feather = 0.03                    -- soften edges
-    -- -- tweak scanlines
     effect.glow.strength = 5
     effect.glow.min_luma = .2
     effect.scanlines.opacity = 0.3
     effect.scanlines.thickness = .3
-    -- -- brighten things up (values > 1.0 brighten, < 1.0 darken)
-    --effect.colorgradesimple.factors = {1.1, 1.1, 1.1}  -- 30% brighter
 
     effect.resize(gw * g.scale, gh * g.scale)
     love.window.setTitle("Booze Elroy")

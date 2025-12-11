@@ -34,7 +34,7 @@ local map = {
     "12222F.DF DEEGHEEF DF.D22225", -- 20
     "6............78............9", -- 21
     "6.ABBC.ABBBC.78.ABBBC.ABBC.9", -- 22
-    "6.DEG8.DEEEF.DF.DEEEF.7HEF.9", -- 23
+    "6.DEG8.DEEEFyDFyDEEEF.7HEF.9", -- 23
     "6o..78.......  .......78..o9", -- 24 (^^ above house: no-ghost tiles)
     "XBC.78.AC.ABBBBBBC.AC.78.ABV", -- 25
     "WEF.DF.78.DEEGHEEF.78.DF.DEU", -- 26
@@ -85,6 +85,15 @@ maze.isTunnel = function(x,y)
     return (c == "_")
 end
 
+maze.isDisallowed = function(x, y)
+    if x < 0 or x >= #map[1] then
+        return false
+    end
+
+    local c = string.sub(map[y+1], x+1, x+1)
+    return (c == "x" or c == "y")
+end
+
 maze.isBlocked = function(c, dir)
     local xTile, xOff, yTile, yOff = maze.getLoc(c)
     return maze.isWall(xTile + constants.deltas[dir].x, yTile + constants.deltas[dir].y)
@@ -106,7 +115,7 @@ maze.getDots = function()
     for y = 1, #map do
         for x = 1, #map[1] do
             local c = string.sub(map[y], x, x)
-            if (c == '.') then table.insert(dots, {x= (x-1), y=(y-1)}) end
+            if (c == '.' or c == 'y') then table.insert(dots, {x= (x-1), y=(y-1)}) end
         end
     end
     return dots

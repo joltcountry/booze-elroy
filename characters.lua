@@ -34,18 +34,23 @@ chars.blinky = {
             end
         end
 
-        local pacXTile, pacXOff, pacYTile, pacYOff = maze.getLoc(g.chars.pac)
-        local targetX, targetY = pacXTile, pacYTile
-
-        local shortest = math.huge
-        for _, dir in ipairs(candidates) do
-            local newXTile = xTile + constants.deltas[dir].x
-            local newYTile = yTile + constants.deltas[dir].y
-            local dist = (newXTile - targetX) ^ 2 + (newYTile - targetY) ^ 2
-            -- For now, pick the first available direction
-            if dist <= shortest then 
-                shortest = dist
-                self.iDir = dir
+        if #candidates == 1 then 
+            self.iDir = candidates[1]
+        else
+            local pacXTile, pacXOff, pacYTile, pacYOff = maze.getLoc(g.chars.pac)
+            local targetX, targetY = pacXTile, pacYTile
+            local shortest = math.huge
+            for _, dir in ipairs(candidates) do
+                local newXTile = xTile + constants.deltas[dir].x
+                local newYTile = yTile + constants.deltas[dir].y
+                if not maze.isDisallowed(newXTile, newYTile) then 
+                    local dist = (newXTile - targetX) ^ 2 + (newYTile - targetY) ^ 2
+                    -- For now, pick the first available direction
+                    if dist <= shortest then 
+                        shortest = dist
+                        self.iDir = dir
+                    end
+                end
             end
         end
     end

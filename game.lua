@@ -13,13 +13,6 @@ local game = {
 -- Game state variables
 local fc = 0
 
-local joyDirs = {
-    right = 0,
-    down = 1,
-    left = 2,
-    up = 3
-}
-
 function game.start()
 
     g.chars = require("characters")
@@ -56,17 +49,13 @@ function game.update(dt)
 
         -- Check for directional input
         g.chars.pac.iDir = false
-        for joyDir, dir in pairs(joyDirs) do
+        for joyDir, dir in pairs(constants.joyDirs) do
             if love.keyboard.isDown(joyDir) then g.chars.pac.iDir = dir end
         end
-
-        -- decide whether to turn or not
-        for name, c in pairs(g.chars) do
-            logic.turn(c)
-        end
-
-        -- Move all characters if able
+        
+        -- Turn/move all characters if able
         for name, char in pairs(g.chars) do
+            logic.turn(char)
             local oldXTile, oldXOff, oldYTile, oldYOff = maze.getLoc(char)
             char.moved = false
             logic.move(char)
