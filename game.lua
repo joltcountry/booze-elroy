@@ -3,7 +3,7 @@ local graphics = require("graphics")
 local characters = require("characters")
 local constants = require("constants")
 local game = {}
-
+local state = {}
 local fruits = require("fruits")
 
 -- Game state variables
@@ -72,10 +72,30 @@ local move = function(c)
 
 end
 
+local modes = {
+    playerUp = {
+        frames = 120,
+        state = { running = false, showPac = false, showGhosts = false },
+        nextMode = "ready",
+        endFunc = function() 
+            g.lives = g.lives - 1
+        end
+    },
+    ready = {
+        frames = 120,
+        state = { showPac = true, showGhosts = true },
+        nextMode = "normal"
+    },
+    normal = {
+        state = { running = true, showPac = true, showGhosts = true },
+    }
+}
+
 function game.start()
 
     g.chars = require("characters")
     g.scenery = {}
+    g.mode = "playerUp"
     g.score = 0
     local powers = maze.getPowers()
     local dots = maze.getDots()
@@ -96,58 +116,81 @@ function game.update(dt)
     -- Called every fixed timestep (60 FPS) / frame
     fc = fc + 1
 
-    -- Check for directional input
-    g.chars.pac.iDir = false
-    for joyDir, dir in pairs(joyDirs) do
-        if love.keyboard.isDown(joyDir) then g.chars.pac.iDir = dir end
+    if g.mode and modes[g.mode] then
+        local mode = modes[g.mode]
+        if not mode.started then
+            if mode.frames then
+                g.modeTimer = mode.frames
+                mode.started = true
+            end
+            if mode.state then state = mode.state end
+            if mode.startFunc then mode.startFunc() end
+        end
+        if mode.frames then
+            g.modeTimer = g.modeTimer - 1
+            if g.modeTimer == 0 then
+                if mode.endFunc then mode.endFunc() end
+                if mode.nextMode then g.mode = mode.nextMode else g.mode = false end
+                mode.started = false
+            end
+        end
     end
 
-    -- decide whether to turn or not
-    for name, c in pairs(g.chars) do
-        xTile, xOff, yTile, yOff = maze.getLoc(c)
+    if state.running then
 
-        if c.iDir then
-            -- can always turn around
-            if math.abs(c.dir - c.iDir) == 2 then
-                c.dir = c.iDir
-            end
+        -- Check for directional input
+        g.chars.pac.iDir = false
+        for joyDir, dir in pairs(joyDirs) do
+            if love.keyboard.isDown(joyDir) then g.chars.pac.iDir = dir end
+        end
 
-            -- if perpendicular turn
-            if (c.dir - c.iDir) % 2 == 1 and xTile > 0 and xTile < maze.w then -- the xTile check is so he can't leave tunnel
-                local turnWindow = c.turnWindow or 0
-                if c.dir % 2 == 0 then -- left or right
-                    if not maze.isBlocked(c, c.iDir) and math.abs(xOff - constants.centerLine) <= turnWindow then -- moving up or down
-                        c.dir = c.iDir
-                    end
-                elseif not maze.isBlocked(c, c.iDir) and math.abs(xOff - constants.centerLine) <= turnWindow then
+        -- decide whether to turn or not
+        for name, c in pairs(g.chars) do
+            xTile, xOff, yTile, yOff = maze.getLoc(c)
+
+            if c.iDir then
+                -- can always turn around
+                if math.abs(c.dir - c.iDir) == 2 then
                     c.dir = c.iDir
                 end
+
+                -- if perpendicular turn
+                if (c.dir - c.iDir) % 2 == 1 and xTile > 0 and xTile < maze.w then -- the xTile check is so he can't leave tunnel
+                    local turnWindow = c.turnWindow or 0
+                    if c.dir % 2 == 0 then -- left or right
+                        if not maze.isBlocked(c, c.iDir) and math.abs(xOff - constants.centerLine) <= turnWindow then -- moving up or down
+                            c.dir = c.iDir
+                        end
+                    elseif not maze.isBlocked(c, c.iDir) and math.abs(xOff - constants.centerLine) <= turnWindow then
+                        c.dir = c.iDir
+                    end
+                end
+            end
+
+        end
+
+        -- Move all characters if able
+        for name, char in pairs(g.chars) do
+            char.moved = false
+            move(char)
+            if (char.moved) then
+                graphics.updateAnimation(char, fc)
             end
         end
 
-    end
-
-    -- Move all characters if able
-    for name, char in pairs(g.chars) do
-        char.moved = false
-        move(char)
-        if (char.moved) then
-            graphics.updateAnimation(char, fc)
+        -- update scenery animation
+        for name, scenery in pairs(g.scenery) do
+            graphics.updateAnimation(scenery, fc)
         end
-    end
 
-    -- update scenery animation
-    for name, scenery in pairs(g.scenery) do
-        graphics.updateAnimation(scenery, fc)
-    end
-
-    -- check for ate dots/pellets
-    local xTile, xOff, yTile, yOff = maze.getLoc(g.chars.pac)
-    for _, s in ipairs(g.scenery) do
-        if xTile == s.x and yTile == s.y then
-            g.score = g.score + s.score
-            g.chars.pac.skipCounter = s.skipCounter
-            table.remove(g.scenery, _)
+        -- check for ate dots/pellets
+        local xTile, xOff, yTile, yOff = maze.getLoc(g.chars.pac)
+        for _, s in ipairs(g.scenery) do
+            if xTile == s.x and yTile == s.y then
+                g.score = g.score + s.score
+                g.chars.pac.skipCounter = s.skipCounter
+                table.remove(g.scenery, _)
+            end
         end
     end
 end
@@ -159,8 +202,19 @@ function game.draw()
     love.graphics.clear(0, 0, 0, 1)
     love.graphics.origin()
 
-    for name, char in pairs(g.chars) do
-        graphics.drawChar(char, char.x, char.y)
+    if g.mode == "playerUp" then
+        graphics.print("player one", 9, 14, 3)
+        graphics.print("ready!", 11, 20, 6)
+    end
+
+    if g.mode == "ready" then
+        graphics.print("ready!", 11, 20, 6)
+    end
+
+    if state.showPac then
+        for name, char in pairs(g.chars) do
+            graphics.drawChar(char, char.x, char.y)
+        end
     end
 
     for name, scenery in pairs(g.scenery) do
@@ -180,8 +234,9 @@ function game.draw()
     maze.draw()
 
     graphics.drawSpriteAtTile(fruits.cherry.sheet, fruits.cherry.quad, 24,34)
-    graphics.drawSpriteAtTile("spr16", 61, 2, 34)
-    graphics.drawSpriteAtTile("spr16", 61, 4, 34)
+    for i = 1, g.lives do
+        graphics.drawSpriteAtTile("spr16", 61, i*2, 34)
+    end
     love.graphics.setCanvas()
 
     xTile, xOff, yTile, yOff = maze.getLoc(g.chars.pac);

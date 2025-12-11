@@ -2,7 +2,8 @@
 -- Main entry point
 -- Global stuff
 g = {
-    scale  = 2
+    scale  = 2,
+    lives = 3
 }
 
 -- SCENES
