@@ -101,6 +101,14 @@ function game.update(dt)
                     end
                 end 
 
+                -- other movement checks
+                if char.leaving and newYTile == char.houseY - 3 and newYOff == constants.centerLine then
+                    char.dir = 2
+                    char.leaving = false
+                    char.speed = logic.getGhostSpeed(char)
+                    char:target()
+                end
+
             end
             -- update animation
             if char.moved or char.target then graphics.updateAnimation(char, fc) end

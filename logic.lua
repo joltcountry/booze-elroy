@@ -9,7 +9,7 @@ logic.advance = function(c, xOff, yOff)
     c.x = c.x + constants.deltas[c.dir].x
     c.y = c.y + constants.deltas[c.dir].y
 
-    if not c.housing then
+    if not c.housing and not c.leaving and not c.entering then
         if c.dir % 2 == 0 then -- left/right, correct yOff
             if yOff > constants.centerLine then c.y = c.y - 1 end
             if yOff < constants.centerLine then c.y = c.y + 1 end
@@ -45,7 +45,7 @@ logic.move = function(c)
         xTile, xOff, yTile, yOff = maze.getLoc(c)
         c.accum16 = c.accum16 - 16;
 
-        if not maze.isBlocked(c, c.dir) or 
+        if c.housing or c.leaving or c.entering or not maze.isBlocked(c, c.dir) or 
             (c.dir == 2 and xOff > constants.centerLine) or
             (c.dir == 3 and yOff > constants.centerLine) or
             (c.dir == 0 and xOff < constants.centerLine) or
@@ -68,6 +68,10 @@ logic.turn = function(c)
     if c.housing then
         if yOff == 0 then c.dir = 1 end
         if yOff == 7 then c.dir = 3 end
+    elseif c.leaving then
+        if xTile < 14 then c.dir = 0
+        elseif xTile > 14 or xOff > 0 then c.dir = 2
+        else c.dir = 3 end
     elseif c.iDir then
         -- can always turn around
         if math.abs(c.dir - c.iDir) == 2 then
@@ -90,6 +94,7 @@ logic.turn = function(c)
 end
 
 logic.getGhostSpeed = function(c)
+    if c.housing or c.leaving or c.entering then return .35 end
     if c.elroy then
         if #g.dots <= g.level.elroy2 then
             return g.level.elroy2Speed
