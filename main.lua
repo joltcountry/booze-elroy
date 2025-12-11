@@ -3,8 +3,10 @@
 -- Global stuff
 g = {
     scale  = 2,
-    lives = 3
+    lives = 3,
+    state = {}
 }
+
 
 -- SCENES
 local game = require("game")

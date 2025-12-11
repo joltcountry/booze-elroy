@@ -2,93 +2,22 @@ local maze = require("maze")
 local graphics = require("graphics")
 local characters = require("characters")
 local constants = require("constants")
-local game = {}
-local state = {}
 local fruits = require("fruits")
+local logic = require("logic")
+local mode = require("mode")
+
+local game = {
+    name = "game"
+}
 
 -- Game state variables
 local fc = 0
-local speedFactor = 20/16 -- 1.25
 
 local joyDirs = {
     right = 0,
     down = 1,
     left = 2,
     up = 3
-}
-
-local advance = function(c, xOff, yOff)
-    -- CLEAN THIS UP TOMORROW
-    c.x = c.x + constants.deltas[c.dir].x
-    c.y = c.y + constants.deltas[c.dir].y
-
-    if c.dir % 2 == 0 then -- left/right, correct yOff
-        if yOff > constants.centerLine then c.y = c.y - 1 end
-        if yOff < constants.centerLine then c.y = c.y + 1 end
-    else
-        if xOff < constants.centerLine then c.x = c.x + 1 end
-        if xOff > constants.centerLine then c.x = c.x - 1 end
-    end
-
-    -- check for wraparound
-    xTile, xOff, yTile, yOff = maze.getLoc(c)
-    if xTile == maze.w + 2 then
-        c.x = -2 * constants.tileSize + xOff
-    elseif xTile == -3 then
-        c.x = (maze.w + 1) * constants.tileSize + xOff
-    end
-    c.moved = true
-end
-
-local move = function(c)
-
-    if c.skipCounter and c.skipCounter > 0 then
-        c.skipCounter = c.skipCounter - 1
-        return
-    end
-
--- add iDir -- ghost should set iDir each tile, pac's iDir is set by joystick
-    c.accum16 = c.accum16 or 0
-    local speed16 = c.speed * speedFactor * 16
-    c.accum16 = c.accum16 + speed16;
-    while c.accum16 >= 16 do
-        xTile, xOff, yTile, yOff = maze.getLoc(c)
-        c.accum16 = c.accum16 - 16;
-
-        if not maze.isBlocked(c, c.dir) or 
-            (c.dir == 2 and xOff > constants.centerLine) or
-            (c.dir == 3 and yOff > constants.centerLine) or
-            (c.dir == 0 and xOff < constants.centerLine) or
-            (c.dir == 1 and yOff < constants.centerLine) then 
-            advance(c, xOff, yOff)
-        else 
-            if c.iDir and not maze.isBlocked(c, c.dir) then
-                c.dir = c.iDir
-                advance(c, xOff, yOff)
-            end
-        end
-    end
-
-
-end
-
-local modes = {
-    playerUp = {
-        frames = 120,
-        state = { running = false, showPac = false, showGhosts = false },
-        nextMode = "ready",
-        endFunc = function() 
-            g.lives = g.lives - 1
-        end
-    },
-    ready = {
-        frames = 120,
-        state = { showPac = true, showGhosts = true },
-        nextMode = "normal"
-    },
-    normal = {
-        state = { running = true, showPac = true, showGhosts = true },
-    }
 }
 
 function game.start()
@@ -110,33 +39,20 @@ function game.start()
         })
     end    
 
+    level = {
+        tunnelSpeed = .4,
+        ghostSpeed = .75
+    }
+
 end
 
 function game.update(dt)
     -- Called every fixed timestep (60 FPS) / frame
     fc = fc + 1
 
-    if g.mode and modes[g.mode] then
-        local mode = modes[g.mode]
-        if not mode.started then
-            if mode.frames then
-                g.modeTimer = mode.frames
-                mode.started = true
-            end
-            if mode.state then state = mode.state end
-            if mode.startFunc then mode.startFunc() end
-        end
-        if mode.frames then
-            g.modeTimer = g.modeTimer - 1
-            if g.modeTimer == 0 then
-                if mode.endFunc then mode.endFunc() end
-                if mode.nextMode then g.mode = mode.nextMode else g.mode = false end
-                mode.started = false
-            end
-        end
-    end
+    mode.handle()
 
-    if state.running then
+    if g.state.running then
 
         -- Check for directional input
         g.chars.pac.iDir = false
@@ -146,34 +62,28 @@ function game.update(dt)
 
         -- decide whether to turn or not
         for name, c in pairs(g.chars) do
-            xTile, xOff, yTile, yOff = maze.getLoc(c)
-
-            if c.iDir then
-                -- can always turn around
-                if math.abs(c.dir - c.iDir) == 2 then
-                    c.dir = c.iDir
-                end
-
-                -- if perpendicular turn
-                if (c.dir - c.iDir) % 2 == 1 and xTile > 0 and xTile < maze.w then -- the xTile check is so he can't leave tunnel
-                    local turnWindow = c.turnWindow or 0
-                    if c.dir % 2 == 0 then -- left or right
-                        if not maze.isBlocked(c, c.iDir) and math.abs(xOff - constants.centerLine) <= turnWindow then -- moving up or down
-                            c.dir = c.iDir
-                        end
-                    elseif not maze.isBlocked(c, c.iDir) and math.abs(xOff - constants.centerLine) <= turnWindow then
-                        c.dir = c.iDir
-                    end
-                end
-            end
-
+            logic.turn(c)
         end
 
         -- Move all characters if able
         for name, char in pairs(g.chars) do
+            local oldXTile, oldXOff, oldYTile, oldYOff = maze.getLoc(char)
             char.moved = false
-            move(char)
+            logic.move(char)
             if (char.moved) then
+                local newXTile, newXOff, newYTile, newYOff = maze.getLoc(char)
+
+                -- if ghost enters new tile:
+                if (newXTile ~= oldXTile or newYTile ~= oldYTile) and char.target then
+                    char:target()
+                    if maze.isTunnel(newXTile, newYTile) then
+                        char.speed = level.tunnelSpeed
+                    else
+                        char.speed = level.ghostSpeed
+                    end
+                end 
+
+                -- update animation
                 graphics.updateAnimation(char, fc)
             end
         end
@@ -211,14 +121,14 @@ function game.draw()
         graphics.print("ready!", 11, 20, 6)
     end
 
-    if state.showPac then
+    for name, scenery in pairs(g.scenery) do
+        graphics.drawScenery(scenery, scenery.x, scenery.y)
+    end
+
+    if g.state.showPac then
         for name, char in pairs(g.chars) do
             graphics.drawChar(char, char.x, char.y)
         end
-    end
-
-    for name, scenery in pairs(g.scenery) do
-        graphics.drawScenery(scenery, scenery.x, scenery.y)
     end
 
     graphics.print("1up   booze elroy! 2up", 3, 0, 0)
@@ -244,6 +154,13 @@ function game.draw()
     love.graphics.print('PAC TILE X/Y: ' .. xTile .. "/" .. yTile, 50, 60)
     love.graphics.print('PAC OFF X/Y:  ' .. xOff .. "/" .. yOff, 50, 70)
     love.graphics.print("DIR/IDIR: " .. g.chars.pac.dir .. "/" .. (g.chars.pac.iDir or 'X'), 50, 100)
+
+    xTile, xOff, yTile, yOff = maze.getLoc(g.chars.blinky);
+    love.graphics.print("BLINKY X/Y:      " .. g.chars.blinky.x .. '/' .. g.chars.blinky.y, 50, 120)
+    love.graphics.print('BLINKY TILE X/Y: ' .. xTile .. "/" .. yTile, 50, 130)
+    love.graphics.print('BLINKY OFF X/Y:  ' .. xOff .. "/" .. yOff, 50, 140)
+    love.graphics.print("DIR/IDIR: " .. g.chars.blinky.dir .. "/" .. (g.chars.blinky.iDir or 'X'), 50, 150)
+
 end
 
 return game

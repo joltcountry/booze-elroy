@@ -1,4 +1,6 @@
 local graphics = require("graphics")
+local maze = require("maze")
+local constants = require("constants")
 local chars = {}
 
 chars.pac = {
@@ -12,15 +14,46 @@ chars.pac.animator = function()
    return graphics.animations.pac[g.chars.pac.dir]
 end
 
--- chars.blinky = {
---     x = 70,
---     y = 120,
---     dir = 1,
---     speed = .85
--- }
--- chars.blinky.animator = function()
---     return graphics.animations.blinky[g.chars.blinky.dir]
--- end
+chars.blinky = {
+    x = (8 * 14),
+    y = (8 * 14) + 4,
+    dir = 2,
+    speed = .7,
+    target = function(self)
+        if not self.iDir then
+            self.iDir = self.dir
+            return
+        end
+
+        local xTile, xOff, yTile, yOff = maze.getLoc(self)
+        
+        local candidates = {}
+        for i = 0, 3 do
+            if not maze.isBlocked(self, i) and math.abs(i - self.dir) ~= 2 then
+                table.insert(candidates, i)
+            end
+        end
+
+        local pacXTile, pacXOff, pacYTile, pacYOff = maze.getLoc(g.chars.pac)
+        local targetX, targetY = pacXTile, pacYTile
+
+        local shortest = math.huge
+        for _, dir in ipairs(candidates) do
+            local newXTile = xTile + constants.deltas[dir].x
+            local newYTile = yTile + constants.deltas[dir].y
+            local dist = (newXTile - targetX) ^ 2 + (newYTile - targetY) ^ 2
+            -- For now, pick the first available direction
+            if dist <= shortest then 
+                shortest = dist
+                self.iDir = dir
+            end
+        end
+    end
+
+}
+chars.blinky.animator = function()
+    return graphics.animations.blinky[g.chars.blinky.dir]
+end
 
 -- chars.pinky = {
 --     x = 90,

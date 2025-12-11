@@ -76,6 +76,15 @@ maze.isWall = function(x,y)
     return string.find(indexes, c, 1, true) ~= nil
 end
 
+maze.isTunnel = function(x,y)
+    if x < 0 or x >= #map[1] then
+        return false
+    end
+
+    local c = string.sub(map[y+1], x+1, x+1)
+    return (c == "_")
+end
+
 maze.isBlocked = function(c, dir)
     local xTile, xOff, yTile, yOff = maze.getLoc(c)
     return maze.isWall(xTile + constants.deltas[dir].x, yTile + constants.deltas[dir].y)
