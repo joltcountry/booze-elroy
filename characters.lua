@@ -142,10 +142,56 @@ chars.inky = {
     y = (8 * 17) + 4,
     dir = 3,
     speed = .35,
-    housing = true,
+    leaving = true,
     scatterX = 27, scatterY = 33,
     houseX = 12, houseY = 17,
     target = function(self)
+        if not self.iDir then
+            self.iDir = self.dir
+            return
+        end
+
+        local xTile, xOff, yTile, yOff = maze.getLoc(self)
+        
+        local candidates = {}
+        for i = 0, 3 do
+            if not maze.isBlocked(self, i) and math.abs(i - self.dir) ~= 2 then
+                table.insert(candidates, i)
+            end
+        end
+
+        if #candidates == 1 then 
+            self.iDir = candidates[1]
+        else
+            local pacXTile, pacXOff, pacYTile, pacYOff = maze.getLoc(g.chars.pac)
+            local bXTile, bXOff, bYTile, bYOff = maze.getLoc(g.chars.blinky)
+
+            local midX = pacXTile + constants.deltas[g.chars.pac.dir].x * 2
+            local midY = pacYTile + constants.deltas[g.chars.pac.dir].y * 2
+
+            -- Pinky bug
+            if g.chars.pac.dir == 3 then midX = pacXTile - 2 end
+
+            local bx = midX - bXTile
+            local by = midY - bYTile
+            
+            local targetX = bXTile + bx * 2
+            local targetY = bYTile + by * 2
+
+            local shortest = math.huge
+            for _, dir in ipairs(candidates) do
+                local newXTile = xTile + constants.deltas[dir].x
+                local newYTile = yTile + constants.deltas[dir].y
+                if not maze.isDisallowed(newXTile, newYTile) then 
+                    local dist = (newXTile - targetX) ^ 2 + (newYTile - targetY) ^ 2
+                    -- For now, pick the first available direction
+                    if dist <= shortest then 
+                        shortest = dist
+                        self.iDir = dir
+                    end
+                end
+            end
+        end
     end
 }
 chars.inky.animator = function()
