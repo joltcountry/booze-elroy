@@ -171,9 +171,11 @@ function game.draw()
         graphics.drawScenery(scenery, scenery.x, scenery.y)
     end
 
+    -- draw ghosts last
     if g.state.showPac then
+        graphics.drawChar(g.chars.pac, g.chars.pac.x, g.chars.pac.y)
         for name, char in pairs(g.chars) do
-            graphics.drawChar(char, char.x, char.y)
+            if char.target then graphics.drawChar(char, char.x, char.y) end
         end
     end
 

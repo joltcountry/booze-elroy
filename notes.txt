@@ -1,0 +1,3 @@
+Frame-level discrepancies
+=========================
+Elroy only kicks in on the next tile rather than instantaneously.  
