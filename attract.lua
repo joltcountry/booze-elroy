@@ -61,6 +61,15 @@ function attract.draw()
     local msg4 = "press \"Z\" to start"
     local msg5 = "a completely new game idea"
 
+    -- Draw score
+    graphics.print("1up", 3, 0)
+    graphics.print("high score", 9, 0)
+    graphics.print(formatScore(g.score or 0), 0, 1, 0)
+    if g.highScore then
+        graphics.print(formatScore(g.highScore), 10, 1)
+    end
+
+        
     if g.state.showHelperText then
         graphics.print(msg1, 14 - string.len(msg1) / 2, 5)
         graphics.print(msg2, 14 - string.len(msg2) / 2, 7)

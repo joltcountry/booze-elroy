@@ -3,7 +3,8 @@
 -- Global stuff
 g = {
     scale  = 2,
-    state = {}
+    state = {},
+    score = 0,
 }
 
 
@@ -36,6 +37,15 @@ setScene = function(s)
     elseif s == "attract" then
         g.scene = attract
         g.scene.start()
+    end
+end
+
+-- Helper function to format score text
+formatScore = function(score)
+    if score == 0 then
+        return "     00"
+    else
+        return string.rep(" ", 7 - tostring(score):len()) .. tostring(score)
     end
 end
 

@@ -149,15 +149,6 @@ local checkCollisions = function(collectibles, xTile, yTile, power)
     end
 end
 
--- Helper function to format score text
-local formatScore = function(score)
-    if score == 0 then
-        return "     00"
-    else
-        return string.rep(" ", 7 - tostring(score):len()) .. tostring(score)
-    end
-end
-
 -- Helper function to draw debug information
 local drawDebugInfo = function()
     if (g.chars) then
@@ -255,7 +246,7 @@ function game.update(dt)
     end
     
     -- Update high score
-    if not g.highScore or g.score > g.highScore then
+    if (not g.highScore or g.score > g.highScore) and g.score > 0 then
         g.highScore = g.score
     end
 end
