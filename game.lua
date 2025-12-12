@@ -45,6 +45,8 @@ function game.start()
         elroy1Speed = .8,
         elroy2 = 10,
         elroy2Speed = .85,
+        timer = 0,
+        switch = {7*60, 27*60, 34*60, 54*60, 59*60, 79*60, 84*50}
     }
 
 end
@@ -68,6 +70,20 @@ function game.update(dt)
                         c.speed = logic.getGhostSpeed(c)
                         c.frightened = false
                     end
+                end
+            end
+        else
+            g.level.timer = g.level.timer + 1
+            for _, switchTime in ipairs(g.level.switch) do
+                if g.level.timer == switchTime then
+                    g.level.chase = not g.level.chase
+                    for _, c in pairs(g.chars) do
+                        if c.target then
+                            c.dir = (c.dir + 2) % 4
+                            c:target()
+                        end
+                    end
+                    break
                 end
             end
         end

@@ -40,8 +40,15 @@ chars.blinky = {
         if #candidates == 1 then 
             self.iDir = candidates[1]
         else
-            local pacXTile, pacXOff, pacYTile, pacYOff = maze.getLoc(g.chars.pac)
-            local targetX, targetY = pacXTile, pacYTile
+
+            local targetX, targetY
+            if g.level.chase or #g.dots <= g.level.elroy1  then
+                local pacXTile, pacXOff, pacYTile, pacYOff = maze.getLoc(g.chars.pac)
+                targetX, targetY = pacXTile, pacYTile
+            else
+                targetX, targetY = self.scatterX, self.scatterY
+            end
+
             local shortest = math.huge
             for _, dir in ipairs(candidates) do
                 local newXTile = xTile + constants.deltas[dir].x
@@ -99,13 +106,19 @@ chars.pinky = {
         if #candidates == 1 then 
             self.iDir = candidates[1]
         else
-            local pacXTile, pacXOff, pacYTile, pacYOff = maze.getLoc(g.chars.pac)
+            local targetX, targetY
+            if g.level.chase then
 
-            local targetX = pacXTile + constants.deltas[g.chars.pac.dir].x * 4
-            local targetY = pacYTile + constants.deltas[g.chars.pac.dir].y * 4
+                local pacXTile, pacXOff, pacYTile, pacYOff = maze.getLoc(g.chars.pac)
 
-            -- Pinky bug
-            if g.chars.pac.dir == 3 then targetX = pacXTile - 4 end
+                targetX = pacXTile + constants.deltas[g.chars.pac.dir].x * 4
+                targetY = pacYTile + constants.deltas[g.chars.pac.dir].y * 4
+
+                -- Pinky bug
+                if g.chars.pac.dir == 3 then targetX = pacXTile - 4 end
+            else
+                targetX, targetY = self.scatterX, self.scatterY
+            end
 
             local shortest = math.huge
             for _, dir in ipairs(candidates) do
@@ -163,20 +176,27 @@ chars.inky = {
         if #candidates == 1 then 
             self.iDir = candidates[1]
         else
-            local pacXTile, pacXOff, pacYTile, pacYOff = maze.getLoc(g.chars.pac)
-            local bXTile, bXOff, bYTile, bYOff = maze.getLoc(g.chars.blinky)
+            local targetX, targetY
+            if g.level.chase then
 
-            local midX = pacXTile + constants.deltas[g.chars.pac.dir].x * 2
-            local midY = pacYTile + constants.deltas[g.chars.pac.dir].y * 2
+                local pacXTile, pacXOff, pacYTile, pacYOff = maze.getLoc(g.chars.pac)
+                local bXTile, bXOff, bYTile, bYOff = maze.getLoc(g.chars.blinky)
 
-            -- Pinky bug
-            if g.chars.pac.dir == 3 then midX = pacXTile - 2 end
+                local midX = pacXTile + constants.deltas[g.chars.pac.dir].x * 2
+                local midY = pacYTile + constants.deltas[g.chars.pac.dir].y * 2
 
-            local bx = midX - bXTile
-            local by = midY - bYTile
-            
-            local targetX = bXTile + bx * 2
-            local targetY = bYTile + by * 2
+                -- Pinky bug
+                if g.chars.pac.dir == 3 then midX = pacXTile - 2 end
+
+                local bx = midX - bXTile
+                local by = midY - bYTile
+                
+                targetX = bXTile + bx * 2
+                targetY = bYTile + by * 2
+
+            else
+                targetX, targetY = self.scatterX, self.scatterY
+            end
 
             local shortest = math.huge
             for _, dir in ipairs(candidates) do
@@ -232,14 +252,19 @@ chars.clyde = {
         if #candidates == 1 then 
             self.iDir = candidates[1]
         else
-            local pacXTile, pacXOff, pacYTile, pacYOff = maze.getLoc(g.chars.pac)
             local targetX, targetY
-            if ((xTile - pacXTile) ^ 2 + (yTile - pacYTile) ^ 2) > 64 then
-                targetX = pacXTile
-                targetY = pacYTile
+            if g.level.chase then
+                local pacXTile, pacXOff, pacYTile, pacYOff = maze.getLoc(g.chars.pac)
+
+                if ((xTile - pacXTile) ^ 2 + (yTile - pacYTile) ^ 2) > 64 then
+                    targetX = pacXTile
+                    targetY = pacYTile
+                else
+                    targetX = self.scatterX
+                    targetY = self.scatterY
+                end
             else
-                targetX = self.scatterX
-                targetY = self.scatterY
+                targetX, targetY = self.scatterX, self.scatterY
             end
 
             local shortest = math.huge
