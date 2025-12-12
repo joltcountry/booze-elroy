@@ -26,7 +26,7 @@ g.booze = {
 }
 
 function attract.start()
-    g.mode = "startup"
+    mode.setMode("startup")
 end
 
 function attract.update(dt)
@@ -45,8 +45,7 @@ end
 
 function attract.keypressed(key)
     if key == "z" then
-        g.scene = game
-        g.scene.start()
+        setScene("game")
     end
 end
 

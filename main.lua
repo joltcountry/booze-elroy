@@ -30,6 +30,16 @@ local spritesheet16
 local spritesheet8
 local spritesheetText8
 
+setScene = function(s)
+    if s == "game" then
+        g.scene = game
+        g.scene.start()
+    elseif s == "attract" then
+        g.scene = attract
+        g.scene.start()
+    end
+end
+
 function love.load()
     -- Set filter FIRST, before creating any canvases or loading images
     --love.graphics.setDefaultFilter("nearest", "nearest")
@@ -60,8 +70,7 @@ function love.load()
     love.window.setTitle("Booze Elroy")
     love.graphics.setBackgroundColor(.05,.12,.12)
     graphics.init()
-    g.scene = attract
-    g.scene.start()
+    setScene("attract")
 
 end
 

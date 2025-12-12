@@ -5,6 +5,7 @@ local constants = require("constants")
 local fruits = require("fruits")
 local logic = require("logic")
 local mode = require("mode")
+local levels = require("levels")
 
 local game = {
     name = "game"
@@ -115,10 +116,6 @@ local updateCharacterMovement = function(char)
         end
     end
     
-    -- Update animation
-    if char.moved or char.target then
-        graphics.updateAnimation(char, fc)
-    end
 end
 
 -- Helper function to activate frightened mode
@@ -163,24 +160,25 @@ end
 
 -- Helper function to draw debug information
 local drawDebugInfo = function()
-    local xTile, xOff, yTile, yOff = maze.getLoc(g.chars.pac)
-    love.graphics.print("PAC X/Y:      " .. g.chars.pac.x .. '/' .. g.chars.pac.y, 50, 50)
-    love.graphics.print('PAC TILE X/Y: ' .. xTile .. "/" .. yTile, 50, 60)
-    love.graphics.print('PAC OFF X/Y:  ' .. xOff .. "/" .. yOff, 50, 70)
-    love.graphics.print("DIR/IDIR: " .. g.chars.pac.dir .. "/" .. (g.chars.pac.iDir or 'X'), 50, 100)
+    if (g.chars) then
+        local xTile, xOff, yTile, yOff = maze.getLoc(g.chars.pac)
+        love.graphics.print("PAC X/Y:      " .. g.chars.pac.x .. '/' .. g.chars.pac.y, 50, 50)
+        love.graphics.print('PAC TILE X/Y: ' .. xTile .. "/" .. yTile, 50, 60)
+        love.graphics.print('PAC OFF X/Y:  ' .. xOff .. "/" .. yOff, 50, 70)
+        love.graphics.print("DIR/IDIR: " .. g.chars.pac.dir .. "/" .. (g.chars.pac.iDir or 'X'), 50, 100)
 
-    xTile, xOff, yTile, yOff = maze.getLoc(g.chars.pinky)
-    love.graphics.print("PINKY X/Y:      " .. g.chars.pinky.x .. '/' .. g.chars.pinky.y, 50, 120)
-    love.graphics.print('PINKY TILE X/Y: ' .. xTile .. "/" .. yTile, 50, 130)
-    love.graphics.print('PINKY OFF X/Y:  ' .. xOff .. "/" .. yOff, 50, 140)
-    love.graphics.print("DIR/IDIR: " .. g.chars.pinky.dir .. "/" .. (g.chars.pinky.iDir or 'X'), 50, 150)
+        xTile, xOff, yTile, yOff = maze.getLoc(g.chars.pinky)
+        love.graphics.print("PINKY X/Y:      " .. g.chars.pinky.x .. '/' .. g.chars.pinky.y, 50, 120)
+        love.graphics.print('PINKY TILE X/Y: ' .. xTile .. "/" .. yTile, 50, 130)
+        love.graphics.print('PINKY OFF X/Y:  ' .. xOff .. "/" .. yOff, 50, 140)
+        love.graphics.print("DIR/IDIR: " .. g.chars.pinky.dir .. "/" .. (g.chars.pinky.iDir or 'X'), 50, 150)
+    end
 end
 
 function game.start()
 
-    g.chars = require("characters")
     g.scenery = {}
-    g.mode = "playerUp"
+    mode.setMode("playerUp")
     g.score = 0
     local powers = maze.getPowers()
     local dots = maze.getDots()
@@ -197,20 +195,7 @@ function game.start()
         })
     end    
 
-    g.level = {
-        pacSpeed = .8,
-        pacFrightenedSpeed = .9,
-        tunnelSpeed = .4,
-        ghostSpeed = .75,
-        frightened = 6 * 60,
-        frightenedSpeed = .5,
-        elroy1 = 20,
-        elroy1Speed = .8,
-        elroy2 = 10,
-        elroy2Speed = .85,
-        timer = 0,
-        switch = {7*60, 27*60, 34*60, 54*60, 59*60, 79*60, 84*50}
-    }
+    g.level = levels.getLevel()
 
 end
 
@@ -235,15 +220,42 @@ function game.update(dt)
         checkCollisions(g.powers, pacXTile, pacYTile, true)
         checkCollisions(g.dots, pacXTile, pacYTile)
 
+        for name, char in pairs(g.chars) do
+            if char.target then
+                local ghostXTile, ghostXOff, ghostYTile, ghostYOff = maze.getLoc(char)
+                if pacXTile == ghostXTile and pacYTile == ghostYTile then
+                    if char.frightened then
+                        -- ate a ghost
+                    else
+                        mode.setMode("caught")
+                    end
+                end
+            end
+        end
         -- Update scenery animations
         for name, power in pairs(g.powers) do
             graphics.updateAnimation(power, fc)
         end
 
-        -- Update high score
-        if not g.highScore or g.score > g.highScore then
-            g.highScore = g.score
+            -- Update animation
+        if g.chars.pac.moved then
+            graphics.updateAnimation(g.chars.pac, fc)
         end
+    end
+
+    -- hack, they animate while you're dying but not while setting up
+    if g.chars and g.mode ~= "ready" then
+        for _, c in pairs(g.chars) do
+            -- Update animation
+            if c.target then
+                graphics.updateAnimation(c, fc)
+            end
+        end
+    end
+    
+    -- Update high score
+    if not g.highScore or g.score > g.highScore then
+        g.highScore = g.score
     end
 end
 
@@ -257,7 +269,7 @@ function game.draw()
     if g.mode == "playerUp" then
         graphics.print("player one", 9, 14, 3)
         graphics.print("ready!", 11, 20, 6)
-    elseif g.mode == "ready" then
+    elseif g.state.showReady then
         graphics.print("ready!", 11, 20, 6)
     end
 
@@ -272,6 +284,8 @@ function game.draw()
     -- Draw characters (ghosts last)
     if g.state.showPac then
         graphics.drawChar(g.chars.pac, g.chars.pac.x, g.chars.pac.y)
+    end
+    if g.state.showGhosts then
         for name, char in pairs(g.chars) do
             if char.target then graphics.drawChar(char, char.x, char.y) end
         end
@@ -293,6 +307,21 @@ function game.draw()
         graphics.drawSpriteAtTile("spr16", 61, i*2, 34)
     end
     
+    if g.mode == "dying" then
+        if g.modeTimer > 180 then
+            graphics.drawSprite("spr16", 50, g.chars.pac.x - 8, g.chars.pac.y - 8)
+        elseif g.modeTimer > 100 then
+            local dFrame = 180 - g.modeTimer
+            graphics.drawSprite("spr16", 50 + math.floor(dFrame / 8), g.chars.pac.x - 8, g.chars.pac.y - 8)
+        elseif g.modeTimer > 70 then
+            graphics.drawSprite("spr16", 60, g.chars.pac.x - 8, g.chars.pac.y - 8)
+        end
+    end
+
+    if g.mode == "gameover" then
+        graphics.print("game  over", 9, 20, 1)
+    end
+
     love.graphics.setCanvas()
 
     -- Draw debug info

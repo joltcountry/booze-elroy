@@ -1,3 +1,9 @@
+local chars = require("characters")
+local levels = require("levels")
+
+-- local game = require("game")
+-- local attract = require("attract")
+
 local mode = {}
 
 local modes = {
@@ -26,39 +32,73 @@ local modes = {
             frames = 120,
             state = { running = false, showPac = false, showGhosts = false },
             nextMode = "ready",
-            endFunc = function() 
-                g.lives = g.lives - 1
-            end
         },
         ready = {
             frames = 120,
-            state = { showPac = true, showGhosts = true },
-            nextMode = "normal"
+            nextMode = "normal",
+            startFunc = function()
+                g.lives = g.lives - 1
+                if g.lives < 0 then
+                    mode.setMode("gameover")
+                    g.state = {}
+                else
+                    g.state = { showPac = true, showGhosts = true, showReady = true }
+                    chars.initialize()
+                    g.level = levels.getLevel()
+                end 
+            end
         },
         normal = {
             state = { running = true, showPac = true, showGhosts = true },
         },
+        caught = {
+            state = { running = false, showPac = true, showGhosts = true },
+            frames = 60,
+            nextMode = "dying",
+        },
+        dying = {
+            state = { running = false, showPac = false, showGhosts = false },
+            frames = 210,
+            nextMode = "ready"
+        },
+        gameover = {
+            state = { running = false, showPac = false, showGhosts = false },
+            frames = 120,
+            endFunc = function()
+                g.state = {}
+                setScene("attract")
+            end
+        }
+        
     }
 }
+
+mode.setMode = function(mode)
+    if modes[g.scene.name][mode] then
+        g.mode = mode
+        modes[g.scene.name][mode].started = false
+    end
+end
+
 
 mode.handle = function()
     
     if g.mode and modes[g.scene.name][g.mode] then
-        local mode = modes[g.scene.name][g.mode]
-        if not mode.started then
-            if mode.frames then
-                g.modeTimer = mode.frames
-                mode.started = true
+        local currMode = modes[g.scene.name][g.mode]
+        if not currMode.started then
+            if currMode.frames then
+                g.modeTimer = currMode.frames
+                currMode.started = true
             end
-            if mode.state then g.state = mode.state end
-            if mode.startFunc then mode.startFunc() end
+            if currMode.startFunc then currMode.startFunc() end
+            if currMode.state then g.state = currMode.state end
         end
-        if mode.frames then
+        if currMode.frames then
             g.modeTimer = g.modeTimer - 1
             if g.modeTimer == 0 then
-                if mode.endFunc then mode.endFunc() end
-                if mode.nextMode then g.mode = mode.nextMode else g.mode = false end
-                mode.started = false
+                if currMode.nextMode then mode.setMode(currMode.nextMode) end
+                if currMode.endFunc then currMode.endFunc() end
+                currMode.started = false
             end
         end
     end

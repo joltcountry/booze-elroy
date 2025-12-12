@@ -1,19 +1,7 @@
 local graphics = require("graphics")
 local maze = require("maze")
 local constants = require("constants")
-local chars = {}
-
-chars.pac = {
-    x = (8 * 14),
-    y = (8 * 26) + 4,
-    dir = 2, -- 0 = right, 1 down, 2 left, 3 right
-    speed = .8,
-    turnWindow = 3
-}
-chars.pac.animator = function()
-   return graphics.animations.pac[g.chars.pac.dir]
-end
-
+local characters = {}
 local getRandomFrightenedDir = function()
     local r = math.random()
     if r < 0.252 then
@@ -91,176 +79,194 @@ local createGhostAnimator = function(ghostName, elroyCheck)
     end
 end
 
-chars.blinky = {
-    x = (8 * 14),
-    y = (8 * 14) + 4,
-    dir = 2,
-    speed = .7,
-    scatterX = 25, scatterY = 0,
-    houseX = 14, houseY = 17,
-    elroy = true,
-    target = function(self)
-        if not self.iDir then
-            self.iDir = self.dir
-            return
-        end
 
-        local xTile, xOff, yTile, yOff = maze.getLoc(self)
-        local candidates = getCandidates(self)
-
-        if #candidates == 1 then 
-            self.iDir = candidates[1]
-        else
-            if self.frightened then
-                handleFrightenedDirection(self, candidates)
-            else
-                local targetX, targetY
-                if g.level.chase or #g.dots <= g.level.elroy1 then
-                    local pacXTile, pacXOff, pacYTile, pacYOff = maze.getLoc(g.chars.pac)
-                    targetX, targetY = pacXTile, pacYTile
-                else
-                    targetX, targetY = self.scatterX, self.scatterY
-                end
-                findBestDirection(self, xTile, yTile, targetX, targetY, candidates)
-            end
-        end
+characters.initialize = function()
+    local chars = {}
+    chars.pac = {
+        x = (8 * 14),
+        y = (8 * 26) + 4,
+        dir = 2, -- 0 = right, 1 down, 2 left, 3 right
+        speed = .8,
+        turnWindow = 3
+    }
+    chars.pac.animator = function()
+        return graphics.animations.pac[g.chars.pac.dir]
     end
 
-}
-chars.blinky.animator = createGhostAnimator("blinky", true)
 
-chars.pinky = {
-    x = (8 * 14),
-    y = (8 * 17) + 4,
-    dir = 1,
-    speed = .35,
-    leaving = true,
-    scatterX = 2, scatterY = 0,
-    houseX = 14, houseY = 17,
-    target = function(self)
-        if not self.iDir then
-            self.iDir = self.dir
-            return
-        end
-
-        local xTile, xOff, yTile, yOff = maze.getLoc(self)
-        local candidates = getCandidates(self)
-
-        if #candidates == 1 then 
-            self.iDir = candidates[1]
-        else
-            if self.frightened then
-                handleFrightenedDirection(self, candidates)
-            else
-                local targetX, targetY
-                if g.level.chase then
-                    local pacXTile, pacXOff, pacYTile, pacYOff = maze.getLoc(g.chars.pac)
-                    targetX = pacXTile + constants.deltas[g.chars.pac.dir].x * 4
-                    targetY = pacYTile + constants.deltas[g.chars.pac.dir].y * 4
-                    -- Pinky bug
-                    if g.chars.pac.dir == 3 then targetX = pacXTile - 4 end
-                else
-                    targetX, targetY = self.scatterX, self.scatterY
-                end
-                findBestDirection(self, xTile, yTile, targetX, targetY, candidates)
+    chars.blinky = {
+        x = (8 * 14),
+        y = (8 * 14) + 4,
+        dir = 2,
+        speed = .7,
+        scatterX = 25, scatterY = 0,
+        houseX = 14, houseY = 17,
+        elroy = true,
+        target = function(self)
+            if not self.iDir then
+                self.iDir = self.dir
+                return
             end
-        end
-    end
 
-}
+            local xTile, xOff, yTile, yOff = maze.getLoc(self)
+            local candidates = getCandidates(self)
 
-chars.pinky.animator = createGhostAnimator("pinky", false)
-
-chars.inky = {
-    x = (8 * 12),
-    y = (8 * 17) + 4,
-    dir = 3,
-    speed = .35,
-    leaving = true,
-    scatterX = 27, scatterY = 33,
-    houseX = 12, houseY = 17,
-    target = function(self)
-        if not self.iDir then
-            self.iDir = self.dir
-            return
-        end
-
-        local xTile, xOff, yTile, yOff = maze.getLoc(self)
-        local candidates = getCandidates(self)
-
-        if #candidates == 1 then 
-            self.iDir = candidates[1]
-        else
-            if self.frightened then
-                handleFrightenedDirection(self, candidates)
+            if #candidates == 1 then 
+                self.iDir = candidates[1]
             else
-                local targetX, targetY
-                if g.level.chase then
-                    local pacXTile, pacXOff, pacYTile, pacYOff = maze.getLoc(g.chars.pac)
-                    local bXTile, bXOff, bYTile, bYOff = maze.getLoc(g.chars.blinky)
-
-                    local midX = pacXTile + constants.deltas[g.chars.pac.dir].x * 2
-                    local midY = pacYTile + constants.deltas[g.chars.pac.dir].y * 2
-
-                    -- Pinky bug
-                    if g.chars.pac.dir == 3 then midX = pacXTile - 2 end
-
-                    local bx = midX - bXTile
-                    local by = midY - bYTile
-                    
-                    targetX = bXTile + bx * 2
-                    targetY = bYTile + by * 2
+                if self.frightened then
+                    handleFrightenedDirection(self, candidates)
                 else
-                    targetX, targetY = self.scatterX, self.scatterY
-                end
-                findBestDirection(self, xTile, yTile, targetX, targetY, candidates)
-            end
-        end
-    end
-}
-chars.inky.animator = createGhostAnimator("inky", false)
-
-chars.clyde = {
-    x = (8 * 16),
-    y = (8 * 17) + 4,
-    dir = 3,
-    speed = .35,
-    housing = true,
-    scatterX = 0, scatterY = 33,
-    houseX = 16, houseY = 17,
-    target = function(self)
-        if not self.iDir then
-            self.iDir = self.dir
-            return
-        end
-
-        local xTile, xOff, yTile, yOff = maze.getLoc(self)
-        local candidates = getCandidates(self)
-
-        if #candidates == 1 then 
-            self.iDir = candidates[1]
-        else
-            if self.frightened then
-                handleFrightenedDirection(self, candidates)
-            else
-                local targetX, targetY
-                if g.level.chase then
-                    local pacXTile, pacXOff, pacYTile, pacYOff = maze.getLoc(g.chars.pac)
-                    if ((xTile - pacXTile) ^ 2 + (yTile - pacYTile) ^ 2) > 64 then
-                        targetX = pacXTile
-                        targetY = pacYTile
+                    local targetX, targetY
+                    if g.level.chase or #g.dots <= g.level.elroy1 then
+                        local pacXTile, pacXOff, pacYTile, pacYOff = maze.getLoc(g.chars.pac)
+                        targetX, targetY = pacXTile, pacYTile
                     else
-                        targetX = self.scatterX
-                        targetY = self.scatterY
+                        targetX, targetY = self.scatterX, self.scatterY
                     end
-                else
-                    targetX, targetY = self.scatterX, self.scatterY
+                    findBestDirection(self, xTile, yTile, targetX, targetY, candidates)
                 end
-                findBestDirection(self, xTile, yTile, targetX, targetY, candidates)
             end
         end
-    end
-}
-chars.clyde.animator = createGhostAnimator("clyde", false)
 
-return chars
+    }
+    chars.blinky.animator = createGhostAnimator("blinky", true)
+
+    chars.pinky = {
+        x = (8 * 14),
+        y = (8 * 17) + 4,
+        dir = 1,
+        speed = .35,
+        leaving = true,
+        scatterX = 2, scatterY = 0,
+        houseX = 14, houseY = 17,
+        target = function(self)
+            if not self.iDir then
+                self.iDir = self.dir
+                return
+            end
+
+            local xTile, xOff, yTile, yOff = maze.getLoc(self)
+            local candidates = getCandidates(self)
+
+            if #candidates == 1 then 
+                self.iDir = candidates[1]
+            else
+                if self.frightened then
+                    handleFrightenedDirection(self, candidates)
+                else
+                    local targetX, targetY
+                    if g.level.chase then
+                        local pacXTile, pacXOff, pacYTile, pacYOff = maze.getLoc(g.chars.pac)
+                        targetX = pacXTile + constants.deltas[g.chars.pac.dir].x * 4
+                        targetY = pacYTile + constants.deltas[g.chars.pac.dir].y * 4
+                        -- Pinky bug
+                        if g.chars.pac.dir == 3 then targetX = pacXTile - 4 end
+                    else
+                        targetX, targetY = self.scatterX, self.scatterY
+                    end
+                    findBestDirection(self, xTile, yTile, targetX, targetY, candidates)
+                end
+            end
+        end
+
+    }
+
+    chars.pinky.animator = createGhostAnimator("pinky", false)
+
+    chars.inky = {
+        x = (8 * 12),
+        y = (8 * 17) + 4,
+        dir = 3,
+        speed = .35,
+        leaving = true,
+        scatterX = 27, scatterY = 33,
+        houseX = 12, houseY = 17,
+        target = function(self)
+            if not self.iDir then
+                self.iDir = self.dir
+                return
+            end
+
+            local xTile, xOff, yTile, yOff = maze.getLoc(self)
+            local candidates = getCandidates(self)
+
+            if #candidates == 1 then 
+                self.iDir = candidates[1]
+            else
+                if self.frightened then
+                    handleFrightenedDirection(self, candidates)
+                else
+                    local targetX, targetY
+                    if g.level.chase then
+                        local pacXTile, pacXOff, pacYTile, pacYOff = maze.getLoc(g.chars.pac)
+                        local bXTile, bXOff, bYTile, bYOff = maze.getLoc(g.chars.blinky)
+
+                        local midX = pacXTile + constants.deltas[g.chars.pac.dir].x * 2
+                        local midY = pacYTile + constants.deltas[g.chars.pac.dir].y * 2
+
+                        -- Pinky bug
+                        if g.chars.pac.dir == 3 then midX = pacXTile - 2 end
+
+                        local bx = midX - bXTile
+                        local by = midY - bYTile
+                        
+                        targetX = bXTile + bx * 2
+                        targetY = bYTile + by * 2
+                    else
+                        targetX, targetY = self.scatterX, self.scatterY
+                    end
+                    findBestDirection(self, xTile, yTile, targetX, targetY, candidates)
+                end
+            end
+        end
+    }
+    chars.inky.animator = createGhostAnimator("inky", false)
+
+    chars.clyde = {
+        x = (8 * 16),
+        y = (8 * 17) + 4,
+        dir = 3,
+        speed = .35,
+        housing = true,
+        scatterX = 0, scatterY = 33,
+        houseX = 16, houseY = 17,
+        target = function(self)
+            if not self.iDir then
+                self.iDir = self.dir
+                return
+            end
+
+            local xTile, xOff, yTile, yOff = maze.getLoc(self)
+            local candidates = getCandidates(self)
+
+            if #candidates == 1 then 
+                self.iDir = candidates[1]
+            else
+                if self.frightened then
+                    handleFrightenedDirection(self, candidates)
+                else
+                    local targetX, targetY
+                    if g.level.chase then
+                        local pacXTile, pacXOff, pacYTile, pacYOff = maze.getLoc(g.chars.pac)
+                        if ((xTile - pacXTile) ^ 2 + (yTile - pacYTile) ^ 2) > 64 then
+                            targetX = pacXTile
+                            targetY = pacYTile
+                        else
+                            targetX = self.scatterX
+                            targetY = self.scatterY
+                        end
+                    else
+                        targetX, targetY = self.scatterX, self.scatterY
+                    end
+                    findBestDirection(self, xTile, yTile, targetX, targetY, candidates)
+                end
+            end
+        end
+    }
+    chars.clyde.animator = createGhostAnimator("clyde", false)
+
+    g.chars = chars
+end
+
+return characters
