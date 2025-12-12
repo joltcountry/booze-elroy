@@ -43,7 +43,7 @@ local handleModeSwitching = function()
                         if c.housing then
                             c.leaveRight = 2 -- total hack, gimme a break
                         end
-                        if not c.housing and not c.leaving and not c.entering then
+                        if not c.housing and not c.leaving and not c.entering and not c.dead then
                             c.dir = (c.dir + 2) % 4
                             c:target()
                         end
@@ -63,59 +63,13 @@ local handlePlayerInput = function()
     end
 end
 
--- Helper function to update ghost speed based on location and state
-local updateGhostSpeed = function(char, xTile, yTile)
-    if maze.isTunnel(xTile, yTile) then
-        char.speed = g.level.tunnelSpeed
-    elseif char.frightened then
-        char.speed = g.level.frightenedSpeed
-    elseif not char.housing then
-        char.speed = logic.getGhostSpeed(char)
-    end
-end
-
--- Helper function to handle ghost movement logic
-local handleGhostMovement = function(char, oldXTile, oldYTile, newXTile, newYTile, newXOff, newYOff)
-    if newXTile ~= oldXTile or newYTile ~= oldYTile then
-        if char.leaveRight then
-            char.leaveRight = char.leaveRight - 1
-            if char.leaveRight == 0 then
-                char.leaveRight = false
-                char.dir = 0
-            end
-        else
-            char:target()
-            updateGhostSpeed(char, newXTile, newYTile)
-        end
-    end
-    
-    -- Handle leaving house logic
-    if char.leaving and newYTile == char.houseY - 3 and newYOff == constants.centerLine then
-        char.dir = 2
-        char.iDir = false
-        char.leaving = false
-        char.speed = logic.getGhostSpeed(char)
-        if not char.leaveRight then
-            char:target()
-        end
-    end
-end
-
 -- Helper function to handle character movement
 local updateCharacterMovement = function(char)
     logic.turn(char)
     local oldXTile, oldXOff, oldYTile, oldYOff = maze.getLoc(char)
     char.moved = false
-    logic.move(char)
-    
-    if char.moved then
-        local newXTile, newXOff, newYTile, newYOff = maze.getLoc(char)
-        
-        if char.target then
-            handleGhostMovement(char, oldXTile, oldYTile, newXTile, newYTile, newXOff, newYOff)
-        end
-    end
-    
+    logic.move(char, oldXTile, oldXOff, oldYTile, oldYOff)
+  
 end
 
 -- Helper function to activate frightened mode
@@ -123,7 +77,7 @@ local activateFrightenedMode = function()
     g.frightened = g.level.frightened
     g.chars.pac.speed = g.level.pacFrightenedSpeed
     for name, char in pairs(g.chars) do
-        if char.target then
+        if char.target and not char.dead then
             char.frightened = true
             char.speed = logic.getGhostSpeed(char)
             if not char.housing and not char.leaving and not char.entering then
@@ -158,11 +112,12 @@ local drawDebugInfo = function()
         love.graphics.print('PAC OFF X/Y:  ' .. xOff .. "/" .. yOff, 50, 70)
         love.graphics.print("DIR/IDIR: " .. g.chars.pac.dir .. "/" .. (g.chars.pac.iDir or 'X'), 50, 100)
 
-        xTile, xOff, yTile, yOff = maze.getLoc(g.chars.pinky)
-        love.graphics.print("PINKY X/Y:      " .. g.chars.pinky.x .. '/' .. g.chars.pinky.y, 50, 120)
-        love.graphics.print('PINKY TILE X/Y: ' .. xTile .. "/" .. yTile, 50, 130)
-        love.graphics.print('PINKY OFF X/Y:  ' .. xOff .. "/" .. yOff, 50, 140)
-        love.graphics.print("DIR/IDIR: " .. g.chars.pinky.dir .. "/" .. (g.chars.pinky.iDir or 'X'), 50, 150)
+        xTile, xOff, yTile, yOff = maze.getLoc(g.chars.blinky)
+        love.graphics.print("PINKY X/Y:      " .. g.chars.blinky.x .. '/' .. g.chars.blinky.y, 50, 120)
+        love.graphics.print('BLINKY TILE X/Y: ' .. xTile .. "/" .. yTile, 50, 130)
+        if (g.chars.blinky.targetX) then love.graphics.print('BLINKY TARGET X/Y: ' .. g.chars.blinky.targetX .. "/" .. g.chars.blinky.targetY, 50, 200) end
+        love.graphics.print('BLINKY OFF X/Y:  ' .. xOff .. "/" .. yOff, 50, 140)
+        love.graphics.print("DIR/IDIR: " .. g.chars.blinky.dir .. "/" .. (g.chars.blinky.iDir or 'X'), 50, 150)
     end
 end
 
@@ -217,16 +172,15 @@ function game.update(dt)
                 local ghostXTile, ghostXOff, ghostYTile, ghostYOff = maze.getLoc(char)
                 if pacXTile == ghostXTile and pacYTile == ghostYTile then
                     if char.frightened then
-                        -- ate a ghost
-                    else
+                        char.dead = true-- ate a ghost
+                        char.frightened = false
+                        char.speed = logic.getGhostSpeed(char)
+                        char:target()
+                    elseif not char.dead then
                         mode.setMode("caught")
                     end
                 end
             end
-        end
-        -- Update scenery animations
-        for name, power in pairs(g.powers) do
-            graphics.updateAnimation(power, fc)
         end
 
             -- Update animation
@@ -237,6 +191,10 @@ function game.update(dt)
 
     -- hack, they animate while you're dying but not while setting up
     if g.chars and g.mode ~= "ready" then
+        -- Update scenery animations
+        for name, power in pairs(g.powers) do
+            graphics.updateAnimation(power, fc)
+        end
         for _, c in pairs(g.chars) do
             -- Update animation
             if c.target then

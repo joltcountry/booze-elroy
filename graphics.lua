@@ -73,13 +73,24 @@ end
 graphics.animations = require("animations")
 
 graphics.drawChar = function(o, x, y)
-    local a = o.animator()
+    local a = o:animator()
+    if not a or not a.frames then
+        return  -- Safety check: animation not available
+    end
     o.frame = o.frame or 1
-    love.graphics.draw(sprites[a.spr].sheet, sprites[a.spr].quads[a.frames[o.frame]], x - 8, y - 8)
+    local frameIndex = a.frames[o.frame]
+    if not frameIndex then
+        o.frame = 1  -- Reset to first frame if out of bounds
+        frameIndex = a.frames[1]
+    end
+    if not frameIndex or not sprites[a.spr] or not sprites[a.spr].quads[frameIndex] then
+        return  -- Safety check: quad not available
+    end
+    love.graphics.draw(sprites[a.spr].sheet, sprites[a.spr].quads[frameIndex], x - 8, y - 8)
 end
 
 graphics.drawScenery = function(o, x, y)
-    local a = o.animator()
+    local a = o:animator()
     o.frame = o.frame or 1
     graphics.drawSpriteAtTile(a.spr, a.frames[o.frame], x, y)
 end
@@ -104,9 +115,9 @@ graphics.drawSpriteAtTile = function(s, i, x, y)
 end
 
 graphics.updateAnimation = function(o, frameCounter)
-    local a = o.animator()
+    local a = o:animator()
     o.frame = o.frame or 1 
-    if frameCounter % a.speed == 0 then
+    if a.speed and frameCounter % a.speed == 0 then
         o.frame = (o.frame % #a.frames) + 1
     end
 end

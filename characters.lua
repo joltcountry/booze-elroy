@@ -52,6 +52,7 @@ local findBestDirection = function(self, xTile, yTile, targetX, targetY, candida
     for _, dir in ipairs(candidates) do
         local newXTile = xTile + constants.deltas[dir].x
         local newYTile = yTile + constants.deltas[dir].y
+        -- Dead ghosts can pass through disallowed tiles (x/y markers) to return to house
         if not maze.isDisallowed(newXTile, newYTile) then 
             local dist = (newXTile - targetX) ^ 2 + (newYTile - targetY) ^ 2
             if dist <= shortest then 
@@ -64,8 +65,10 @@ end
 
 -- Helper function to create ghost animator
 local createGhostAnimator = function(ghostName, elroyCheck)
-    return function()
-        if g.frightened then
+    return function(self)
+        if self.dead then
+            return graphics.animations.dead[self.dir]
+        elseif self.frightened then
             if g.frightened < 120 and math.floor(g.frightened / 14) % 2 == 0 then
                 return graphics.animations.scaredWhite
             else
@@ -74,7 +77,7 @@ local createGhostAnimator = function(ghostName, elroyCheck)
         elseif elroyCheck and #g.dots <= g.level.elroy1 then
             return graphics.animations.booze
         else
-            return graphics.animations[ghostName][g.chars[ghostName].dir]
+            return graphics.animations[ghostName][self.dir]
         end
     end
 end
@@ -118,13 +121,17 @@ characters.initialize = function()
                     handleFrightenedDirection(self, candidates)
                 else
                     local targetX, targetY
-                    if g.level.chase or #g.dots <= g.level.elroy1 then
+                    if self.dead then
+                        targetX, targetY = 13, 14
+                    elseif g.level.chase or #g.dots <= g.level.elroy1 then
                         local pacXTile, pacXOff, pacYTile, pacYOff = maze.getLoc(g.chars.pac)
                         targetX, targetY = pacXTile, pacYTile
                     else
                         targetX, targetY = self.scatterX, self.scatterY
                     end
                     findBestDirection(self, xTile, yTile, targetX, targetY, candidates)
+                    self.targetX = targetX
+                    self.targetY = targetY
                 end
             end
         end
@@ -156,7 +163,9 @@ characters.initialize = function()
                     handleFrightenedDirection(self, candidates)
                 else
                     local targetX, targetY
-                    if g.level.chase then
+                    if self.dead then
+                        targetX, targetY = 13, 14
+                    elseif g.level.chase then
                         local pacXTile, pacXOff, pacYTile, pacYOff = maze.getLoc(g.chars.pac)
                         targetX = pacXTile + constants.deltas[g.chars.pac.dir].x * 4
                         targetY = pacYTile + constants.deltas[g.chars.pac.dir].y * 4
@@ -198,7 +207,9 @@ characters.initialize = function()
                     handleFrightenedDirection(self, candidates)
                 else
                     local targetX, targetY
-                    if g.level.chase then
+                    if self.dead then
+                        targetX, targetY = 13, 14
+                    elseif g.level.chase then
                         local pacXTile, pacXOff, pacYTile, pacYOff = maze.getLoc(g.chars.pac)
                         local bXTile, bXOff, bYTile, bYOff = maze.getLoc(g.chars.blinky)
 
@@ -247,7 +258,9 @@ characters.initialize = function()
                     handleFrightenedDirection(self, candidates)
                 else
                     local targetX, targetY
-                    if g.level.chase then
+                    if self.dead then
+                        targetX, targetY = 13, 14
+                    elseif g.level.chase then
                         local pacXTile, pacXOff, pacYTile, pacYOff = maze.getLoc(g.chars.pac)
                         if ((xTile - pacXTile) ^ 2 + (yTile - pacYTile) ^ 2) > 64 then
                             targetX = pacXTile

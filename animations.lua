@@ -109,6 +109,24 @@ local animations = {
             speed = 10,
         },
     },
+    dead = {
+        [0] = {
+            spr = "spr16",
+            frames = {46},
+        },
+        [1] = {
+            spr = "spr16",
+            frames = {47},
+        },
+        [2] = {
+            spr = "spr16",
+            frames = {48},
+        },
+        [3] = {
+            spr = "spr16",
+            frames = {49},
+        },
+    },
     scaredBlue = {
         spr = "spr16",
         frames = {42, 43},

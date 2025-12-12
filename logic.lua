@@ -4,6 +4,33 @@ local constants = require("constants")
 local maze = require("maze")
 local speedFactor = 20/16 -- 1.25
 
+-- Helper function to update ghost speed based on location and state
+local updateGhostSpeed = function(char, xTile, yTile)
+    if not char.dead and maze.isTunnel(xTile, yTile) then
+        char.speed = g.level.tunnelSpeed
+    elseif char.frightened then
+        char.speed = g.level.frightenedSpeed
+    elseif not char.housing then
+        char.speed = logic.getGhostSpeed(char)
+    end
+end
+
+-- Helper function to handle ghost movement logic
+local handleGhostMovement = function(char, oldXTile, oldYTile, newXTile, newYTile, newXOff, newYOff)
+    if newXTile ~= oldXTile or newYTile ~= oldYTile then
+        if char.leaveRight then
+            char.leaveRight = char.leaveRight - 1
+            if char.leaveRight == 0 then
+                char.leaveRight = false
+                char.dir = 0
+            end
+        else
+            char:target()
+            updateGhostSpeed(char, newXTile, newYTile)
+        end
+    end
+end
+
 logic.advance = function(c, xOff, yOff)
     -- CLEAN THIS UP TOMORROW
     c.x = c.x + constants.deltas[c.dir].x
@@ -42,6 +69,7 @@ logic.move = function(c)
     local speed16 = c.speed * speedFactor * 16
     c.accum16 = c.accum16 + speed16;
     while c.accum16 >= 16 do
+        c.moved = false
         xTile, xOff, yTile, yOff = maze.getLoc(c)
         c.accum16 = c.accum16 - 16;
 
@@ -57,6 +85,31 @@ logic.move = function(c)
                 logic.advance(c, xOff, yOff)
             end
         end
+            
+        if c.moved then
+            local newXTile, newXOff, newYTile, newYOff = maze.getLoc(c)
+            
+            if c.target then
+                if not c.leaving and not c.housing then 
+                    handleGhostMovement(c, oldXTile, oldYTile, newXTile, newYTile, newXOff, newYOff)
+                end
+
+                -- Handle leaving house logic
+                if c.leaving and newYTile == c.houseY - 3 and newYOff == constants.centerLine then
+                    c.dir = 2
+                    c.iDir = false
+                    c.leaving = false
+                    c.speed = logic.getGhostSpeed(c)
+                    if not c.leaveRight then
+                        c:target()
+                    end
+                end
+
+            end
+            logic.turn(c)
+
+        end
+
     end
 
 end
@@ -95,6 +148,7 @@ end
 
 logic.getGhostSpeed = function(c)
     if c.housing or c.leaving or c.entering then return .35 end
+    if c.dead then return 1.5 end
     if c.elroy then
         if #g.dots <= g.level.elroy2 then
             return g.level.elroy2Speed

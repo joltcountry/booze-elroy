@@ -37,6 +37,10 @@ local modes = {
             frames = 120,
             nextMode = "normal",
             startFunc = function()
+                -- Update scenery animations
+                for name, power in pairs(g.powers) do
+                    power.frame = 1
+                end
                 g.lives = g.lives - 1
                 if g.lives < 0 then
                     mode.setMode("gameover")
