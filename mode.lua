@@ -40,7 +40,6 @@ local modes = {
                 g.lives = g.lives - 1
                 if g.lives < 0 then
                     mode.setMode("gameover")
-                    g.state = {}
                 else
                     g.state = { showPac = true, showGhosts = true, showReady = true }
                     chars.initialize()
@@ -65,7 +64,6 @@ local modes = {
             state = { running = false, showPac = false, showGhosts = false },
             frames = 120,
             endFunc = function()
-                g.state = {}
                 setScene("attract")
             end
         }

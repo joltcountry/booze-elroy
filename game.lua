@@ -179,6 +179,7 @@ function game.start()
 
     g.scenery = {}
     mode.setMode("playerUp")
+    g.lives = 3
     g.score = 0
     local powers = maze.getPowers()
     local dots = maze.getDots()

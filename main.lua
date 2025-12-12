@@ -3,7 +3,6 @@
 -- Global stuff
 g = {
     scale  = 2,
-    lives = 3,
     state = {}
 }
 
