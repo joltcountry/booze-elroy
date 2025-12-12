@@ -225,7 +225,7 @@ chars.clyde = {
     y = (8 * 17) + 4,
     dir = 3,
     speed = .35,
-    leaving = true,
+    housing = true,
     scatterX = 0, scatterY = 33,
     houseX = 16, houseY = 17,
     target = function(self)

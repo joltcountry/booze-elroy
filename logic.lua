@@ -102,6 +102,9 @@ logic.getGhostSpeed = function(c)
             return g.level.elroy1Speed
         end
     end
+    if c.frightened then
+        return g.level.frightenedSpeed
+    end
     return g.level.ghostSpeed
 end
 
