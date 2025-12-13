@@ -4,15 +4,19 @@ local constants = require("constants")
 local characters = {}
 local getRandomFrightenedDir = function()
     local r = math.random()
+    -- Probabilities: 0=25.2%, 1=28.5%, 2=29.9%, 3=16.4%
+    -- Verify: 0.252 + 0.285 + 0.299 = 0.836, remaining = 0.164
+    local result
     if r < 0.252 then
-        return 0
-    elseif r < 0.252 + 0.285 then
-        return 1
-    elseif r < 0.252 + 0.285 + 0.299 then
-        return 2
+        result = 0
+    elseif r < 0.537 then  -- 0.252 + 0.285
+        result = 1
+    elseif r < 0.836 then  -- 0.252 + 0.285 + 0.299
+        result = 2
     else
-        return 3
+        result = 3
     end
+    return result
 end
 
 -- Helper function to get valid direction candidates
@@ -27,6 +31,7 @@ local getCandidates = function(self)
 end
 
 -- Helper function to handle frightened mode direction selection
+-- The red guy never goes down when you eat it upper right corner, something is wrong here
 local handleFrightenedDirection = function(self, candidates)
     local frightenedDir = getRandomFrightenedDir()
     local nextDir = frightenedDir

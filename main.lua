@@ -50,6 +50,9 @@ formatScore = function(score)
 end
 
 function love.load()
+    -- Seed random number generator for proper randomness
+    --math.randomseed(os.time())
+    
     -- Set filter FIRST, before creating any canvases or loading images
     --love.graphics.setDefaultFilter("nearest", "nearest")
     

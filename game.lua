@@ -65,16 +65,14 @@ end
 
 -- Helper function to handle character movement
 local updateCharacterMovement = function(char)
-    logic.turn(char)
-    local oldXTile, oldXOff, oldYTile, oldYOff = maze.getLoc(char)
     char.moved = false
-    logic.move(char, oldXTile, oldXOff, oldYTile, oldYOff)
-  
+    logic.move(char)
 end
 
 -- Helper function to activate frightened mode
 local activateFrightenedMode = function()
     g.frightened = g.level.frightened
+    g.ghostScore = false
     g.chars.pac.speed = g.level.pacFrightenedSpeed
     for name, char in pairs(g.chars) do
         if char.target and not char.dead then
@@ -157,16 +155,18 @@ function game.update(dt)
         handleModeSwitching()
         handlePlayerInput()
         
+        logic.turn(g.chars.pac)
         -- Update all characters
         for name, char in pairs(g.chars) do
             updateCharacterMovement(char)
         end
 
-        -- Check collisions with collectibles
+        -- Check collisions with collectibles (reuse pac location from movement update)
         local pacXTile, pacXOff, pacYTile, pacYOff = maze.getLoc(g.chars.pac)
         checkCollisions(g.powers, pacXTile, pacYTile, true)
         checkCollisions(g.dots, pacXTile, pacYTile)
 
+        -- Check ghost collisions (reuse pac location)
         for name, char in pairs(g.chars) do
             if char.target then
                 local ghostXTile, ghostXOff, ghostYTile, ghostYOff = maze.getLoc(char)
@@ -176,6 +176,10 @@ function game.update(dt)
                         char.frightened = false
                         char.speed = logic.getGhostSpeed(char)
                         char:target()
+                        char.hidden = true
+                        mode.setMode("ateGhost")
+                        if g.ghostScore then g.ghostScore = g.ghostScore * 2 else g.ghostScore = 200 end
+                        g.score = g.score + g.ghostScore
                     elseif not char.dead then
                         mode.setMode("caught")
                     end
@@ -223,22 +227,12 @@ function game.draw()
         graphics.print("ready!", 11, 20, 6)
     end
 
-    -- Draw scenery
-    for name, scenery in pairs(g.dots) do
+    -- Draw scenery (use ipairs for arrays)
+    for _, scenery in ipairs(g.dots) do
         graphics.drawScenery(scenery, scenery.x, scenery.y)
     end
-    for name, scenery in pairs(g.powers) do
+    for _, scenery in ipairs(g.powers) do
         graphics.drawScenery(scenery, scenery.x, scenery.y)
-    end
-
-    -- Draw characters (ghosts last)
-    if g.state.showPac then
-        graphics.drawChar(g.chars.pac, g.chars.pac.x, g.chars.pac.y)
-    end
-    if g.state.showGhosts then
-        for name, char in pairs(g.chars) do
-            if char.target then graphics.drawChar(char, char.x, char.y) end
-        end
     end
 
     -- Draw score
@@ -250,6 +244,21 @@ function game.draw()
     end
 
     maze.draw()
+
+    -- Draw characters (ghosts last)
+    if g.state.showPac then
+        graphics.drawChar(g.chars.pac, g.chars.pac.x, g.chars.pac.y)
+    end
+    if g.state.showGhosts then
+        for name, char in pairs(g.chars) do
+            if char.target and not char.hidden then graphics.drawChar(char, char.x, char.y) end
+        end
+    end
+    
+    if g.mode == "ateGhost" then
+        pacXTile, pacXOff, pacYTile, pacYOff = maze.getLoc(g.chars.pac)
+        graphics.print(g.ghostScore, pacXTile - 1, pacYTile, 3)
+    end
 
     -- Draw fruit and lives
     graphics.drawSpriteAtTile(fruits.cherry.sheet, fruits.cherry.quad, 24, 34)

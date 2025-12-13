@@ -25,6 +25,9 @@ local handleGhostMovement = function(char, oldXTile, oldYTile, newXTile, newYTil
                 char.dir = 0
             end
         else
+            -- This is a nod to the OG random number thing, just for fun.
+            math.random()
+
             char:target()
             updateGhostSpeed(char, newXTile, newYTile)
         end
@@ -71,6 +74,7 @@ logic.move = function(c)
     while c.accum16 >= 16 do
         c.moved = false
         xTile, xOff, yTile, yOff = maze.getLoc(c)
+        local oldXTile, oldYTile = xTile, yTile
         c.accum16 = c.accum16 - 16;
 
         if c.housing or c.leaving or c.entering or not maze.isBlocked(c, c.dir) or 
@@ -94,6 +98,23 @@ logic.move = function(c)
                     handleGhostMovement(c, oldXTile, oldYTile, newXTile, newYTile, newXOff, newYOff)
                 end
 
+                if c.dead and newYTile == c.houseY - 3 and newXTile == 14 and newXOff == 0 then
+                    c.dir = 1
+                    c.iDir = false
+                    c.entering = true
+                    c.speed = logic.getGhostSpeed(c)
+                end
+
+                if c.entering and newYTile == c.houseY and newXTile == c.houseX and newXOff == 0 then
+                    c.dir = 3
+                    c.iDir = false
+                    c.dead = false
+                    c.entering = false
+                    -- change this to housing, obviously, this is for demo
+                    -- c.leaving = true
+                    c.housing = true
+                    c.speed = logic.getGhostSpeed(c)
+                end
                 -- Handle leaving house logic
                 if c.leaving and newYTile == c.houseY - 3 and newYOff == constants.centerLine then
                     c.dir = 2
@@ -125,6 +146,13 @@ logic.turn = function(c)
         if xTile < 14 then c.dir = 0
         elseif xTile > 14 or xOff > 0 then c.dir = 2
         else c.dir = 3 end
+    elseif c.entering then
+        if yTile == c.houseY and yOff == constants.centerLine then 
+            --and yOff == constants.centerLine then
+            if c.houseX < xTile then c.dir = 2
+            elseif c.houseX > xTile then c.dir = 0 end
+        end
+    
     elseif c.iDir then
         -- can always turn around
         if math.abs(c.dir - c.iDir) == 2 then
@@ -147,7 +175,7 @@ logic.turn = function(c)
 end
 
 logic.getGhostSpeed = function(c)
-    if c.housing or c.leaving or c.entering then return .35 end
+    if c.housing or c.leaving then return .35 end
     if c.dead then return 1.5 end
     if c.elroy then
         if #g.dots <= g.level.elroy2 then

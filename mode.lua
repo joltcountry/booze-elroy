@@ -54,6 +54,16 @@ local modes = {
         normal = {
             state = { running = true, showPac = true, showGhosts = true },
         },
+        ateGhost = {
+            state = { running = false, showPac = false, showGhosts = true },
+            frames = 60,
+            nextMode = "normal",
+            endFunc = function()
+                for _, char in pairs(g.chars) do
+                    char.hidden = false
+                end
+            end
+        },
         caught = {
             state = { running = false, showPac = true, showGhosts = true },
             frames = 60,
