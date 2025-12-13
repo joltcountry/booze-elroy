@@ -76,10 +76,41 @@ end
 local handlePlayerInput = function()
     g.chars.pac.iDir = false
     if joystick then
+        -- Check d-pad first (has priority)
         if joystick:isGamepadDown("dpup")    then g.chars.pac.iDir = 3 end
         if joystick:isGamepadDown("dpdown")  then g.chars.pac.iDir = 1 end
         if joystick:isGamepadDown("dpleft")  then g.chars.pac.iDir = 2 end
-        if joystick:isGamepadDown("dpright") then g.chars.pac.iDir = 0 end   
+        if joystick:isGamepadDown("dpright") then g.chars.pac.iDir = 0 end
+        
+        -- If no d-pad input, check analog stick
+        if g.chars.pac.iDir == false then
+            local deadzone = 0.3  -- Threshold to avoid drift
+            local leftX = joystick:getGamepadAxis("leftx")
+            local leftY = joystick:getGamepadAxis("lefty")
+            
+            -- Find the axis with the largest absolute value
+            local absX = math.abs(leftX)
+            local absY = math.abs(leftY)
+            
+            if absX > deadzone or absY > deadzone then
+                -- Determine direction based on dominant axis
+                if absX > absY then
+                    -- Horizontal movement
+                    if leftX > 0 then
+                        g.chars.pac.iDir = 0  -- right
+                    else
+                        g.chars.pac.iDir = 2  -- left
+                    end
+                else
+                    -- Vertical movement
+                    if leftY > 0 then
+                        g.chars.pac.iDir = 1  -- down
+                    else
+                        g.chars.pac.iDir = 3  -- up
+                    end
+                end
+            end
+        end
     end
     for joyDir, dir in pairs(constants.joyDirs) do
         if love.keyboard.isDown(joyDir) then g.chars.pac.iDir = dir end
