@@ -82,6 +82,7 @@ function love.load()
     love.graphics.setBackgroundColor(.05,.12,.12)
     graphics.init()
     setScene("attract")
+    joystick = love.joystick.getJoysticks()[1]
 
 end
 

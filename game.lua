@@ -75,6 +75,12 @@ end
 -- Helper function to handle player input
 local handlePlayerInput = function()
     g.chars.pac.iDir = false
+    if joystick then
+        if joystick:isGamepadDown("dpup")    then g.chars.pac.iDir = 3 end
+        if joystick:isGamepadDown("dpdown")  then g.chars.pac.iDir = 1 end
+        if joystick:isGamepadDown("dpleft")  then g.chars.pac.iDir = 2 end
+        if joystick:isGamepadDown("dpright") then g.chars.pac.iDir = 0 end   
+    end
     for joyDir, dir in pairs(constants.joyDirs) do
         if love.keyboard.isDown(joyDir) then g.chars.pac.iDir = dir end
     end

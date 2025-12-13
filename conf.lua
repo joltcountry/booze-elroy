@@ -12,7 +12,7 @@ function love.conf(t)
     t.window.minheight = 300
     t.window.vsync = false
     t.console = true
-    t.modules.joystick = false
+    t.modules.joystick = true
     t.modules.physics = false
 end
 
