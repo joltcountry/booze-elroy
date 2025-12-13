@@ -38,7 +38,9 @@ local fruits = {
         sheet = "spr16",
         quad = 69,
         score = 5000,
-    }
+    },
+    x = 14 * 8,
+    y = 20 * 8 + 4,
 }
 
 return fruits

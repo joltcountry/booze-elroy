@@ -84,7 +84,7 @@ logic.move = function(c)
             (c.dir == 1 and yOff < constants.centerLine) then 
             logic.advance(c, xOff, yOff)
         else 
-            if c.iDir and not maze.isBlocked(c, c.dir) then
+            if c.iDir and not maze.isBlocked(c, c.iDir) then
                 c.dir = c.iDir
                 logic.advance(c, xOff, yOff)
             end
@@ -110,8 +110,6 @@ logic.move = function(c)
                     c.iDir = false
                     c.dead = false
                     c.entering = false
-                    -- change this to housing, obviously, this is for demo
-                    -- c.leaving = true
                     c.housing = true
                     c.speed = logic.getGhostSpeed(c)
                 end

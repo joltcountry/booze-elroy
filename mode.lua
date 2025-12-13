@@ -45,7 +45,9 @@ local modes = {
                 if g.lives < 0 then
                     mode.setMode("gameover")
                 else
+                    -- set up level again, including ghost-leaving-mode?
                     g.state = { showPac = true, showGhosts = true, showReady = true }
+                    g.starvation = 0
                     chars.initialize()
                     g.level = levels.getLevel()
                 end 
@@ -53,6 +55,11 @@ local modes = {
         },
         normal = {
             state = { running = true, showPac = true, showGhosts = true },
+        },
+        ateFruit = {
+            state = { running = true, showPac = true, showGhosts = true },
+            frames = 120, 
+            nextMode = "normal", 
         },
         ateGhost = {
             state = { running = false, showPac = false, showGhosts = true },

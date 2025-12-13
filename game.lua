@@ -87,15 +87,13 @@ local activateFrightenedMode = function()
 end
 
 -- Helper function to check and handle collisions with collectibles
-local checkCollisions = function(collectibles, xTile, yTile, power)
+local checkCollisions = function(collectibles, xTile, yTile)
     for i = #collectibles, 1, -1 do
         local item = collectibles[i]
         if xTile == item.x and yTile == item.y then
             g.score = g.score + item.score
             g.chars.pac.skipCounter = item.skipCounter
-            if power then
-                activateFrightenedMode()
-            end
+            if item.action then item.action() end
             table.remove(collectibles, i)
         end
     end
@@ -119,6 +117,17 @@ local drawDebugInfo = function()
     end
 end
 
+local handleDotEaten = function()
+    if #g.dots == 235 or #g.dots == 70 then
+        g.fruitTimer = 9 * 60 + math.random(0, 60)
+    end
+    g.starvation = 0
+end
+
+local handlePowerEaten = function()
+    activateFrightenedMode()
+end
+
 function game.start()
 
     g.scenery = {}
@@ -131,12 +140,12 @@ function game.start()
     g.dots = {}
     for _, p in ipairs(powers) do
         table.insert(g.powers, {
-            x = p.x, y = p.y, score = 50, skipCounter = 3, animator = function() return graphics.animations.power end
+            x = p.x, y = p.y, score = 50, skipCounter = 3, action = handlePowerEaten, animator = function() return graphics.animations.power end
         })
     end
     for _, d in ipairs(dots) do
         table.insert(g.dots, {
-            x = d.x, y = d.y, score = 10, skipCounter = 1, animator = function() return graphics.animations.dot end
+            x = d.x, y = d.y, score = 10, skipCounter = 1, action = handleDotEaten, animator = function() return graphics.animations.dot end
         })
     end    
 
@@ -151,10 +160,37 @@ function game.update(dt)
     mode.handle()
 
     if g.state.running then
+
+        g.starvation = g.starvation or 0
+        g.starvation = g.starvation + 1
+
+        -- Leaving logic
+        local leavingChars = {}
+        for name, char in pairs(g.chars) do
+            if char.housing and char.leavingPreference ~= nil then
+                table.insert(leavingChars, char)
+            end
+        end
+        table.sort(leavingChars, function(a, b)
+            return a.leavingPreference < b.leavingPreference
+        end)
+
+        for i = 1, #leavingChars do
+            local char = leavingChars[i]
+
+            -- starvation timer
+            if g.starvation >= g.level.starvation then
+                char.leaving = true
+                char.housing = false
+                g.starvation = 0
+                break
+            end
+        end
+
         updateFrightenedState()
         handleModeSwitching()
         handlePlayerInput()
-        
+
         logic.turn(g.chars.pac)
         -- Update all characters
         for name, char in pairs(g.chars) do
@@ -187,9 +223,28 @@ function game.update(dt)
             end
         end
 
-            -- Update animation
+        -- Handle fruit
+        if g.fruitTimer then
+            g.fruitTimer = g.fruitTimer - 1
+            if g.fruitTimer == 0 then
+                g.fruitTimer = false
+            end
+            if g.chars.pac.x == fruits.x and g.chars.pac.y == fruits.y then
+                g.score = g.score + g.level.fruit.score
+                g.fruitTimer = false
+                g.mode = "ateFruit"
+            end
+        end
+
+        -- Update animation
         if g.chars.pac.moved then
             graphics.updateAnimation(g.chars.pac, fc)
+        end
+    elseif g.mode == "ateGhost" then -- hack to move dead ghosts
+        for _, c in pairs(g.chars) do
+            if c.dead then
+                updateCharacterMovement(c)
+            end
         end
     end
 
@@ -199,10 +254,12 @@ function game.update(dt)
         for name, power in pairs(g.powers) do
             graphics.updateAnimation(power, fc)
         end
-        for _, c in pairs(g.chars) do
-            -- Update animation
-            if c.target then
-                graphics.updateAnimation(c, fc)
+        if g.mode ~= "ateGhost" then
+            for _, c in pairs(g.chars) do
+                -- Update animation
+                if c.target then
+                    graphics.updateAnimation(c, fc)
+                end
             end
         end
     end
@@ -211,6 +268,7 @@ function game.update(dt)
     if (not g.highScore or g.score > g.highScore) and g.score > 0 then
         g.highScore = g.score
     end
+
 end
 
 function game.draw()
@@ -245,6 +303,15 @@ function game.draw()
 
     maze.draw()
 
+    -- Draw fruit
+    if g.fruitTimer then
+        graphics.drawSprite(g.level.fruit.sheet, g.level.fruit.quad, fruits.x - 8, fruits.y - 8)
+    end
+  
+    if g.mode == "ateFruit" then
+        graphics.print(g.level.fruit.score, 12, 20, 3)
+    end
+
     -- Draw characters (ghosts last)
     if g.state.showPac then
         graphics.drawChar(g.chars.pac, g.chars.pac.x, g.chars.pac.y)
@@ -260,8 +327,12 @@ function game.draw()
         graphics.print(g.ghostScore, pacXTile - 1, pacYTile, 3)
     end
 
-    -- Draw fruit and lives
-    graphics.drawSpriteAtTile(fruits.cherry.sheet, fruits.cherry.quad, 24, 34)
+    -- Draw level display
+    for i = 1, #g.level.levelDisplay do
+        graphics.drawSpriteAtTile(g.level.levelDisplay[i].sheet, g.level.levelDisplay[i].quad, 26 - (i*2), 34)
+    end
+
+    -- Draw lives
     for i = 1, g.lives do
         graphics.drawSpriteAtTile("spr16", 61, i*2, 34)
     end

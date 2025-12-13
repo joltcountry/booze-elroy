@@ -149,9 +149,10 @@ characters.initialize = function()
         y = (8 * 17) + 4,
         dir = 1,
         speed = .35,
-        leaving = true,
+        housing = true,
         scatterX = 2, scatterY = 0,
         houseX = 14, houseY = 17,
+        leavingPreference = 0,
         target = function(self)
             if not self.iDir then
                 self.iDir = self.dir
@@ -193,9 +194,10 @@ characters.initialize = function()
         y = (8 * 17) + 4,
         dir = 3,
         speed = .35,
-        leaving = true,
+        housing = true,
         scatterX = 27, scatterY = 33,
         houseX = 12, houseY = 17,
+        leavingPreference = 1,
         target = function(self)
             if not self.iDir then
                 self.iDir = self.dir
@@ -247,6 +249,7 @@ characters.initialize = function()
         housing = true,
         scatterX = 0, scatterY = 33,
         houseX = 16, houseY = 17,
+        leavingPreference = 2,
         target = function(self)
             if not self.iDir then
                 self.iDir = self.dir
