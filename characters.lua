@@ -91,7 +91,7 @@ end
 
 
 characters.initialize = function()
-    local level = levels.getLevel()
+    local level = levels.getLevel(g.levelNumber)
     local chars = {}
     chars.pac = {
         x = (8 * 14),
@@ -294,6 +294,7 @@ characters.initialize = function()
 end
 
 characters.reset = function()
+    g.chars.blinky.frame = 1
     g.chars.blinky.x = (8 * 14)
     g.chars.blinky.y = (8 * 14) + 4
     g.chars.blinky.dir = 2
@@ -306,6 +307,7 @@ characters.reset = function()
 
     g.chars.pinky.x = (8 * 14)
     g.chars.pinky.y = (8 * 17) + 4
+    g.chars.pinky.frame = 1
     g.chars.pinky.housing = true
     g.chars.pinky.entering = false
     g.chars.pinky.leaving = false
@@ -317,6 +319,7 @@ characters.reset = function()
 
     g.chars.inky.x = (8 * 12)
     g.chars.inky.y = (8 * 17) + 4
+    g.chars.inky.frame = 1
     g.chars.inky.housing = true
     g.chars.inky.entering = false
     g.chars.inky.leaving = false
@@ -328,6 +331,7 @@ characters.reset = function()
 
     g.chars.clyde.x = (8 * 16)
     g.chars.clyde.y = (8 * 17) + 4
+    g.chars.clyde.frame = 1
     g.chars.clyde.housing = true    
     g.chars.clyde.entering = false
     g.chars.clyde.leaving = false

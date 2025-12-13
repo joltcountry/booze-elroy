@@ -1,4 +1,4 @@
-local chars = require("characters")
+local characters = require("characters")
 local levels = require("levels")
 
 -- local game = require("game")
@@ -41,7 +41,8 @@ local modes = {
                 for name, power in pairs(g.powers) do
                     power.frame = 1
                 end
-                g.lives = g.lives - 1
+                g.chars.pac.frame = 1
+                if g.newLevel then g.newLevel = false else g.lives = g.lives - 1 end
                 g.fruitTimer = false
                 if g.lives < 0 then
                     mode.setMode("gameover")
@@ -49,7 +50,7 @@ local modes = {
                     -- set up level again, including ghost-leaving-mode?
                     g.state = { showPac = true, showGhosts = true, showReady = true }
                     g.starvation = 0
-                    chars.reset()
+                    characters.reset()
                     levels.resetLevel()
                 end 
             end
@@ -87,6 +88,24 @@ local modes = {
             frames = 120,
             endFunc = function()
                 setScene("attract")
+            end
+        },
+        levelComplete = {
+            state = { running = false, showPac = true, showGhosts = true },
+            frames = 120,
+            nextMode = "levelAnimation",
+        },
+        levelAnimation = {
+            state = { hideMaze = true,running = false, showPac = false, showGhosts = false },
+            frames = 30,
+            nextMode = "ready",
+            endFunc = function()
+                g.levelNumber = g.levelNumber + 1
+                levels.startLevel(g.levelNumber)
+                characters.initialize()
+                characters.reset()
+                maze.init()
+                g.newLevel = true
             end
         }
         

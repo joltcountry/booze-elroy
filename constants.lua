@@ -6,12 +6,13 @@ constants = {
         [3] = { x = 0, y = -1}
     },
     joyDirs = {
-        down = 0,
+        down = 1,
         right = 0,
         z = 1,
         left = 2,
+        up = 3,
         a = 3,
-        q = 3
+        q = 3,
     },
     tileSize = 8,
     centerLine = 4

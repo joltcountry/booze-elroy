@@ -14,11 +14,28 @@ local game = {
 -- Game state variables
 local fc = 0
 
+-- Helper function to activate frightened mode
+local activateFrightenedMode = function()
+    g.frightened = g.level.frightened
+    g.ghostScore = false
+    g.chars.pac.speed = g.level.pacFrightenedSpeed
+    for name, char in pairs(g.chars) do
+        if char.target and not char.dead then
+            char.frightened = true
+            char.speed = logic.getGhostSpeed(char)
+            if not char.housing and not char.leaving and not char.entering then
+                char.dir = (char.dir + 2) % 4
+                char:target()
+            end
+        end
+    end
+end
+
 -- Helper function to update frightened state
 local updateFrightenedState = function()
     if g.frightened then
         g.frightened = g.frightened - 1
-        if g.frightened == 0 then
+        if g.frightened <= 0 then
             g.frightened = false
             g.chars.pac.speed = g.level.pacSpeed
             for _, c in pairs(g.chars) do
@@ -69,36 +86,6 @@ local updateCharacterMovement = function(char)
     logic.move(char)
 end
 
--- Helper function to activate frightened mode
-local activateFrightenedMode = function()
-    g.frightened = g.level.frightened
-    g.ghostScore = false
-    g.chars.pac.speed = g.level.pacFrightenedSpeed
-    for name, char in pairs(g.chars) do
-        if char.target and not char.dead then
-            char.frightened = true
-            char.speed = logic.getGhostSpeed(char)
-            if not char.housing and not char.leaving and not char.entering then
-                char.dir = (char.dir + 2) % 4
-                char:target()
-            end
-        end
-    end
-end
-
--- Helper function to check and handle collisions with collectibles
-local checkCollisions = function(collectibles, xTile, yTile)
-    for i = #collectibles, 1, -1 do
-        local item = collectibles[i]
-        if xTile == item.x and yTile == item.y then
-            g.score = g.score + item.score
-            g.chars.pac.skipCounter = item.skipCounter
-            if item.action then item.action() end
-            table.remove(collectibles, i)
-        end
-    end
-end
-
 -- Helper function to draw debug information
 local drawDebugInfo = function()
     if (g.chars) then
@@ -117,63 +104,17 @@ local drawDebugInfo = function()
     end
 end
 
-local handleDotEaten = function()
-    if #g.dots == 235 or #g.dots == 70 then
-        g.fruitTimer = 9 * 60 + math.random(0, 60)
-    end
-    g.starvation = 0
-
-    -- Leaving logic
-    local leavingChars = {}
-    for name, char in pairs(g.chars) do
-        if char.housing and char.leavingPreference ~= nil then
-            table.insert(leavingChars, char)
-        end
-    end
-    table.sort(leavingChars, function(a, b)
-        return a.leavingPreference < b.leavingPreference
-    end)
-
-    if g.globalCounter then 
-        g.globalCounter = g.globalCounter + 1
-    else
-        for i = 1, #leavingChars do
-            local char = leavingChars[i]
-            if char.dotCounter > 0 then
-                char.dotCounter = char.dotCounter - 1
-                break
-            end
-        end
-    end
-
-end
-
-local handlePowerEaten = function()
-    activateFrightenedMode()
-end
-
 function game.start()
 
+    g.levelNumber = 1
     g.scenery = {}
     mode.setMode("playerUp")
     g.lives = 3
     g.score = 0
-    local powers = maze.getPowers()
-    local dots = maze.getDots()
-    g.powers = {}
-    g.dots = {}
-    for _, p in ipairs(powers) do
-        table.insert(g.powers, {
-            x = p.x, y = p.y, score = 50, skipCounter = 3, action = handlePowerEaten, animator = function() return graphics.animations.power end
-        })
-    end
-    for _, d in ipairs(dots) do
-        table.insert(g.dots, {
-            x = d.x, y = d.y, score = 10, skipCounter = 1, action = handleDotEaten, animator = function() return graphics.animations.dot end
-        })
-    end    
 
-    levels.startLevel()
+    maze.init()
+
+    levels.startLevel(g.levelNumber)
     characters.initialize()
     characters.reset()
 
@@ -241,61 +182,34 @@ function game.update(dt)
         for name, char in pairs(g.chars) do
             updateCharacterMovement(char)
         end
-
-        -- Check collisions with collectibles (reuse pac location from movement update)
-        local pacXTile, pacXOff, pacYTile, pacYOff = maze.getLoc(g.chars.pac)
-        checkCollisions(g.powers, pacXTile, pacYTile, true)
-        checkCollisions(g.dots, pacXTile, pacYTile)
-
-        -- Check ghost collisions (reuse pac location)
-        for name, char in pairs(g.chars) do
-            if char.target then
-                local ghostXTile, ghostXOff, ghostYTile, ghostYOff = maze.getLoc(char)
-                if pacXTile == ghostXTile and pacYTile == ghostYTile then
-                    if char.frightened then
-                        char.dead = true-- ate a ghost
-                        char.frightened = false
-                        char.speed = logic.getGhostSpeed(char)
-                        char:target()
-                        char.hidden = true
-                        mode.setMode("ateGhost")
-                        if g.ghostScore then g.ghostScore = g.ghostScore * 2 else g.ghostScore = 200 end
-                        g.score = g.score + g.ghostScore
-                    elseif not char.dead then
-                        mode.setMode("caught")
-                        g.globalCounter = 0
-                    end
-                end
-            end
-        end
-
+        
         -- Handle fruit
         if g.fruitTimer then
             g.fruitTimer = g.fruitTimer - 1
             if g.fruitTimer == 0 then
                 g.fruitTimer = false
             end
-            if g.chars.pac.x == fruits.x and g.chars.pac.y == fruits.y then
-                g.score = g.score + g.level.fruit.score
-                g.fruitTimer = false
-                g.mode = "ateFruit"
-            end
         end
 
+        -- level complete
+        if #g.dots == 0 and #g.powers == 0 then
+            mode.setMode("levelComplete")
+        end
+        
         -- Update animation
         if g.chars.pac.moved then
             graphics.updateAnimation(g.chars.pac, fc)
         end
     elseif g.mode == "ateGhost" then -- hack to move dead ghosts
         for _, c in pairs(g.chars) do
-            if c.dead then
+            if c.dead and not c.hidden then
                 updateCharacterMovement(c)
             end
         end
     end
 
     -- hack, they animate while you're dying but not while setting up
-    if g.chars and g.mode ~= "ready" then
+    if g.chars and g.mode ~= "playerUp" and g.mode ~= "ready" and g.mode ~= "levelComplete" then
         -- Update scenery animations
         for name, power in pairs(g.powers) do
             graphics.updateAnimation(power, fc)
@@ -347,7 +261,9 @@ function game.draw()
         graphics.print(formatScore(g.highScore), 10, 1)
     end
 
-    maze.draw()
+    if not g.state.hideMaze then
+        maze.draw()
+    end
 
     -- Draw fruit
     if g.fruitTimer then
@@ -355,7 +271,7 @@ function game.draw()
     end
   
     if g.mode == "ateFruit" then
-        graphics.print(g.level.fruit.score, 12, 20, 3)
+        graphics.print(g.level.fruit.score, 12, 20, 0)
     end
 
     -- Draw characters (ghosts last)

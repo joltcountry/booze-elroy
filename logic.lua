@@ -3,6 +3,22 @@ logic = {}
 local constants = require("constants")
 local maze = require("maze")
 local speedFactor = 20/16 -- 1.25
+local mode = require("mode")
+local fruits = require("fruits")
+
+-- Helper function to check and handle collisions with collectibles
+local checkCollisions = function(collectibles, xTile, yTile)
+    for i = #collectibles, 1, -1 do
+        local item = collectibles[i]
+        if xTile == item.x and yTile == item.y then
+            g.score = g.score + item.score
+            g.chars.pac.skipCounter = item.skipCounter
+            if item.action then item.action() end
+            table.remove(collectibles, i)
+        end
+    end
+end
+
 
 -- Helper function to update ghost speed based on location and state
 local updateGhostSpeed = function(char, xTile, yTile)
@@ -130,6 +146,39 @@ logic.move = function(c)
 
             end
             logic.turn(c)
+
+                        -- Check collisions with collectibles (reuse pac location from movement update)
+            local pacXTile, pacXOff, pacYTile, pacYOff = maze.getLoc(g.chars.pac)
+            checkCollisions(g.powers, pacXTile, pacYTile, true)
+            checkCollisions(g.dots, pacXTile, pacYTile)
+
+            -- Check ghost collisions (reuse pac location)
+            for name, char in pairs(g.chars) do
+                if char.target then
+                    local ghostXTile, ghostXOff, ghostYTile, ghostYOff = maze.getLoc(char)
+                    if pacXTile == ghostXTile and pacYTile == ghostYTile then
+                        if char.frightened then
+                            char.dead = true-- ate a ghost
+                            char.frightened = false
+                            char.speed = logic.getGhostSpeed(char)
+                            char:target()
+                            char.hidden = true
+                            mode.setMode("ateGhost")
+                            if g.ghostScore then g.ghostScore = g.ghostScore * 2 else g.ghostScore = 200 end
+                            g.score = g.score + g.ghostScore
+                        elseif not char.dead then
+                            mode.setMode("caught")
+                            g.globalCounter = 0
+                        end
+                    end
+                end
+            end
+
+            if g.fruitTimer and g.chars.pac.x == fruits.x and g.chars.pac.y == fruits.y then
+                g.score = g.score + g.level.fruit.score
+                g.fruitTimer = false
+                g.mode = "ateFruit"
+            end
 
         end
 

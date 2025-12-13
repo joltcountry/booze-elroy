@@ -2,7 +2,7 @@
 -- Main entry point
 -- Global stuff
 g = {
-    scale  = 2,
+    scale  = 3,
     state = {},
     score = 0,
 }
@@ -11,13 +11,12 @@ g = {
 -- SCENES
 local game = require("game")
 local attract = require("attract")
-
+local maze = require("maze")
 
 local graphics = require("graphics")
 local moonshine = require("moonshine")
 
-local windowWidth = 1920
-local windowHeight = 1080
+love.window.setMode(224 * g.scale, 288 * g.scale)
 
 -- Game state
 local t = 0
@@ -74,7 +73,7 @@ function love.load()
     effect.crt.feather = 0.03                    -- soften edges
     effect.glow.strength = 8
     effect.glow.min_luma = .85
-    effect.gaussianblur.sigma = 1.5
+    effect.gaussianblur.sigma = .3 * g.scale
     effect.scanlines.opacity = 0.3
     effect.scanlines.thickness = .3
 
@@ -121,7 +120,7 @@ function love.draw()
     love.graphics.draw(crtCanvas, ww / 2 - gw / 2, 0)
     love.graphics.pop()
 
-    graphics.spriteChart()
+    --graphics.spriteChart()
 
 end
 
