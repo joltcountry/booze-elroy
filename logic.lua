@@ -110,7 +110,11 @@ logic.move = function(c)
                     c.iDir = false
                     c.dead = false
                     c.entering = false
-                    c.housing = true
+                    if not c.leavingPreference then
+                        c.leaving = true
+                    else
+                        c.housing = true
+                    end
                     c.speed = logic.getGhostSpeed(c)
                 end
                 -- Handle leaving house logic

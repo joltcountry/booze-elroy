@@ -122,6 +122,30 @@ local handleDotEaten = function()
         g.fruitTimer = 9 * 60 + math.random(0, 60)
     end
     g.starvation = 0
+
+    -- Leaving logic
+    local leavingChars = {}
+    for name, char in pairs(g.chars) do
+        if char.housing and char.leavingPreference ~= nil then
+            table.insert(leavingChars, char)
+        end
+    end
+    table.sort(leavingChars, function(a, b)
+        return a.leavingPreference < b.leavingPreference
+    end)
+
+    if g.globalCounter then 
+        g.globalCounter = g.globalCounter + 1
+    else
+        for i = 1, #leavingChars do
+            local char = leavingChars[i]
+            if char.dotCounter > 0 then
+                char.dotCounter = char.dotCounter - 1
+                break
+            end
+        end
+    end
+
 end
 
 local handlePowerEaten = function()
@@ -149,7 +173,9 @@ function game.start()
         })
     end    
 
-    g.level = levels.getLevel()
+    levels.startLevel()
+    characters.initialize()
+    characters.reset()
 
 end
 
@@ -185,6 +211,25 @@ function game.update(dt)
                 g.starvation = 0
                 break
             end
+
+            if g.globalCounter then 
+
+                if g.globalCounter == char.globalCounter then
+                    char.leaving = true
+                    char.housing = false
+                    if g.globalCounter == 32 then
+                        g.globalCounter = false
+                    end
+                end
+
+            else -- personal dot counter
+                if char.dotCounter == 0 then
+                    char.leaving = true
+                    char.housing = false
+                    break
+                end
+            end
+
         end
 
         updateFrightenedState()
@@ -218,6 +263,7 @@ function game.update(dt)
                         g.score = g.score + g.ghostScore
                     elseif not char.dead then
                         mode.setMode("caught")
+                        g.globalCounter = 0
                     end
                 end
             end

@@ -1,6 +1,8 @@
 local graphics = require("graphics")
 local maze = require("maze")
 local constants = require("constants")
+local levels = require("levels")
+
 local characters = {}
 local getRandomFrightenedDir = function()
     local r = math.random()
@@ -89,24 +91,22 @@ end
 
 
 characters.initialize = function()
+    local level = levels.getLevel()
     local chars = {}
     chars.pac = {
         x = (8 * 14),
         y = (8 * 26) + 4,
         dir = 2, -- 0 = right, 1 down, 2 left, 3 right
-        speed = .8,
         turnWindow = 3
     }
     chars.pac.animator = function()
         return graphics.animations.pac[g.chars.pac.dir]
     end
 
-
     chars.blinky = {
         x = (8 * 14),
         y = (8 * 14) + 4,
         dir = 2,
-        speed = .7,
         scatterX = 25, scatterY = 0,
         houseX = 14, houseY = 17,
         elroy = true,
@@ -148,11 +148,12 @@ characters.initialize = function()
         x = (8 * 14),
         y = (8 * 17) + 4,
         dir = 1,
-        speed = .35,
         housing = true,
         scatterX = 2, scatterY = 0,
         houseX = 14, houseY = 17,
         leavingPreference = 0,
+        dotCounter = level.pinkyCounter,
+        globalCounter = 7,
         target = function(self)
             if not self.iDir then
                 self.iDir = self.dir
@@ -193,11 +194,12 @@ characters.initialize = function()
         x = (8 * 12),
         y = (8 * 17) + 4,
         dir = 3,
-        speed = .35,
         housing = true,
         scatterX = 27, scatterY = 33,
         houseX = 12, houseY = 17,
         leavingPreference = 1,
+        globalCounter = 17,
+        dotCounter = level.inkyCounter,
         target = function(self)
             if not self.iDir then
                 self.iDir = self.dir
@@ -245,11 +247,12 @@ characters.initialize = function()
         x = (8 * 16),
         y = (8 * 17) + 4,
         dir = 3,
-        speed = .35,
         housing = true,
         scatterX = 0, scatterY = 33,
         houseX = 16, houseY = 17,
         leavingPreference = 2,
+        dotCounter = level.clydeCounter,
+        globalCounter = 32,
         target = function(self)
             if not self.iDir then
                 self.iDir = self.dir
@@ -289,5 +292,57 @@ characters.initialize = function()
 
     g.chars = chars
 end
+
+characters.reset = function()
+    g.chars.blinky.x = (8 * 14)
+    g.chars.blinky.y = (8 * 14) + 4
+    g.chars.blinky.dir = 2
+    g.chars.blinky.entering = false
+    g.chars.blinky.leaving = false
+    g.chars.blinky.dead = false
+    g.chars.blinky.frightened = false
+    g.chars.blinky.leaveRight = false
+    g.chars.blinky.speed = logic.getGhostSpeed(g.chars.blinky)
+
+    g.chars.pinky.x = (8 * 14)
+    g.chars.pinky.y = (8 * 17) + 4
+    g.chars.pinky.housing = true
+    g.chars.pinky.entering = false
+    g.chars.pinky.leaving = false
+    g.chars.pinky.dead = false
+    g.chars.pinky.frightened = false
+    g.chars.pinky.leaveRight = false
+    g.chars.pinky.dir = 1
+    g.chars.pinky.speed = logic.getGhostSpeed(g.chars.pinky)
+
+    g.chars.inky.x = (8 * 12)
+    g.chars.inky.y = (8 * 17) + 4
+    g.chars.inky.housing = true
+    g.chars.inky.entering = false
+    g.chars.inky.leaving = false
+    g.chars.inky.dead = false
+    g.chars.inky.frightened = false
+    g.chars.inky.leaveRight = false
+    g.chars.inky.dir = 3
+    g.chars.inky.speed = logic.getGhostSpeed(g.chars.inky)
+
+    g.chars.clyde.x = (8 * 16)
+    g.chars.clyde.y = (8 * 17) + 4
+    g.chars.clyde.housing = true    
+    g.chars.clyde.entering = false
+    g.chars.clyde.leaving = false
+    g.chars.clyde.dead = false
+    g.chars.clyde.frightened = false
+    g.chars.clyde.leaveRight = false
+    g.chars.clyde.dir = 3
+    g.chars.clyde.speed = logic.getGhostSpeed(g.chars.clyde)
+
+    g.chars.pac.x = (8 * 14)
+    g.chars.pac.y = (8 * 26) + 4
+    g.chars.pac.dir = 2
+    g.chars.pac.speed = g.level.pacSpeed
+
+end
+
 
 return characters
