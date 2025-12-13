@@ -19,6 +19,28 @@ local checkCollisions = function(collectibles, xTile, yTile)
     end
 end
 
+-- Helper function to handle collision between Pac-Man and a ghost
+local handleGhostCollision = function(ghost, pacXTile, pacYTile, ghostXTile, ghostYTile)
+    if pacXTile == ghostXTile and pacYTile == ghostYTile then
+        if ghost.frightened then
+            ghost.dead = true -- ate a ghost
+            ghost.frightened = false
+            ghost.speed = logic.getGhostSpeed(ghost)
+            ghost:target()
+            ghost.hidden = true
+            mode.setMode("ateGhost")
+            if g.ghostScore then g.ghostScore = g.ghostScore * 2 else g.ghostScore = 200 end
+            g.score = g.score + g.ghostScore
+            return true -- collision handled
+        elseif not ghost.dead then
+            mode.setMode("caught")
+            g.globalCounter = 0
+            return true -- collision handled
+        end
+    end
+    return false -- no collision
+end
+
 
 -- Helper function to update ghost speed based on location and state
 local updateGhostSpeed = function(char, xTile, yTile)
@@ -144,35 +166,33 @@ logic.move = function(c)
                     end
                 end
 
-            end
-            logic.turn(c)
+                -- Check collision with Pac-Man when ghost moves
+                if g.mode ~= "ateGhost" then
+                    local pacXTile, pacXOff, pacYTile, pacYOff = maze.getLoc(g.chars.pac)
+                    local ghostXTile, ghostXOff, ghostYTile, ghostYOff = maze.getLoc(c)
+                    if handleGhostCollision(c, pacXTile, pacYTile, ghostXTile, ghostYTile) then
+                        break
+                    end
+                end
+            else
+                -- Check collisions with collectibles (reuse pac location from movement update)
+                local pacXTile, pacXOff, pacYTile, pacYOff = maze.getLoc(g.chars.pac)
+                checkCollisions(g.powers, pacXTile, pacYTile, true)
+                checkCollisions(g.dots, pacXTile, pacYTile)
 
-                        -- Check collisions with collectibles (reuse pac location from movement update)
-            local pacXTile, pacXOff, pacYTile, pacYOff = maze.getLoc(g.chars.pac)
-            checkCollisions(g.powers, pacXTile, pacYTile, true)
-            checkCollisions(g.dots, pacXTile, pacYTile)
-
-            -- Check ghost collisions (reuse pac location)
-            for name, char in pairs(g.chars) do
-                if char.target then
-                    local ghostXTile, ghostXOff, ghostYTile, ghostYOff = maze.getLoc(char)
-                    if pacXTile == ghostXTile and pacYTile == ghostYTile then
-                        if char.frightened then
-                            char.dead = true-- ate a ghost
-                            char.frightened = false
-                            char.speed = logic.getGhostSpeed(char)
-                            char:target()
-                            char.hidden = true
-                            mode.setMode("ateGhost")
-                            if g.ghostScore then g.ghostScore = g.ghostScore * 2 else g.ghostScore = 200 end
-                            g.score = g.score + g.ghostScore
-                        elseif not char.dead then
-                            mode.setMode("caught")
-                            g.globalCounter = 0
+                -- Check ghost collisions (reuse pac location)
+                for name, char in pairs(g.chars) do
+                    if char.target then
+                        local ghostXTile, ghostXOff, ghostYTile, ghostYOff = maze.getLoc(char)
+                        if handleGhostCollision(char, pacXTile, pacYTile, ghostXTile, ghostYTile) then
+                            break
                         end
                     end
                 end
             end
+
+            logic.turn(c)
+
 
             if g.fruitTimer and g.chars.pac.x == fruits.x and g.chars.pac.y == fruits.y then
                 g.score = g.score + g.level.fruit.score

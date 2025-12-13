@@ -183,6 +183,9 @@ function game.update(dt)
         handleModeSwitching()
         handlePlayerInput()
 
+        -- Reset ghost eaten flag at start of each frame
+        g.ghostEatenThisFrame = false
+
         logic.turn(g.chars.pac)
         -- Update all characters
         for name, char in pairs(g.chars) do
