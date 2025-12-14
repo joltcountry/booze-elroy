@@ -98,8 +98,13 @@ local modes = {
             nextMode = "levelAnimation",
         },
         levelAnimation = {
-            state = { hideMaze = true,running = false, showPac = false, showGhosts = false },
-            frames = 30,
+            state = { running = false, showPac = false, showGhosts = false },
+            frames = 85,
+            nextMode = "pause",
+        },
+        pause = {
+            state = { hideMaze = true, running = false, showPac = false, showGhosts = false },
+            frames = 20,
             nextMode = "ready",
             endFunc = function()
                 g.levelNumber = g.levelNumber + 1

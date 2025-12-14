@@ -310,7 +310,11 @@ function game.draw()
     end
 
     if not g.state.hideMaze then
-        maze.draw()
+        if g.mode == "levelAnimation" and g.modeTimer % 20 > 10 then
+            maze.draw(1)
+        elseif g.mode ~= "pause" then
+            maze.draw()
+        end
     end
 
     -- Draw fruit

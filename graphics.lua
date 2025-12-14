@@ -142,7 +142,10 @@ graphics.print = function(s, x, y, o)
 end
 
 graphics.drawSpriteAtTile = function(s, i, x, y)
-    love.graphics.draw(sprites[s].sheet, sprites[s].quads[i], x * constants.tileSize, y * constants.tileSize)
+    local quad = sprites[s].quads[i]
+    if quad then
+        love.graphics.draw(sprites[s].sheet, sprites[s].quads[i], x * constants.tileSize, y * constants.tileSize)
+    end
 end
 
 graphics.updateAnimation = function(o, frameCounter)
