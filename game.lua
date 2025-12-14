@@ -319,7 +319,7 @@ function game.draw()
     end
   
     if g.mode == "ateFruit" then
-        graphics.print(g.level.fruit.score, 12, 20, 0)
+        graphics.drawFruitScore(g.level.fruit.score, fruits.x - 8, fruits.y - 8)
     end
 
     -- Draw characters (ghosts last)
@@ -334,7 +334,7 @@ function game.draw()
     
     if g.mode == "ateGhost" then
         pacXTile, pacXOff, pacYTile, pacYOff = maze.getLoc(g.chars.pac)
-        graphics.print(g.ghostScore, pacXTile - 1, pacYTile, 3)
+        graphics.drawGhostScore(g.ghostScore, g.chars.pac.x - 8, g.chars.pac.y - 8)
     end
 
     -- Draw level display

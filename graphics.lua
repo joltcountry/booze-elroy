@@ -7,6 +7,25 @@ local sprites = {}
 
 local textChars = 'ABCDEFGHIJKLMNO PQRSTUVWXYZ!©##0123456789/-"'
 local alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+
+local ghostScores = {
+    [200] = 72,
+    [400] = 73,
+    [800] = 74,
+    [1600] = 75,
+}
+
+local fruitScores = {
+    [100] = 76,
+    [300] = 79,
+    [500] = 82,
+    [700] = 85,
+    [1000] = 88,
+    [2000] = 91,
+    [3000] = 94,
+    [5000] = 97,
+}
+
 -- Split spritesheet images into 1D arrays (tables of subimages/quads)
 function graphics.splitSpritesheet(image, frameWidth, frameHeight)
     local quads = {}
@@ -43,6 +62,18 @@ function graphics.init()
     sprites.spr8 = { sheet = spritesheet8, quads = sprites8 }
     sprites.text8 = { sheet = spritesheetText8, quads = text8 }
 
+end
+
+function graphics.drawGhostScore(score, x, y)
+    local quad = ghostScores[score]
+    love.graphics.draw(sprites.spr16.sheet, sprites.spr16.quads[quad], x, y)
+end
+
+function graphics.drawFruitScore(score, x, y)
+    local quad = fruitScores[score]
+    for i = 0, 2 do
+        love.graphics.draw(sprites.spr16.sheet, sprites.spr16.quads[quad + i], x + 16 * (i-1), y)
+    end
 end
 
 function graphics.spriteChart()
