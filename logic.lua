@@ -11,7 +11,7 @@ local checkCollisions = function(collectibles, xTile, yTile)
     for i = #collectibles, 1, -1 do
         local item = collectibles[i]
         if xTile == item.x and yTile == item.y then
-            g.score = g.score + item.score
+            score(item.score)
             g.chars.pac.skipCounter = item.skipCounter
             if item.action then item.action() end
             table.remove(collectibles, i)
@@ -30,7 +30,7 @@ local handleGhostCollision = function(ghost, pacXTile, pacYTile, ghostXTile, gho
             ghost.hidden = true
             mode.setMode("ateGhost")
             if g.ghostScore then g.ghostScore = g.ghostScore * 2 else g.ghostScore = 200 end
-            g.score = g.score + g.ghostScore
+            score(g.ghostScore)
             return true -- collision handled
         elseif not ghost.dead then
             mode.setMode("caught")
@@ -195,7 +195,7 @@ logic.move = function(c)
 
 
             if g.fruitTimer and g.chars.pac.x == fruits.x and g.chars.pac.y == fruits.y then
-                g.score = g.score + g.level.fruit.score
+                score(g.level.fruit.score)
                 g.fruitTimer = false
                 g.mode = "ateFruit"
             end

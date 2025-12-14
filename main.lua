@@ -48,6 +48,14 @@ formatScore = function(score)
     end
 end
 
+score = function(s)
+    local oldScore = g.score
+    g.score = g.score + s
+    if oldScore < 10000 and g.score >= 10000 then
+        g.lives = g.lives + 1
+    end
+end
+
 function love.load()
     -- Seed random number generator for proper randomness
     --math.randomseed(os.time())
@@ -69,8 +77,8 @@ function love.load()
     .chain(moonshine.effects.gaussianblur)
     .chain(moonshine.effects.glow)
     .chain(moonshine.effects.scanlines)
-    effect.crt.distortionFactor = {1.03, 1.04}  -- horizontal/vertical bulge
-    effect.crt.feather = 0.03                    -- soften edges
+    effect.crt.distortionFactor = {1.02, 1.02}  -- horizontal/vertical bulge
+    effect.crt.feather = 0.02                    -- soften edges
     effect.glow.strength = 8
     effect.glow.min_luma = .85
     effect.gaussianblur.sigma = .3 * g.scale
