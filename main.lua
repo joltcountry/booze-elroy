@@ -52,7 +52,7 @@ g.sounds.siren4:setLooping(true)
 g.sounds.siren5:setLooping(true)
 g.sounds.dead:setLooping(true)
 
-g.sirenTriggers = { 180, 200, 225, 235 }
+g.sirenTriggers = { 20, 40, 100, 150 }
 playSiren = function()
     for i = 1, #g.sirenTriggers do
         if #g.dots < g.sirenTriggers[i] then
