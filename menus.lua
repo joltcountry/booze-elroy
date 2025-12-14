@@ -46,8 +46,15 @@ menus.keypressed = function(menu, key)
     if menu.selectedItem < 1 then menu.selectedItem = #menu end
     if menu.selectedItem > #menu then menu.selectedItem = 1 end
     if key == "return" then
-        menu[menu.selectedItem].action()
+        if menu[menu.selectedItem].options then
+            menu[menu.selectedItem].selectedOption = menu[menu.selectedItem].selectedOption + 1
+            if menu[menu.selectedItem].selectedOption > #menu[menu.selectedItem].options then menu[menu.selectedItem].selectedOption = 1 end
+            menu[menu.selectedItem].options[menu[menu.selectedItem].selectedOption].action()
+        else
+            menu[menu.selectedItem].action()
+        end
     end
+
 end
 
 menus.draw = function(menu, x, y)
@@ -56,7 +63,15 @@ menus.draw = function(menu, x, y)
     for i, item in ipairs(menu) do
         local color = 0
         if menu.selectedItem == i then color = 1 end
-        graphics.print(item.text, x, y + i * 2, color)
+        if item.text then
+            graphics.print(item.text, x, y + i * 2, color)
+        elseif item.options then
+            for j, option in ipairs(item.options) do
+                if item.selectedOption == j then
+                    graphics.print(option.text, x, y + (i - 1) * 2, color)
+                end
+            end
+        end                                                                 
     end
 end
 

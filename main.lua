@@ -2,7 +2,7 @@
 -- Main entry point
 -- Global stuff
 g = {
-    scale  = 3,
+    scaleOption = 3,
     state = {},
     score = 0,
 }
@@ -11,20 +11,20 @@ g.config = {
     spicy = false,
     pinkyBug = true,
     fastPac = false,
-    background = "beach",
+    background = "none",
 }
 
 -- SCENES
 local game = require("game")
 local attract = require("attract")
 local credits = require("credits")
---local options = require("options")
+local options = require("options")
 local maze = require("maze")
 
 local graphics = require("graphics")
 local moonshine = require("moonshine")
 
-love.window.setMode(224 * g.scale, 288 * g.scale)
+love.window.setMode(224 * g.scaleOption, 288 * g.scaleOption)
 
 -- Game state
 local t = 0
@@ -121,6 +121,24 @@ score = function(s)
     end
 end
 
+resizeCanvases = function()
+    local gw, gh = 224, 288
+    
+    g.scale = love.graphics.getHeight() / gh
+    
+    gameCanvas = love.graphics.newCanvas(gw, gh)
+    crtCanvas  = love.graphics.newCanvas(gw * g.scale, gh * g.scale)
+    
+    -- Explicitly set filter on canvases (they don't inherit default filter)
+    gameCanvas:setFilter("nearest", "nearest")
+    crtCanvas:setFilter("nearest", "nearest")
+    
+    if effect then
+        effect.gaussianblur.sigma = .3 * g.scale
+        effect.resize(gw * g.scale, gh * g.scale)
+    end
+end
+
 function love.load()
     -- Seed random number generator for proper randomness
     --math.randomseed(os.time())
@@ -130,14 +148,8 @@ function love.load()
     
     local gw, gh = 224, 288
 
-    g.scale = love.graphics.getHeight() / gh
-
-    gameCanvas = love.graphics.newCanvas(gw, gh)
-    crtCanvas  = love.graphics.newCanvas(gw * g.scale, gh * g.scale)
+    resizeCanvases()
     
-    -- Explicitly set filter on canvases (they don't inherit default filter)
-    gameCanvas:setFilter("nearest", "nearest")
-    crtCanvas:setFilter("nearest", "nearest")
     effect = moonshine(moonshine.effects.crt)
     .chain(moonshine.effects.gaussianblur)
     .chain(moonshine.effects.glow)
@@ -202,7 +214,12 @@ end
 function love.keypressed(key)
     -- global
     if key == "escape" then
-        love.event.quit()
+        if g.scene == attract then
+            love.event.quit()
+        else
+            setScene("attract")
+        end
+        return
     end
 
     if g.scene.keypressed then g.scene.keypressed(key) end

@@ -31,6 +31,10 @@ local menu = menus.main
 function attract.start()
     mode.setMode("startup")
     menu.selectedItem = 1
+    stopSiren()
+    for _, snd in pairs(g.sounds) do
+        if type(snd.stop) == "function" then snd:stop() end
+    end
 end
 
 function attract.update(dt)
