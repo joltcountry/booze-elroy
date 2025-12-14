@@ -24,6 +24,7 @@ local handleGhostCollision = function(ghost, pacXTile, pacYTile, ghostXTile, gho
     if pacXTile == ghostXTile and pacYTile == ghostYTile then
         if ghost.frightened then
             ghost.dead = true -- ate a ghost
+            ghost.free = true
             ghost.frightened = false
             ghost.speed = logic.getGhostSpeed(ghost)
             ghost:target()
@@ -34,6 +35,7 @@ local handleGhostCollision = function(ghost, pacXTile, pacYTile, ghostXTile, gho
             return true -- collision handled
         elseif not ghost.dead then
             mode.setMode("caught")
+            g.suspendElroy = true
             g.globalCounter = 0
             return true -- collision handled
         end
@@ -248,7 +250,7 @@ end
 logic.getGhostSpeed = function(c)
     if c.housing or c.leaving then return .35 end
     if c.dead then return 1.5 end
-    if c.elroy then
+    if c.elroy and not g.suspendElroy then
         if #g.dots <= g.level.elroy2 then
             return g.level.elroy2Speed
         elseif #g.dots <= g.level.elroy1 then

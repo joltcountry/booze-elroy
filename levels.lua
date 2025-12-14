@@ -415,6 +415,7 @@ levels.startLevel = function()
     g.level.chase = false
     g.frightened = false
     g.globalCounter = false
+    g.suspendElroy = false
 end
 
 levels.resetLevel = function()

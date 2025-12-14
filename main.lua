@@ -2,7 +2,7 @@
 -- Main entry point
 -- Global stuff
 g = {
-    scale  = 3,
+    scale  = 4.5,
     state = {},
     score = 0,
 }

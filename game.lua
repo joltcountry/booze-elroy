@@ -143,6 +143,9 @@ end
 
 function game.start()
 
+    -- i want this removed!  but I need it for testing
+    math.randomseed(os.time())
+    
     g.levelNumber = 1
     g.scenery = {}
     mode.setMode("playerUp")
@@ -155,6 +158,12 @@ function game.start()
     characters.initialize()
     characters.reset()
 
+end
+
+local forceLeave = function(char)
+    char.leaving = true
+    char.housing = false
+    if char == g.chars.clyde and g.suspendElroy then g.suspendElroy = false end
 end
 
 function game.update(dt)
@@ -184,8 +193,7 @@ function game.update(dt)
 
             -- starvation timer
             if g.starvation >= g.level.starvation then
-                char.leaving = true
-                char.housing = false
+                forceLeave(char)
                 g.starvation = 0
                 break
             end
@@ -193,8 +201,7 @@ function game.update(dt)
             if g.globalCounter then 
 
                 if g.globalCounter == char.globalCounter then
-                    char.leaving = true
-                    char.housing = false
+                    forceLeave(char)
                     if g.globalCounter == 32 then
                         g.globalCounter = false
                     end
@@ -202,8 +209,7 @@ function game.update(dt)
 
             else -- personal dot counter
                 if char.dotCounter == 0 then
-                    char.leaving = true
-                    char.housing = false
+                    forceLeave(char)
                     break
                 end
             end

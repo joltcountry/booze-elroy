@@ -42,7 +42,9 @@ local modes = {
                     power.frame = 1
                 end
                 g.chars.pac.frame = 1
-                if g.newLevel then g.newLevel = false else g.lives = g.lives - 1 end
+                if g.newLevel then g.newLevel = false else
+                    g.lives = g.lives - 1
+                end
                 g.fruitTimer = false
                 if g.lives < 0 then
                     mode.setMode("gameover")
