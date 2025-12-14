@@ -14,23 +14,6 @@ local game = {
 -- Game state variables
 local fc = 0
 
--- Helper function to activate frightened mode
-local activateFrightenedMode = function()
-    g.frightened = g.level.frightened
-    g.ghostScore = false
-    g.chars.pac.speed = g.level.pacFrightenedSpeed
-    for name, char in pairs(g.chars) do
-        if char.target and not char.dead then
-            char.frightened = true
-            char.speed = logic.getGhostSpeed(char)
-            if not char.housing and not char.leaving and not char.entering then
-                char.dir = (char.dir + 2) % 4
-                char:target()
-            end
-        end
-    end
-end
-
 -- Helper function to update frightened state
 local updateFrightenedState = function()
     if g.frightened then
@@ -39,7 +22,7 @@ local updateFrightenedState = function()
             g.sounds.scared:stop()
             playSiren()
             g.frightened = false
-            g.chars.pac.speed = g.level.pacSpeed
+            if not g.config.fastPac then g.chars.pac.speed = g.level.pacSpeed end
             for _, c in pairs(g.chars) do
                 if c.target and c.frightened then
                     c.speed = logic.getGhostSpeed(c)
@@ -286,7 +269,11 @@ function game.draw()
 
     love.graphics.clear(0, 0, 0, 1)
     love.graphics.origin()
-
+    if g.backgrounds[g.config.background] then
+        love.graphics.setColor(.5, .5, .5)
+        love.graphics.draw(g.backgrounds[g.config.background], 0, 0, 0, 224 / g.backgrounds[g.config.background]:getWidth(), 288  / g.backgrounds[g.config.background]:getHeight())
+        love.graphics.setColor(1, 1, 1)
+    end
     -- Draw mode messages
     if g.mode == "playerUp" then
         graphics.print("player one", 9, 14, 3)

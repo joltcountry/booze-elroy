@@ -17,14 +17,13 @@ local modes = {
             end
         },
         hideGame = {
-            frames = 180,
+            frames = 120,
             state = { showHelperText = true, showGameName = false },
             nextMode = "restart"
         },
         restart = {
-            frames = 600,
+            frames = 0,
             state = { showHelperText = true, showGameName = true, showBooze = true },
-            nextMode = "startup"
         }
     },
     game = {

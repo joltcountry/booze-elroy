@@ -7,10 +7,18 @@ g = {
     score = 0,
 }
 
+g.config = {
+    spicy = false,
+    pinkyBug = true,
+    fastPac = false,
+    background = "beach",
+}
 
 -- SCENES
 local game = require("game")
 local attract = require("attract")
+local credits = require("credits")
+--local options = require("options")
 local maze = require("maze")
 
 local graphics = require("graphics")
@@ -54,6 +62,13 @@ g.sounds.siren5:setLooping(true)
 g.sounds.dead:setLooping(true)
 
 g.sirenTriggers = { 20, 40, 100, 150 }
+
+g.backgrounds = {
+    stars = love.graphics.newImage("backgrounds/stars.jpg"),
+    beach = love.graphics.newImage("backgrounds/beach.jpg"),
+    arcade = love.graphics.newImage("backgrounds/arcade.jpg"),
+}
+
 playSiren = function()
     for i = 1, #g.sirenTriggers do
         if #g.dots < g.sirenTriggers[i] then
@@ -78,6 +93,12 @@ setScene = function(s)
         g.scene.start()
     elseif s == "attract" then
         g.scene = attract
+        g.scene.start()
+    elseif s == "credits" then
+        g.scene = credits
+        g.scene.start()
+    elseif s == "options" then
+        g.scene = options
         g.scene.start()
     end
 end
@@ -151,6 +172,7 @@ function love.update(dt)
 end
 
 function love.draw()
+
     g.scene.draw()
     love.graphics.setCanvas(crtCanvas)
     love.graphics.clear(0,0,0,1)

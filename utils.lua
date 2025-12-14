@@ -4,7 +4,7 @@ utils.activateFrightenedMode = function()
     local logic = require("logic")
     g.frightened = g.level.frightened
     g.ghostScore = false
-    g.chars.pac.speed = g.level.pacFrightenedSpeed
+    if not g.config.fastPac then g.chars.pac.speed = g.level.pacFrightenedSpeed end
     if not g.sounds.scared:isPlaying( ) then
 		love.audio.play( g.sounds.scared )
         stopSiren()

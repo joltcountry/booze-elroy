@@ -95,6 +95,12 @@ local createGhostAnimator = function(ghostName, elroyCheck)
     end
 end
 
+local scatterTiles = {
+    { x = 25, y = -1 },
+    { x = 2, y = -1 },
+    { x = 27, y = 33 },
+    { x = 0, y = 33 },
+}
 
 characters.initialize = function()
     local level = levels.getLevel(g.levelNumber)
@@ -113,7 +119,7 @@ characters.initialize = function()
         x = (8 * 14),
         y = (8 * 14) + 4,
         dir = 2,
-        scatterX = 25, scatterY = 0,
+        scatterX = 25, scatterY = -1,
         houseX = 14, houseY = 17,
         elroy = true,
         target = function(self)
@@ -155,7 +161,7 @@ characters.initialize = function()
         y = (8 * 17) + 4,
         dir = 1,
         housing = true,
-        scatterX = 2, scatterY = 0,
+        scatterX = 2, scatterY = -1,
         houseX = 14, houseY = 17,
         leavingPreference = 0,
         dotCounter = level.pinkyCounter,
@@ -183,7 +189,7 @@ characters.initialize = function()
                         targetX = pacXTile + constants.deltas[g.chars.pac.dir].x * 4
                         targetY = pacYTile + constants.deltas[g.chars.pac.dir].y * 4
                         -- Pinky bug
-                        if g.chars.pac.dir == 3 then targetX = pacXTile - 4 end
+                        if g.config.pinkyBug and g.chars.pac.dir == 3 then targetX = pacXTile - 4 end
                     else
                         targetX, targetY = self.scatterX, self.scatterY
                     end
@@ -232,7 +238,7 @@ characters.initialize = function()
                         local midY = pacYTile + constants.deltas[g.chars.pac.dir].y * 2
 
                         -- Pinky bug
-                        if g.chars.pac.dir == 3 then midX = pacXTile - 2 end
+                        if g.config.pinkyBug and g.chars.pac.dir == 3 then midX = pacXTile - 2 end
 
                         local bx = midX - bXTile
                         local by = midY - bYTile
@@ -310,6 +316,10 @@ characters.reset = function()
     g.chars.blinky.frightened = false
     g.chars.blinky.leaveRight = false
     g.chars.blinky.speed = logic.getGhostSpeed(g.chars.blinky)
+    if g.config.spicy then
+        g.chars.blinky.scatterX = scatterTiles[math.random(1, 4)].x
+        g.chars.blinky.scatterY = scatterTiles[math.random(1, 4)].y
+    end
 
     g.chars.pinky.x = (8 * 14)
     g.chars.pinky.y = (8 * 17) + 4
@@ -322,6 +332,10 @@ characters.reset = function()
     g.chars.pinky.leaveRight = false
     g.chars.pinky.dir = 1
     g.chars.pinky.speed = logic.getGhostSpeed(g.chars.pinky)
+    if g.config.spicy then
+        g.chars.pinky.scatterX = scatterTiles[math.random(1, 4)].x
+        g.chars.pinky.scatterY = scatterTiles[math.random(1, 4)].y
+    end
 
     g.chars.inky.x = (8 * 12)
     g.chars.inky.y = (8 * 17) + 4
@@ -334,6 +348,10 @@ characters.reset = function()
     g.chars.inky.leaveRight = false
     g.chars.inky.dir = 3
     g.chars.inky.speed = logic.getGhostSpeed(g.chars.inky)
+    if g.config.spicy then
+        g.chars.inky.scatterX = scatterTiles[math.random(1, 4)].x
+        g.chars.inky.scatterY = scatterTiles[math.random(1, 4)].y
+    end
 
     g.chars.clyde.x = (8 * 16)
     g.chars.clyde.y = (8 * 17) + 4
@@ -346,11 +364,18 @@ characters.reset = function()
     g.chars.clyde.leaveRight = false
     g.chars.clyde.dir = 3
     g.chars.clyde.speed = logic.getGhostSpeed(g.chars.clyde)
+    if g.config.spicy then
+        g.chars.clyde.scatterX = scatterTiles[math.random(1, 4)].x
+        g.chars.clyde.scatterY = scatterTiles[math.random(1, 4)].y
+    end
+
 
     g.chars.pac.x = (8 * 14)
     g.chars.pac.y = (8 * 26) + 4
     g.chars.pac.dir = 2
-    g.chars.pac.speed = g.level.pacSpeed
+    if g.config.fastPac then g.chars.pac.speed = 1.6 else
+        g.chars.pac.speed = g.level.pacSpeed
+    end
 
 end
 
