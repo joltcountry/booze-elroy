@@ -133,7 +133,7 @@ function game.start()
     
     g.levelNumber = 1
     g.scenery = {}
-    mode.setMode("playerUp")
+    mode.setMode("pregame")
     g.lives = 3
     g.score = 0
 
@@ -282,14 +282,6 @@ function game.draw()
         graphics.print("ready!", 11, 20, 6)
     end
 
-    -- Draw scenery (use ipairs for arrays)
-    for _, scenery in ipairs(g.dots) do
-        graphics.drawScenery(scenery, scenery.x, scenery.y)
-    end
-    for _, scenery in ipairs(g.powers) do
-        graphics.drawScenery(scenery, scenery.x, scenery.y)
-    end
-
     -- Draw score
     if fc % 32 < 16 then graphics.print("1up", 3, 0) end
     graphics.print("high score", 9, 0)
@@ -304,6 +296,24 @@ function game.draw()
         elseif g.mode ~= "pause" then
             maze.draw()
         end
+        
+        -- Draw scenery (use ipairs for arrays)
+        for _, scenery in ipairs(g.dots) do
+            graphics.drawScenery(scenery, scenery.x, scenery.y)
+        end
+        for _, scenery in ipairs(g.powers) do
+            graphics.drawScenery(scenery, scenery.x, scenery.y)
+        end
+
+        -- Draw level display
+        for i = 1, #g.level.levelDisplay do
+            graphics.drawSpriteAtTile(g.level.levelDisplay[i].sheet, g.level.levelDisplay[i].quad, 26 - (i*2), 34)
+        end
+
+        -- Draw lives
+        for i = 1, g.lives do
+            graphics.drawSpriteAtTile("spr16", 61, i*2, 34)
+        end        
     end
 
     -- Draw fruit
@@ -328,16 +338,6 @@ function game.draw()
     if g.mode == "ateGhost" then
         pacXTile, pacXOff, pacYTile, pacYOff = maze.getLoc(g.chars.pac)
         graphics.drawGhostScore(g.ghostScore, g.chars.pac.x - 8, g.chars.pac.y - 8)
-    end
-
-    -- Draw level display
-    for i = 1, #g.level.levelDisplay do
-        graphics.drawSpriteAtTile(g.level.levelDisplay[i].sheet, g.level.levelDisplay[i].quad, 26 - (i*2), 34)
-    end
-
-    -- Draw lives
-    for i = 1, g.lives do
-        graphics.drawSpriteAtTile("spr16", 61, i*2, 34)
     end
     
     if g.mode == "dying" then

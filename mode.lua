@@ -27,6 +27,11 @@ local modes = {
         }
     },
     game = {
+        pregame = {
+            frames = 30,
+            state = { running = false, showPac = false, showGhosts = false, hideMaze = true },
+            nextMode = "playerUp",
+        },
         playerUp = {
             frames = 135,
             state = { running = false, showPac = false, showGhosts = false },

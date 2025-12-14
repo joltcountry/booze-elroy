@@ -52,6 +52,7 @@ g.sounds = {
     siren5 = love.audio.newSource("sounds/siren5.wav", "static"),
     dead = love.audio.newSource("sounds/dead.wav", "static"),
     extrapac = love.audio.newSource("sounds/extrapac.wav", "static"),
+    coindrop = love.audio.newSource("sounds/coindrop.wav", "static"),
 }
 g.sounds.scared:setLooping(true)
 g.sounds.siren1:setLooping(true)

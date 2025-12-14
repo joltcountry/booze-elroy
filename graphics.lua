@@ -135,7 +135,7 @@ graphics.print = function(s, x, y, o)
     local str = string.upper(s)
     for i = 1, #str do
         local c = string.sub(str, i, i)
-        local index = string.find(textChars, c)
+        local index = string.find(textChars, c, 1, true)
         love.graphics.draw(sprites.text8.sheet, sprites.text8.quads[(o * 64) + index], x * constants.tileSize, y * constants.tileSize)
         x = x + 1
     end

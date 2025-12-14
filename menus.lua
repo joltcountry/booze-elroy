@@ -39,13 +39,19 @@ menus.credits = {
 
 menus.keypressed = function(menu, key)
     if key == "up" then
+        g.sounds.coindrop:stop()
+        g.sounds.coindrop:play()
         menu.selectedItem = menu.selectedItem - 1
     elseif key == "down" then
+        g.sounds.coindrop:stop()
+        g.sounds.coindrop:play()
         menu.selectedItem = menu.selectedItem + 1
     end
     if menu.selectedItem < 1 then menu.selectedItem = #menu end
     if menu.selectedItem > #menu then menu.selectedItem = 1 end
     if key == "return" then
+        g.sounds.coindrop:stop()
+        g.sounds.coindrop:play()
         if menu[menu.selectedItem].options then
             menu[menu.selectedItem].selectedOption = menu[menu.selectedItem].selectedOption + 1
             if menu[menu.selectedItem].selectedOption > #menu[menu.selectedItem].options then menu[menu.selectedItem].selectedOption = 1 end
