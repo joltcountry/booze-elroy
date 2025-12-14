@@ -49,6 +49,10 @@ function attract.keypressed(key)
     end
 end
 
+function attract.gamepadpressed(joystick, button)
+    setScene("game")
+end
+
 function attract.draw()
 
     love.graphics.setCanvas(gameCanvas)
