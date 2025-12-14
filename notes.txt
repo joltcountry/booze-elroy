@@ -1,4 +1,17 @@
-Frame-level discrepancies
+NEXT
+=================
+BUGS?
+-------
+Dead guy speed, can they turn around?
+Does elroy start in chase?
+
+scoring sprites
+end of level animation
+sounds
+options
+
+
+Frame/pixel-level discrepancies
 =========================
 Elroy only kicks in on the next tile rather than instantaneously.  
 Pinky/Blinky's house spot is one pixel to the right for some bizarre reason wtf
