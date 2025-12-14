@@ -16,6 +16,7 @@ local fc = 0
 local speedFactor = 20/16 -- 1.25
 
 local state = {}
+local lastGamepadButtonState = {}
 
 g.booze = {
     x = 0,
@@ -27,6 +28,8 @@ g.booze = {
 
 function attract.start()
     mode.setMode("startup")
+    -- Reset gamepad button state tracking
+    lastGamepadButtonState = {}
 end
 
 function attract.update(dt)
@@ -34,6 +37,22 @@ function attract.update(dt)
     fc = fc + 1
 
     mode.handle()
+
+    -- Check for gamepad button presses (a, b, x, y)
+    if joystick then
+        local buttons = {"a", "b", "x", "y"}
+        for _, button in ipairs(buttons) do
+            local isDown = joystick:isGamepadDown(button)
+            local wasDown = lastGamepadButtonState[button] or false
+            
+            -- Trigger on press (transition from not pressed to pressed)
+            if isDown and not wasDown then
+                setScene("game")
+            end
+            
+            lastGamepadButtonState[button] = isDown
+        end
+    end
 
     if (g.state.showBooze) then
         g.booze.x = g.booze.x + 1
