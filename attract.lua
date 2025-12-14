@@ -64,7 +64,7 @@ function attract.draw()
     local msg3 = "booze elroy"
     local msg4 = "press \"Z\" to start"
     local msg5 = "a completely new game idea"
-    local msg6 = "v002 2025-12-13"
+    local msg6 = "v003 2025-12-14"
 
     -- Draw score
     graphics.print("1up", 3, 0)
