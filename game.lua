@@ -226,7 +226,9 @@ function game.update(dt)
         logic.turn(g.chars.pac)
         -- Update all characters
         for name, char in pairs(g.chars) do
-            updateCharacterMovement(char)
+            if g.mode ~= "caught" and g.mode ~= "ateGhost" then
+                updateCharacterMovement(char)
+            end
         end
         
         -- Handle fruit

@@ -2,8 +2,6 @@ NEXT
 =================
 BUGS?
 -------
-Dead guy speed, can they turn around?
-Does elroy start in chase?
 
 scoring sprites
 end of level animation
