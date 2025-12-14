@@ -142,3 +142,6 @@ function love.keypressed(key)
     if g.scene.keypressed then g.scene.keypressed(key) end
 end
 
+function love.gamepadpressed(joystick, button)
+    if g.scene.gamepadpressed then g.scene.gamepadpressed(joystick, button) end
+end
