@@ -43,6 +43,7 @@ g.sounds = {
     siren4 = love.audio.newSource("sounds/siren4.wav", "static"),
     siren5 = love.audio.newSource("sounds/siren5.wav", "static"),
     dead = love.audio.newSource("sounds/dead.wav", "static"),
+    extrapac = love.audio.newSource("sounds/extrapac.wav", "static"),
 }
 g.sounds.scared:setLooping(true)
 g.sounds.siren1:setLooping(true)
@@ -94,6 +95,7 @@ score = function(s)
     local oldScore = g.score
     g.score = g.score + s
     if oldScore < 10000 and g.score >= 10000 then
+        love.audio.play( g.sounds.extrapac )
         g.lives = g.lives + 1
     end
 end
