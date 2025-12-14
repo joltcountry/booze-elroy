@@ -36,6 +36,8 @@ local updateFrightenedState = function()
     if g.frightened then
         g.frightened = g.frightened - 1
         if g.frightened <= 0 then
+            g.sounds.scared:stop()
+            playSiren()
             g.frightened = false
             g.chars.pac.speed = g.level.pacSpeed
             for _, c in pairs(g.chars) do
@@ -355,6 +357,9 @@ function game.draw()
         if g.modeTimer > 180 then
             graphics.drawSprite("spr16", 50, g.chars.pac.x - 8, g.chars.pac.y - 8)
         elseif g.modeTimer > 100 then
+            if g.modeTimer == 180 then
+                g.sounds.died:play()
+            end
             local dFrame = 180 - g.modeTimer
             graphics.drawSprite("spr16", 50 + math.floor(dFrame / 8), g.chars.pac.x - 8, g.chars.pac.y - 8)
         elseif g.modeTimer > 70 then

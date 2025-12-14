@@ -13,8 +13,8 @@ local checkCollisions = function(collectibles, xTile, yTile)
         if xTile == item.x and yTile == item.y then
             score(item.score)
             g.chars.pac.skipCounter = item.skipCounter
-            if item.action then item.action() end
             table.remove(collectibles, i)
+            if item.action then item.action() end
         end
     end
 end
@@ -30,6 +30,7 @@ local handleGhostCollision = function(ghost, pacXTile, pacYTile, ghostXTile, gho
             ghost:target()
             ghost.hidden = true
             mode.setMode("ateGhost")
+            g.sounds.ateGhost:play()
             if g.ghostScore then g.ghostScore = g.ghostScore * 2 else g.ghostScore = 200 end
             score(g.ghostScore)
             return true -- collision handled
@@ -149,6 +150,16 @@ logic.move = function(c)
                     c.dir = 3
                     c.iDir = false
                     c.dead = false
+                    local anyDead = false
+                    for _, char in pairs(g.chars) do
+                        if char.dead then
+                            anyDead = true
+                            break
+                        end
+                    end
+                    if not anyDead then
+                        g.sounds.dead:stop()
+                    end
                     c.entering = false
                     if not c.leavingPreference then
                         c.leaving = true
@@ -195,11 +206,11 @@ logic.move = function(c)
 
             logic.turn(c)
 
-
             if g.fruitTimer and g.chars.pac.x == fruits.x and g.chars.pac.y == fruits.y then
                 score(g.level.fruit.score)
                 g.fruitTimer = false
                 g.mode = "ateFruit"
+                g.sounds.fruit:play()
             end
 
         end

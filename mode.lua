@@ -29,9 +29,12 @@ local modes = {
     },
     game = {
         playerUp = {
-            frames = 120,
+            frames = 135,
             state = { running = false, showPac = false, showGhosts = false },
             nextMode = "ready",
+            startFunc = function()
+                g.sounds.opening:play()
+            end
         },
         ready = {
             frames = 120,
@@ -55,6 +58,9 @@ local modes = {
                     characters.reset()
                     levels.resetLevel()
                 end 
+            end,
+            endFunc = function()
+                playSiren()
             end
         },
         normal = {
@@ -73,17 +79,23 @@ local modes = {
                 for _, char in pairs(g.chars) do
                     char.hidden = false
                 end
+                love.audio.play( g.sounds.dead )
             end
         },
         caught = {
             state = { running = false, showPac = true, showGhosts = true },
             frames = 60,
             nextMode = "dying",
+            startFunc = function()
+                stopSiren()
+                g.sounds.dead:stop()
+                g.sounds.scared:stop()
+            end
         },
         dying = {
             state = { running = false, showPac = false, showGhosts = false },
             frames = 210,
-            nextMode = "ready"
+            nextMode = "ready",
         },
         gameover = {
             state = { running = false, showPac = false, showGhosts = false },
@@ -96,6 +108,12 @@ local modes = {
             state = { running = false, showPac = true, showGhosts = true },
             frames = 120,
             nextMode = "levelAnimation",
+            startFunc = function()
+                stopSiren()
+                g.sounds.dead:stop()
+                g.sounds.scared:stop()
+
+            end
         },
         levelAnimation = {
             state = { running = false, showPac = false, showGhosts = false },

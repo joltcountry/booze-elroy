@@ -90,6 +90,26 @@ maze.w = #map[1]
 maze.h = #map
 
 local handleDotEaten = function()
+    if g.wakka then
+        g.sounds.wakka2:play()
+        g.wakka = false
+    else
+        g.sounds.wakka1:play()
+        g.wakka = true
+    end
+
+    local found = false
+    for i, v in ipairs(g.sirenTriggers) do
+        if v == #g.dots then
+            found = true
+            break
+        end
+    end
+    if found then
+        stopSiren()
+        playSiren()
+    end
+
     if #g.dots == 170 or #g.dots == 70 then
         g.fruitTimer = 9 * 60 + math.random(0, 60)
     end
@@ -121,6 +141,14 @@ local handleDotEaten = function()
 end
 
 local handlePowerEaten = function()
+    if g.wakka then
+        g.sounds.wakka2:play()
+        g.wakka = false
+    else
+        g.sounds.wakka1:play()
+        g.wakka = true
+    end
+
     utils.activateFrightenedMode()
 end
 

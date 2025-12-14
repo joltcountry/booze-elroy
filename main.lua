@@ -29,6 +29,48 @@ local spritesheet16
 local spritesheet8
 local spritesheetText8
 
+g.sounds = {
+    opening = love.audio.newSource("sounds/opening.wav", "static"),
+    wakka1 = love.audio.newSource("sounds/wakka1.wav", "static"),
+    wakka2 = love.audio.newSource("sounds/wakka2.wav", "static"),
+    fruit = love.audio.newSource("sounds/fruit.wav", "static"),
+    died = love.audio.newSource("sounds/died.wav", "static"),
+    scared = love.audio.newSource("sounds/scared.wav", "static"),
+    ateGhost = love.audio.newSource("sounds/ateGhost.wav", "static"),
+    siren1 = love.audio.newSource("sounds/siren1.wav", "static"),
+    siren2 = love.audio.newSource("sounds/siren2.wav", "static"),
+    siren3 = love.audio.newSource("sounds/siren3.wav", "static"),
+    siren4 = love.audio.newSource("sounds/siren4.wav", "static"),
+    siren5 = love.audio.newSource("sounds/siren5.wav", "static"),
+    dead = love.audio.newSource("sounds/dead.wav", "static"),
+}
+g.sounds.scared:setLooping(true)
+g.sounds.siren1:setLooping(true)
+g.sounds.siren2:setLooping(true)
+g.sounds.siren3:setLooping(true)
+g.sounds.siren4:setLooping(true)
+g.sounds.siren5:setLooping(true)
+g.sounds.dead:setLooping(true)
+
+g.sirenTriggers = { 180, 200, 225, 235 }
+playSiren = function()
+    for i = 1, #g.sirenTriggers do
+        if #g.dots < g.sirenTriggers[i] then
+            love.audio.play( g.sounds["siren" .. 6-i] )
+            return
+        end
+    end
+    love.audio.play( g.sounds.siren1 )
+end
+
+stopSiren = function()
+    g.sounds.siren5:stop()
+    g.sounds.siren4:stop()
+    g.sounds.siren3:stop()
+    g.sounds.siren2:stop()
+    g.sounds.siren1:stop()
+end
+
 setScene = function(s)
     if s == "game" then
         g.scene = game

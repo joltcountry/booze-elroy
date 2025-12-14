@@ -5,6 +5,10 @@ utils.activateFrightenedMode = function()
     g.frightened = g.level.frightened
     g.ghostScore = false
     g.chars.pac.speed = g.level.pacFrightenedSpeed
+    if not g.sounds.scared:isPlaying( ) then
+		love.audio.play( g.sounds.scared )
+        stopSiren()
+	end
     for name, char in pairs(g.chars) do
         if char.target and not char.dead then
             char.frightened = true
