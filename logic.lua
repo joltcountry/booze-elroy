@@ -21,6 +21,7 @@ end
 
 -- Helper function to handle collision between Pac-Man and a ghost
 local handleGhostCollision = function(ghost, pacXTile, pacYTile, ghostXTile, ghostYTile)
+    if g.mode == "ateGhost" or g.mode == "caught" then return false end
     if pacXTile == ghostXTile and pacYTile == ghostYTile then
         if ghost.frightened then
             ghost.dead = true -- ate a ghost
@@ -159,6 +160,9 @@ logic.move = function(c)
                     end
                     if not anyDead then
                         g.sounds.dead:stop()
+                        if not g.sounds.scared:isPlaying() then
+                            playSiren()
+                        end
                     end
                     c.entering = false
                     if not c.leavingPreference then
@@ -260,7 +264,7 @@ end
 
 logic.getGhostSpeed = function(c)
     if c.housing or c.leaving then return .35 end
-    if c.dead then return 1.5 end
+    if c.dead then return 1.6 end
     if c.elroy and not g.suspendElroy then
         if #g.dots <= g.level.elroy2 then
             return g.level.elroy2Speed

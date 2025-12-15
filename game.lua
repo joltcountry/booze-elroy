@@ -20,7 +20,16 @@ local updateFrightenedState = function()
         g.frightened = g.frightened - 1
         if g.frightened <= 0 then
             g.sounds.scared:stop()
-            playSiren()
+            local anyDead = false
+            for _, char in pairs(g.chars) do
+                if char.dead then
+                    anyDead = true
+                    break
+                end
+            end
+            if not anyDead then
+                playSiren()
+            end
             g.frightened = false
             if not g.config.fastPac then g.chars.pac.speed = g.level.pacSpeed end
             for _, c in pairs(g.chars) do
@@ -357,7 +366,8 @@ function game.draw()
     end
 
     if g.mode == "gameover" then
-        graphics.print("game  over", 9, 20, 1)
+        graphics.print("game", 9, 20, 1)
+        graphics.print("over", 15, 20, 1)
     end
 
     love.graphics.setCanvas()

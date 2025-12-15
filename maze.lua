@@ -105,7 +105,7 @@ local handleDotEaten = function()
             break
         end
     end
-    if found and not g.sounds.scared:isPlaying() then
+    if found and not g.sounds.dead:isPlaying() and not g.sounds.scared:isPlaying() then
         stopSiren()
         playSiren()
     end

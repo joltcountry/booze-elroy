@@ -226,7 +226,7 @@ function love.keypressed(key)
     if key == "p" then
         g.paused = not g.paused
     end
-    
+
     if g.scene.keypressed then g.scene.keypressed(key) end
 end
 

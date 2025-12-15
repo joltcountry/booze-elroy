@@ -46,16 +46,16 @@ local modes = {
             startFunc = function()
                 -- Update scenery animations
                 for name, power in pairs(g.powers) do
-                    power.frame = 1
+                power.frame = 1
                 end
                 g.chars.pac.frame = 1
                 if g.newLevel then g.newLevel = false else
                     g.lives = g.lives - 1
                 end
-                g.fruitTimer = false
                 if g.lives < 0 then
                     mode.setMode("gameover")
                 else
+                    g.fruitTimer = false
                     -- set up level again, including ghost-leaving-mode?
                     g.state = { showPac = true, showGhosts = true, showReady = true }
                     g.starvation = 0
@@ -83,8 +83,9 @@ local modes = {
                 for _, char in pairs(g.chars) do
                     char.hidden = false
                 end
-                g.sounds.dead:stop()
-                love.audio.play( g.sounds.dead )
+                if not g.sounds.dead:isPlaying() then
+                    love.audio.play( g.sounds.dead )
+                end
             end
         },
         caught = {
