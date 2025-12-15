@@ -116,7 +116,7 @@ function options.resetSelectedOptions()
     menu[5].selectedOption = g.config.freeGhost and 1 or 2
     menu[6].selectedOption = g.scaleOption == 2 and 1 or g.scaleOption == 3 and 2 or g.scaleOption == 4 and 3 or g.scaleOption == 5 and 4
     menu[7].selectedOption = g.fullscreen and 1 or 2
-    menu[8].selectedOption = g.config.volume == 0 and 1 or g.config.volume == 1 and 2 or g.config.volume == 2 and 3 or g.config.volume == 3 and 4 or g.config.volume == 4 and 5 or g.config.volume == 5 and 6 or g.config.volume == 6 and 7 or g.config.volume == 7 and 8 or g.config.volume == 8 and 9 or g.config.volume == 9 and 10 or g.config.volume == 10 and 11
+    menu[8].selectedOption = g.config.volume + 1
 end
 
 function options.start()
@@ -127,7 +127,7 @@ function options.start()
     menu[5].selectedOption = g.config.freeGhost and 1 or 2
     menu[6].selectedOption = g.scaleOption == 2 and 1 or g.scaleOption == 3 and 2 or g.scaleOption == 4 and 3 or g.scaleOption == 5 and 4
     menu[7].selectedOption = g.fullscreen and 1 or 2
-    menu[8].selectedOption = g.config.volume == 0 and 1 or g.config.volume == 1 and 2 or g.config.volume == 2 and 3 or g.config.volume == 3 and 4 or g.config.volume == 4 and 5 or g.config.volume == 5 and 6 or g.config.volume == 6 and 7 or g.config.volume == 7 and 8 or g.config.volume == 8 and 9 or g.config.volume == 9 and 10 or g.config.volume == 10 and 11
+    menu[8].selectedOption = g.config.volume + 1
     menu.selectedItem = 1
 end
 
