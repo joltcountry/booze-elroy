@@ -12,6 +12,7 @@ g.config = {
     pinkyBug = true,
     fastPac = false,
     background = "none",
+    volume = 10,
 }
 
 -- SCENES
@@ -61,6 +62,14 @@ g.sounds.siren3:setLooping(true)
 g.sounds.siren4:setLooping(true)
 g.sounds.siren5:setLooping(true)
 g.sounds.dead:setLooping(true)
+
+-- Function to apply volume to all sounds
+applyVolume = function()
+    local volume = g.config.volume / 10.0  -- Convert 0-10 to 0.0-1.0
+    for _, sound in pairs(g.sounds) do
+        sound:setVolume(volume)
+    end
+end
 
 g.sirenTriggers = { 20, 40, 100, 150 }
 
@@ -169,6 +178,7 @@ function love.load()
     love.window.setTitle("Booze Elroy")
     love.graphics.setBackgroundColor(0,0,0)
     graphics.init()
+    applyVolume()  -- Set initial volume
     setScene("attract")
     joystick = love.joystick.getJoysticks()[1]
 

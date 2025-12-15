@@ -77,17 +77,27 @@ local menu = {
                 options.resetSelectedOptions()
             end
             },
-            -- { text = "fullscreen", action = function()
-            --     love.window.setFullscreen(true)
-            --     resizeCanvases()
-            -- end
-            -- },
         }
     },
     {
         options = {
             { text = "Yes", action = function() g.fullscreen = true; love.window.setFullscreen(true); resizeCanvases() end },
             { text = "No", action = function() g.fullscreen = false; love.window.setFullscreen(false); resizeCanvases() end },
+        }
+    },
+    {
+        options = {
+            { text = "0", action = function() g.config.volume = 0; applyVolume() end },
+            { text = "1", action = function() g.config.volume = 1; applyVolume() end },
+            { text = "2", action = function() g.config.volume = 2; applyVolume() end },
+            { text = "3", action = function() g.config.volume = 3; applyVolume() end },
+            { text = "4", action = function() g.config.volume = 4; applyVolume() end },
+            { text = "5", action = function() g.config.volume = 5; applyVolume() end },
+            { text = "6", action = function() g.config.volume = 6; applyVolume() end },
+            { text = "7", action = function() g.config.volume = 7; applyVolume() end },
+            { text = "8", action = function() g.config.volume = 8; applyVolume() end },
+            { text = "9", action = function() g.config.volume = 9; applyVolume() end },
+            { text = "10", action = function() g.config.volume = 10; applyVolume() end },
         }
     },
     {
@@ -106,6 +116,7 @@ function options.resetSelectedOptions()
     menu[5].selectedOption = g.config.freeGhost and 1 or 2
     menu[6].selectedOption = g.scaleOption == 2 and 1 or g.scaleOption == 3 and 2 or g.scaleOption == 4 and 3 or g.scaleOption == 5 and 4
     menu[7].selectedOption = g.fullscreen and 1 or 2
+    menu[8].selectedOption = g.config.volume == 0 and 1 or g.config.volume == 1 and 2 or g.config.volume == 2 and 3 or g.config.volume == 3 and 4 or g.config.volume == 4 and 5 or g.config.volume == 5 and 6 or g.config.volume == 6 and 7 or g.config.volume == 7 and 8 or g.config.volume == 8 and 9 or g.config.volume == 9 and 10 or g.config.volume == 10 and 11
 end
 
 function options.start()
@@ -116,6 +127,7 @@ function options.start()
     menu[5].selectedOption = g.config.freeGhost and 1 or 2
     menu[6].selectedOption = g.scaleOption == 2 and 1 or g.scaleOption == 3 and 2 or g.scaleOption == 4 and 3 or g.scaleOption == 5 and 4
     menu[7].selectedOption = g.fullscreen and 1 or 2
+    menu[8].selectedOption = g.config.volume == 0 and 1 or g.config.volume == 1 and 2 or g.config.volume == 2 and 3 or g.config.volume == 3 and 4 or g.config.volume == 4 and 5 or g.config.volume == 5 and 6 or g.config.volume == 6 and 7 or g.config.volume == 7 and 8 or g.config.volume == 8 and 9 or g.config.volume == 9 and 10 or g.config.volume == 10 and 11
     menu.selectedItem = 1
 end
 
@@ -149,6 +161,7 @@ function options.draw()
     graphics.print("Free Ghosts", 5, 14)
     graphics.print("Window Size", 5, 15)
     graphics.print("Full screen", 5, 16)
+    graphics.print("Volume", 5, 17)
     menus.draw(menu, 18, 10, 1)
 
     graphics.print("arrows to select", 5, 25, 2)
