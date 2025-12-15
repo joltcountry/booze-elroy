@@ -10,7 +10,7 @@ function love.conf(t)
     t.window.resizable = false
     t.window.minwidth = 400
     t.window.minheight = 300
-    t.window.vsync = true
+    t.window.vsync = false
     t.console = false
     t.modules.joystick = true
     t.modules.physics = false

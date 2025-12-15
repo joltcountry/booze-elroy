@@ -167,7 +167,7 @@ function love.load()
     
     effect.resize(gw * g.scale, gh * g.scale)
     love.window.setTitle("Booze Elroy")
-    love.graphics.setBackgroundColor(.05,.12,.12)
+    love.graphics.setBackgroundColor(0,0,0)
     graphics.init()
     setScene("attract")
     joystick = love.joystick.getJoysticks()[1]
@@ -183,7 +183,6 @@ function love.update(dt)
         g.scene.update(fixed_dt)
         accumulator = accumulator - fixed_dt
     end
-
 end
 
 function love.draw()
@@ -216,7 +215,7 @@ end
 
 function love.keypressed(key)
     -- global
-    if key == "escape" then
+    if key == "escape" or key == "backspace"then
         if g.scene == attract then
             love.event.quit()
         else

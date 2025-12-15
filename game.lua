@@ -375,7 +375,7 @@ function game.draw()
     love.graphics.setCanvas()
 
     -- Draw debug info
-    drawDebugInfo()
+    --drawDebugInfo()
 end
 
 return game
