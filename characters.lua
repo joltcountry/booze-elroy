@@ -25,13 +25,8 @@ end
 local getCandidates = function(self)
     local candidates = {}
     for i = 0, 3 do
-        if not maze.isBlocked(self, i) then
-            if self.free then
-                table.insert(candidates, i)
-                self.free = false
-            elseif math.abs(i - self.dir) ~= 2 then
-                table.insert(candidates, i)
-            end
+        if not maze.isBlocked(self, i) and math.abs(i - self.dir) ~= 2 then
+            table.insert(candidates, i)
         end
     end
     return candidates
@@ -73,7 +68,6 @@ local findBestDirection = function(self, xTile, yTile, targetX, targetY, candida
             end
         end
     end
-    if self.free then self.dir = self.iDir end
 end
 
 -- Helper function to create ghost animator
