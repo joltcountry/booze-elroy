@@ -65,12 +65,18 @@ function attract.draw()
     love.graphics.clear(0, 0, 0, 1)
     love.graphics.origin()
 
+    if g.backgrounds[g.config.background] then
+        love.graphics.setColor(.5, .5, .5)
+        love.graphics.draw(g.backgrounds[g.config.background], 0, 0, 0, 224 / g.backgrounds[g.config.background]:getWidth(), 288  / g.backgrounds[g.config.background]:getHeight())
+        love.graphics.setColor(1, 1, 1)
+    end
+
     local msg1 = "jolt country games"
     local msg2 = "presents"
     local msg3 = "booze elroy"
     local msg4 = "press \"Z\" to start"
     local msg5 = "a completely new game idea"
-    local msg6 = "Alpha-1a 2025-12-15"
+    local msg6 = "Alpha2 2025-12-15"
 
     -- Draw score
     graphics.print("1up", 3, 0)
