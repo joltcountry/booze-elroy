@@ -25,7 +25,10 @@ local handleGhostCollision = function(ghost, pacXTile, pacYTile, ghostXTile, gho
     if pacXTile == ghostXTile and pacYTile == ghostYTile then
         if ghost.frightened then
             ghost.dead = true -- ate a ghost
-            ghost.free = true
+            if ghost.leaving then
+                ghost.leaving = false
+                ghost.entering = true
+            end
             ghost.frightened = false
             ghost.speed = logic.getGhostSpeed(ghost)
             ghost:target()

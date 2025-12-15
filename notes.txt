@@ -1,14 +1,12 @@
 BUGS?
 -------
-YOU CAN STILL EAT TWO GHOSTS AT THE SAME GODDAMN TIME.  FUCK.  The ghosts have to be at the exact same pixel
-if all ghosts are dead, turn off frightened?  Check that
-dead eye speed
-game over should not make fruit disappear
-
-Occasionally laggy
+Clyde just fuckin' DISAPPEARED.  Dunno how I did it.  Dead sound was still playing.  Didn't wraparound??
+MAYBE fixed?
 
 OPTIONS?
 ========
+Scatter modes: normal, random, NONE
+Free ghost movement
 
 
 
