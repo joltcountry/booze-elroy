@@ -209,7 +209,7 @@ logic.move = function(c)
             if g.fruitTimer and g.chars.pac.x == fruits.x and g.chars.pac.y == fruits.y then
                 score(g.level.fruit.score)
                 g.fruitTimer = false
-                g.mode = "ateFruit"
+                mode.setMode("ateFruit")
                 g.sounds.fruit:play()
             end
 

@@ -1,12 +1,22 @@
-NEXT
-=================
 BUGS?
 -------
+YOU CAN STILL EAT TWO GHOSTS AT THE SAME GODDAMN TIME.  FUCK.  The ghosts have to be at the exact same pixel
+Check sounds when coming out of frightened, with a dead ghost on the screen. -- Possibly beef's issue
+Occasionally laggy
+game over should not make fruit disappear
+dead eye speed
+if all ghosts are dead, turn off frightened?  Check that
 
-scoring sprites
-end of level animation
-sounds
-options
+700 score didn't go away, check png -- I think I fixed this
+Sounds went batshit insane after 700 bug maybe?!?!
+  
+
+1000 sprite all fucked up
+
+OPTIONS?
+========
+
+
 
 
 Frame/pixel-level discrepancies

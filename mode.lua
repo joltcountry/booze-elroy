@@ -83,6 +83,7 @@ local modes = {
                 for _, char in pairs(g.chars) do
                     char.hidden = false
                 end
+                g.sounds.dead:stop()
                 love.audio.play( g.sounds.dead )
             end
         },

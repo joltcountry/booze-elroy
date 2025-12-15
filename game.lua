@@ -152,6 +152,8 @@ local forceLeave = function(char)
 end
 
 function game.update(dt)
+
+    if g.paused then return end
     -- Called every fixed timestep (60 FPS) / frame
     fc = fc + 1
 
