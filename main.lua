@@ -29,7 +29,7 @@ love.window.setMode(224 * g.scaleOption, 288 * g.scaleOption)
 -- Game state
 local t = 0
 local accumulator = 0
-local fixed_dt = 1/60
+local fixed_dt = 1/60.606061
 local frameCounter = 0;
 
 -- Spritesheets (loaded in love.load)
