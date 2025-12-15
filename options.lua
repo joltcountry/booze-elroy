@@ -28,6 +28,7 @@ local menu = {
             { text = "Stars", action = function() g.config.background = "stars" end },
             { text = "Beach", action = function() g.config.background = "beach" end },
             { text = "Arcade", action = function() g.config.background = "arcade" end },
+            { text = "Forest", action = function() g.config.background = "forest" end },
         },
     },
     {
@@ -111,7 +112,7 @@ local menu = {
 function options.resetSelectedOptions()
     menu[1].selectedOption = g.config.pinkyBug and 1 or 2
     menu[2].selectedOption = g.config.fastPac and 1 or 2
-    menu[3].selectedOption = g.config.background == "none" and 1 or g.config.background == "stars" and 2 or g.config.background == "beach" and 3 or g.config.background == "arcade" and 4
+    menu[3].selectedOption = g.config.background == "none" and 1 or g.config.background == "stars" and 2 or g.config.background == "beach" and 3 or g.config.background == "arcade" and 4 or g.config.background == "forest" and 5
     menu[4].selectedOption = g.config.scatterOption == false and 1 or g.config.scatterOption == 1 and 2 or g.config.scatterOption == 2 and 3
     menu[5].selectedOption = g.config.freeGhost and 1 or 2
     menu[6].selectedOption = g.scaleOption == 2 and 1 or g.scaleOption == 3 and 2 or g.scaleOption == 4 and 3 or g.scaleOption == 5 and 4
@@ -122,7 +123,7 @@ end
 function options.start()
     menu[1].selectedOption = g.config.pinkyBug and 1 or 2
     menu[2].selectedOption = g.config.fastPac and 1 or 2
-    menu[3].selectedOption = g.config.background == "none" and 1 or g.config.background == "stars" and 2 or g.config.background == "beach" and 3 or g.config.background == "arcade" and 4
+    menu[3].selectedOption = g.config.background == "none" and 1 or g.config.background == "stars" and 2 or g.config.background == "beach" and 3 or g.config.background == "arcade" and 4 or g.config.background == "forest" and 5
     menu[4].selectedOption = g.config.scatterOption == false and 1 or g.config.scatterOption == 1 and 2 or g.config.scatterOption == 2 and 3
     menu[5].selectedOption = g.config.freeGhost and 1 or 2
     menu[6].selectedOption = g.scaleOption == 2 and 1 or g.scaleOption == 3 and 2 or g.scaleOption == 4 and 3 or g.scaleOption == 5 and 4

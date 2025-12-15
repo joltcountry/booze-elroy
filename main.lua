@@ -77,6 +77,7 @@ g.backgrounds = {
     stars = love.graphics.newImage("backgrounds/stars.jpg"),
     beach = love.graphics.newImage("backgrounds/beach.jpg"),
     arcade = love.graphics.newImage("backgrounds/arcade.jpg"),
+    forest = love.graphics.newImage("backgrounds/forest.jpg"),
 }
 
 playSiren = function()
