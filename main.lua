@@ -178,11 +178,16 @@ function love.update(dt)
     -- Called every frame, dt is the time since last frame
     t = t + dt
     accumulator = accumulator + dt
-    while accumulator >= fixed_dt do
+    if accumulator >= fixed_dt then
         frameCounter = frameCounter + 1
         g.scene.update(fixed_dt)
         accumulator = accumulator - fixed_dt
     end
+    -- while accumulator >= fixed_dt do
+    --     frameCounter = frameCounter + 1
+    --     g.scene.update(fixed_dt)
+    --     accumulator = accumulator - fixed_dt
+    -- end
 end
 
 function love.draw()
