@@ -44,6 +44,7 @@ end
 
 -- Helper function to handle mode switching
 local handleModeSwitching = function()
+    if g.config.scatterOption == 2 then return end
     if not g.frightened then
         g.level.timer = g.level.timer + 1
         for _, switchTime in ipairs(g.level.switch) do
@@ -355,8 +356,9 @@ function game.draw()
         if g.modeTimer > 180 then
             graphics.drawSprite("spr16", 50, g.chars.pac.x - 8, g.chars.pac.y - 8)
         elseif g.modeTimer > 100 then
-            if g.modeTimer == 180 then
+            if g.modeTimer <= 180 and not g.diedSoundPlayed then
                 g.sounds.died:play()
+                g.diedSoundPlayed = true
             end
             local dFrame = 180 - g.modeTimer
             graphics.drawSprite("spr16", 50 + math.floor(dFrame / 8), g.chars.pac.x - 8, g.chars.pac.y - 8)

@@ -200,7 +200,7 @@ maze.isTunnel = function(x,y)
 end
 
 maze.isDisallowed = function(x, y)
-    if x < 0 or x >= #map[1] then
+    if x < 0 or x >= #map[1] or g.config.freeGhost then
         return false
     end
 

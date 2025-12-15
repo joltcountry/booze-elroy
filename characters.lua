@@ -310,7 +310,7 @@ characters.reset = function()
     g.chars.blinky.frightened = false
     g.chars.blinky.leaveRight = false
     g.chars.blinky.speed = logic.getGhostSpeed(g.chars.blinky)
-    if g.config.spicy then
+    if g.config.scatterOption == 1 then
         g.chars.blinky.scatterX = scatterTiles[math.random(1, 4)].x
         g.chars.blinky.scatterY = scatterTiles[math.random(1, 4)].y
     end
@@ -326,7 +326,7 @@ characters.reset = function()
     g.chars.pinky.leaveRight = false
     g.chars.pinky.dir = 1
     g.chars.pinky.speed = logic.getGhostSpeed(g.chars.pinky)
-    if g.config.spicy then
+    if g.config.scatterOption == 1 then
         g.chars.pinky.scatterX = scatterTiles[math.random(1, 4)].x
         g.chars.pinky.scatterY = scatterTiles[math.random(1, 4)].y
     end
@@ -342,7 +342,7 @@ characters.reset = function()
     g.chars.inky.leaveRight = false
     g.chars.inky.dir = 3
     g.chars.inky.speed = logic.getGhostSpeed(g.chars.inky)
-    if g.config.spicy then
+    if g.config.scatterOption == 1 then
         g.chars.inky.scatterX = scatterTiles[math.random(1, 4)].x
         g.chars.inky.scatterY = scatterTiles[math.random(1, 4)].y
     end
@@ -358,7 +358,7 @@ characters.reset = function()
     g.chars.clyde.leaveRight = false
     g.chars.clyde.dir = 3
     g.chars.clyde.speed = logic.getGhostSpeed(g.chars.clyde)
-    if g.config.spicy then
+    if g.config.scatterOption == 1 then
         g.chars.clyde.scatterX = scatterTiles[math.random(1, 4)].x
         g.chars.clyde.scatterY = scatterTiles[math.random(1, 4)].y
     end

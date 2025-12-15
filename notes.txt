@@ -3,6 +3,7 @@ BUGS?
 Clyde just fuckin' DISAPPEARED.  Dunno how I did it.  Dead sound was still playing.  Didn't wraparound??
 MAYBE fixed?
 
+
 OPTIONS?
 ========
 Scatter modes: normal, random, NONE

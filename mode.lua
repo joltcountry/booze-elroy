@@ -102,6 +102,9 @@ local modes = {
             state = { running = false, showPac = false, showGhosts = false },
             frames = 210,
             nextMode = "ready",
+            startFunc = function()
+                g.diedSoundPlayed = false
+            end
         },
         gameover = {
             state = { running = false, showPac = false, showGhosts = false },

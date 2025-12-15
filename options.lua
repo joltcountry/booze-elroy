@@ -32,9 +32,16 @@ local menu = {
     },
     {
         options = {
-            { text = "Yes", action = function() g.config.spicy = true end },
-            { text = "No", action = function() g.config.spicy = false end },
+            { text = "Normal", action = function() g.config.scatterOption = false end },
+            { text = "Random", action = function() g.config.scatterOption = 1 end },
+            { text = "None", action = function() g.config.scatterOption = 2 end },
         },
+    },
+    {
+        options = {
+            { text = "Yes", action = function() g.config.freeGhost = true end },
+            { text = "No", action = function() g.config.freeGhost = false end },
+        }
     },
     {
         options = {
@@ -75,8 +82,9 @@ function options.start()
     menu[1].selectedOption = g.config.pinkyBug and 1 or 2
     menu[2].selectedOption = g.config.fastPac and 1 or 2
     menu[3].selectedOption = g.config.background == "none" and 1 or g.config.background == "stars" and 2 or g.config.background == "beach" and 3 or g.config.background == "arcade" and 4
-    menu[4].selectedOption = g.config.spicy and 1 or 2
+    menu[4].selectedOption = g.config.scatterOption == false and 1 or g.config.scatterOption == 1 and 2 or g.config.scatterOption == 2 and 3
     menu[5].selectedOption = g.scaleOption == 2 and 1 or g.scaleOption == 3 and 2 or g.scaleOption == 4 and 3 or g.scaleOption == 5 and 4
+    menu[6].selectedOption = g.config.freeGhost and 1 or 2
     menu.selectedItem = 1
 end
 
@@ -104,14 +112,15 @@ function options.draw()
 
     graphics.print("options", 10, 5, 3)
     graphics.print("Pinky Bug", 5, 10)
-    graphics.print("Fast Pac", 5, 12)
-    graphics.print("Background", 5, 14)
-    graphics.print("Spicy Mode!", 5, 16, 6)
-    graphics.print("Window Size", 5, 18)
-    menus.draw(menu, 18, 10)
+    graphics.print("Fast Pac", 5, 11)
+    graphics.print("Background", 5, 12)
+    graphics.print("Scatter", 5, 13)
+    graphics.print("Free Ghosts", 5, 14)
+    graphics.print("Window Size", 5, 15)
+    menus.draw(menu, 18, 10, 1)
 
-    graphics.print("arrows to select", 5, 27, 2)
-    graphics.print("enter to change", 5, 29, 2)
+    graphics.print("arrows to select", 5, 25, 2)
+    graphics.print("enter to change", 5, 26, 2)
     love.graphics.setCanvas()
 
 end

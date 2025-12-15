@@ -412,7 +412,7 @@ levels.startLevel = function()
     g.fruitTimer = false
     g.starvation = 0
     g.level.timer = 0
-    g.level.chase = false
+    g.level.chase = g.config.scatterOption == 2 and true or false
     g.frightened = false
     g.globalCounter = false
     g.suspendElroy = false
@@ -423,7 +423,7 @@ levels.resetLevel = function()
     g.fruitTimer = false
     g.starvation = 0
     g.level.timer = 0
-    g.level.chase = false
+    g.level.chase = g.config.scatterOption == 2 and true or false
     g.frightened = false
 end
 

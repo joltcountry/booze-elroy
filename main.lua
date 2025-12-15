@@ -8,7 +8,7 @@ g = {
 }
 
 g.config = {
-    spicy = false,
+    scatterOption = false,
     pinkyBug = true,
     fastPac = false,
     background = "none",
@@ -131,11 +131,10 @@ resizeCanvases = function()
     crtCanvas  = love.graphics.newCanvas(gw * g.scale, gh * g.scale)
     
     -- Explicitly set filter on canvases (they don't inherit default filter)
-    gameCanvas:setFilter("nearest", "nearest")
-    crtCanvas:setFilter("nearest", "nearest")
+    -- gameCanvas:setFilter("nearest", "nearest")
+    -- crtCanvas:setFilter("nearest", "nearest")
     
     if effect then
-        effect.gaussianblur.sigma = .2 * g.scale
         effect.resize(gw * g.scale, gh * g.scale)
     end
 end
@@ -151,18 +150,21 @@ function love.load()
 
     resizeCanvases()
     
-    effect = moonshine(moonshine.effects.crt)
-    .chain(moonshine.effects.gaussianblur)
-    .chain(moonshine.effects.glow)
+    effect = moonshine(moonshine.effects.glow)
+    .chain(moonshine.effects.colorgradesimple)
     .chain(moonshine.effects.scanlines)
+    .chain(moonshine.effects.crt)
+    -- .chain(moonshine.effects.gaussianblur)
+    -- .chain(moonshine.effects.glow)
     effect.crt.distortionFactor = {1.03, 1.04}  -- horizontal/vertical bulge
     effect.crt.feather = 0.02                    -- soften edges
     effect.glow.strength = 3
     effect.glow.min_luma = .85
-    effect.gaussianblur.sigma = .2 * g.scale
+    --effect.gaussianblur.sigma = .2 * g.scale
     effect.scanlines.opacity = 0.3
     effect.scanlines.thickness = .3
-
+    effect.colorgradesimple.factors = {1.1, 1.1, 1.1}
+    
     effect.resize(gw * g.scale, gh * g.scale)
     love.window.setTitle("Booze Elroy")
     love.graphics.setBackgroundColor(.05,.12,.12)
