@@ -135,7 +135,7 @@ resizeCanvases = function()
     crtCanvas:setFilter("nearest", "nearest")
     
     if effect then
-        --effect.gaussianblur.sigma = .3 * g.scale
+        effect.gaussianblur.sigma = .2 * g.scale
         effect.resize(gw * g.scale, gh * g.scale)
     end
 end
@@ -152,14 +152,14 @@ function love.load()
     resizeCanvases()
     
     effect = moonshine(moonshine.effects.crt)
-    --.chain(moonshine.effects.boxblur)
+    .chain(moonshine.effects.gaussianblur)
     .chain(moonshine.effects.glow)
     .chain(moonshine.effects.scanlines)
     effect.crt.distortionFactor = {1.03, 1.04}  -- horizontal/vertical bulge
     effect.crt.feather = 0.02                    -- soften edges
     effect.glow.strength = 3
     effect.glow.min_luma = .85
-    --effect.gaussianblur.sigma = .3 * g.scale
+    effect.gaussianblur.sigma = .2 * g.scale
     effect.scanlines.opacity = 0.3
     effect.scanlines.thickness = .3
 
