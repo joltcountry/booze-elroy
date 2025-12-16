@@ -15,6 +15,15 @@ menus.main = {
         end
     },
     {
+        text = "Reset High Score",
+        action = function()
+            scoreFile:seek(0)  -- Seek to beginning
+            scoreFile:write("")
+            scoreFile:flush()
+            g.highScore = false
+        end
+    },
+    {
         text = "Credits",
         action = function()
             setScene("credits")

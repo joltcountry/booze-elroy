@@ -273,11 +273,7 @@ function game.update(dt)
             end
         end
     end
-    
-    -- Update high score
-    if (not g.highScore or g.score > g.highScore) and g.score > 0 then
-        g.highScore = g.score
-    end
+
 
 end
 

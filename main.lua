@@ -152,6 +152,41 @@ formatScore = function(score)
     end
 end
 
+local function encodeScore(score)
+    -- Simple XOR encoding with a secret key and base64 conversion
+    local key = 0x53A7
+    local encoded = ""
+    local sc = tostring(score)
+    for i = 1, #sc do
+        local c = string.byte(sc, i)
+        encoded = encoded .. string.char(bit.bxor(c, key % 256))
+        key = (key * 3 + 11) % 65536
+    end
+    return love.data.encode("string", "base64", encoded)
+end
+
+local function decodeScore(encoded)
+    if not encoded or encoded == "" then return nil end
+
+    -- Base64 decode first
+    local ok, decoded = pcall(love.data.decode, "string", "base64", encoded)
+    if not ok or not decoded then return nil end
+
+    -- Reverse the XOR with the same key stream
+    local key = 0x53A7
+    local chars = {}
+    for i = 1, #decoded do
+        local c = string.byte(decoded, i)
+        local orig = bit.bxor(c, key % 256)
+        chars[#chars + 1] = string.char(orig)
+        key = (key * 3 + 11) % 65536
+    end
+
+    local scoreStr = table.concat(chars)
+    local n = tonumber(scoreStr)
+    return n
+end
+
 score = function(s)
     local oldScore = g.score
     g.score = g.score + s
@@ -160,6 +195,19 @@ score = function(s)
         or (g.config.freeGuy == 3 and oldScore % 10000 > g.score % 10000) then
         love.audio.play( g.sounds.extrapac )
         g.lives = g.lives + 1
+    end
+        
+    -- Update high score
+    if (not g.highScore or g.score > g.highScore) and g.score > 0 then
+        g.highScore = g.score
+
+        -- Encode the high score before saving
+        local encoded = encodeScore(g.score)
+        if scoreFile then
+            scoreFile:seek(0)  -- Seek to beginning
+            scoreFile:write(encoded)
+            scoreFile:flush()
+        end
     end
 end
 
@@ -216,6 +264,18 @@ function love.load()
     love.window.setTitle("Booze Elroy")
     love.graphics.setBackgroundColor(0,0,0)
     graphics.init()
+
+    -- Load and decode persisted high score, if present
+    if love.filesystem.getInfo("player.dat") then
+        local contents = love.filesystem.read("player.dat")
+        local saved = decodeScore(contents)
+        if saved and saved > 0 then
+            g.highScore = saved
+        end
+    end
+    -- Open file handle in write mode for future updates (will create if doesn't exist)
+    scoreFile = love.filesystem.newFile("player.dat", "w")
+
     applyVolume()  -- Set initial volume
     setScene("attract")
     joystick = love.joystick.getJoysticks()[1]
