@@ -14,6 +14,7 @@ g.config = {
     background = "none",
     volume = 10,
     crtEffect = true,
+    mazeColor = 1,
 }
 
 -- SCENES
@@ -79,6 +80,7 @@ g.backgrounds = {
     beach = love.graphics.newImage("backgrounds/beach.jpg"),
     arcade = love.graphics.newImage("backgrounds/arcade.jpg"),
     forest = love.graphics.newImage("backgrounds/forest.jpg"),
+    abstract = love.graphics.newImage("backgrounds/abstract.jpg"),
 }
 
 playSiren = function()

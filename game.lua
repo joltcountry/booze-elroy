@@ -304,9 +304,9 @@ function game.draw()
 
     if not g.state.hideMaze then
         if g.mode == "levelAnimation" and g.modeTimer % 20 > 10 then
-            maze.draw(1)
+            maze.draw(5)
         elseif g.mode ~= "pause" then
-            maze.draw()
+            maze.draw(g.config.mazeColor)
         end
         
         -- Draw scenery (use ipairs for arrays)
