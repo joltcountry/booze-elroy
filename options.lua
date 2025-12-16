@@ -10,7 +10,39 @@ local maze = require("maze")
 
 local gw, gh = 224, 288
 
+local backgroundOptions = { "none", "stars", "beach", "arcade", "forest", "abstract" }
+
+local function getBackgroundIndex()
+    for i, name in ipairs(backgroundOptions) do
+        if g.config.background == name then
+            return i
+        end
+    end
+    -- Fallback to first option if config is unexpected
+    return 1
+end
+
 local menu = {
+    {
+        options = {
+            { text = "1", action = function() g.config.startingLives = 1 end },
+            { text = "3", action = function() g.config.startingLives = 3 end },
+            { text = "5", action = function() g.config.startingLives = 5 end },
+        }
+    },
+    {
+        options = {
+            { text = "10000", action = function() g.config.freeGuy = 1 end },
+            { text = "20000", action = function() g.config.freeGuy = 2 end },
+            { text = "every 10k", action = function() g.config.freeGuy = 3 end },
+        }
+    },
+    {
+        options = {
+            { text = "On", action = function() g.config.hardMode = true end },
+            { text = "Off", action = function() g.config.hardMode = false end },
+        }
+    },
     {
         options = {
             { text = "Yes", action = function() g.config.pinkyBug = true end },
@@ -102,27 +134,33 @@ local menu = {
 }
 
 function options.resetSelectedOptions()
-    menu[1].selectedOption = g.config.pinkyBug and 1 or 2
-    menu[2].selectedOption = g.config.scatterOption == false and 1 or g.config.scatterOption == 1 and 2 or g.config.scatterOption == 2 and 3
-    menu[3].selectedOption = g.config.freeGhost and 1 or 2
-    menu[4].selectedOption = g.config.fastPac and 1 or 2
-    menu[5].selectedOption = g.config.background == "none" and 1 or g.config.background == "stars" and 2 or g.config.background == "beach" and 3 or g.config.background == "arcade" and 4 or g.config.background == "forest" and 5 or g.config.background == "abstract" and 6
-    menu[6].selectedOption = g.config.mazeColor
-    menu[7].selectedOption = g.fullscreen and 1 or 2
-    menu[8].selectedOption = g.config.crtEffect and 1 or 2
-    menu[9].selectedOption = g.config.volume + 1
+    menu[1].selectedOption = g.config.startingLives
+    menu[2].selectedOption = g.config.freeGuy
+    menu[3].selectedOption = g.config.hardMode and 1 or 2
+    menu[4].selectedOption = g.config.pinkyBug and 1 or 2
+    menu[5].selectedOption = g.config.scatterOption == false and 1 or g.config.scatterOption == 1 and 2 or g.config.scatterOption == 2 and 3
+    menu[6].selectedOption = g.config.freeGhost and 1 or 2
+    menu[7].selectedOption = g.config.fastPac and 1 or 2
+    menu[8].selectedOption = getBackgroundIndex()
+    menu[9].selectedOption = g.config.mazeColor
+    menu[10].selectedOption = g.fullscreen and 1 or 2
+    menu[11].selectedOption = g.config.crtEffect and 1 or 2
+    menu[12].selectedOption = g.config.volume + 1
 end
 
 function options.start()
-    menu[1].selectedOption = g.config.pinkyBug and 1 or 2
-    menu[2].selectedOption = g.config.scatterOption == false and 1 or g.config.scatterOption == 1 and 2 or g.config.scatterOption == 2 and 3
-    menu[3].selectedOption = g.config.freeGhost and 1 or 2
-    menu[4].selectedOption = g.config.fastPac and 1 or 2
-    menu[5].selectedOption = g.config.background == "none" and 1 or g.config.background == "stars" and 2 or g.config.background == "beach" and 3 or g.config.background == "arcade" and 4 or g.config.background == "forest" and 5 or g.config.background == "abstract" and 6
-    menu[6].selectedOption = g.config.mazeColor
-    menu[7].selectedOption = g.fullscreen and 1 or 2
-    menu[8].selectedOption = g.config.crtEffect and 1 or 2
-    menu[9].selectedOption = g.config.volume + 1
+    menu[1].selectedOption = g.config.startingLives == 1 and 1 or g.config.startingLives == 3 and 2 or g.config.startingLives == 5 and 3
+    menu[2].selectedOption = g.config.freeGuy
+    menu[3].selectedOption = g.config.hardMode and 1 or 2
+    menu[4].selectedOption = g.config.pinkyBug and 1 or 2
+    menu[5].selectedOption = g.config.scatterOption == false and 1 or g.config.scatterOption == 1 and 2 or g.config.scatterOption == 2 and 3
+    menu[6].selectedOption = g.config.freeGhost and 1 or 2
+    menu[7].selectedOption = g.config.fastPac and 1 or 2
+    menu[8].selectedOption = getBackgroundIndex()
+    menu[9].selectedOption = g.config.mazeColor
+    menu[10].selectedOption = g.fullscreen and 1 or 2
+    menu[11].selectedOption = g.config.crtEffect and 1 or 2
+    menu[12].selectedOption = g.config.volume + 1
     menu.selectedItem = 1
 end
 
@@ -154,20 +192,23 @@ function options.draw()
     end
 
     graphics.print("options", 10, 5, 3)
-    graphics.print("Pinky Bug", 5, 10)
-    graphics.print("Scatter", 5, 11)
-    graphics.print("Free Ghosts", 5, 12)
-    graphics.print("Fast Pac", 5, 13)
-    graphics.print("Background", 5, 14)
-    graphics.print("Maze Color", 5, 15)
-    graphics.print("Full screen", 5, 16)
-    graphics.print("CRT Effect", 5, 17)
-    graphics.print("Volume", 5, 18)
+    graphics.print("Starting Lives", 2, 10)
+    graphics.print("extra life", 2, 11)
+    graphics.print("Hard Mode", 2, 12)
+    graphics.print("Pinky Bug", 2, 13)
+    graphics.print("Scatter", 2, 14)
+    graphics.print("Free Ghosts", 2, 15)
+    graphics.print("Fast Pac", 2, 16)
+    graphics.print("Background", 2, 17)
+    graphics.print("Maze Color", 2, 18)
+    graphics.print("Full screen", 2, 19)
+    graphics.print("CRT Effect", 2, 20)
+    graphics.print("Volume", 2, 21)
     menus.draw(menu, 18, 10, 1)
 
-    graphics.drawSpriteAtTile("spr8", g.config.mazeColor + 2, 20, 15)
-    graphics.print("up/down to select", 5, 25, 2)
-    graphics.print("left/right to change", 5, 27, 2)
+    graphics.drawSpriteAtTile("spr8", g.config.mazeColor + 2, 20, 18)
+    graphics.print("up/down to select", 5, 27, 2)
+    graphics.print("left/right to change", 5, 29, 2)
     love.graphics.setCanvas()
 
 end

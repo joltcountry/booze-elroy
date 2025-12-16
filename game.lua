@@ -140,11 +140,16 @@ function game.start()
 
     -- i want this removed!  but I need it for testing
     math.randomseed(os.time())
+
+    -- One-time audio-device-sensitive reload of sources when starting the game
+    if reloadAudioSources then
+        reloadAudioSources()
+    end
     
     g.levelNumber = 1
     g.scenery = {}
     mode.setMode("pregame")
-    g.lives = 3
+    g.lives = g.config.startingLives
     g.score = 0
 
     maze.init()

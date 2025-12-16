@@ -4,7 +4,6 @@
 g = {
     scaleOption = 3,
     state = {},
-    score = 0,
 }
 
 g.config = {
@@ -15,6 +14,9 @@ g.config = {
     volume = 10,
     crtEffect = true,
     mazeColor = 1,
+    startingLives = 3,
+    freeGuy = 1,
+    hardMode = false,
 }
 
 -- SCENES
@@ -34,36 +36,60 @@ local t = 0
 local accumulator = 0
 local fixed_dt = 1/60.606061
 local frameCounter = 0;
-
--- Spritesheets (loaded in love.load)
 local spritesheet16
 local spritesheet8
 local spritesheetText8
 
-g.sounds = {
-    opening = love.audio.newSource("sounds/opening.wav", "static"),
-    wakka1 = love.audio.newSource("sounds/wakka1.wav", "static"),
-    wakka2 = love.audio.newSource("sounds/wakka2.wav", "static"),
-    fruit = love.audio.newSource("sounds/fruit.wav", "static"),
-    died = love.audio.newSource("sounds/died.wav", "static"),
-    scared = love.audio.newSource("sounds/scared.wav", "static"),
-    ateGhost = love.audio.newSource("sounds/ateGhost.wav", "static"),
-    siren1 = love.audio.newSource("sounds/siren1.wav", "static"),
-    siren2 = love.audio.newSource("sounds/siren2.wav", "static"),
-    siren3 = love.audio.newSource("sounds/siren3.wav", "static"),
-    siren4 = love.audio.newSource("sounds/siren4.wav", "static"),
-    siren5 = love.audio.newSource("sounds/siren5.wav", "static"),
-    dead = love.audio.newSource("sounds/dead.wav", "static"),
-    extrapac = love.audio.newSource("sounds/extrapac.wav", "static"),
-    coindrop = love.audio.newSource("sounds/coindrop.wav", "static"),
-}
-g.sounds.scared:setLooping(true)
-g.sounds.siren1:setLooping(true)
-g.sounds.siren2:setLooping(true)
-g.sounds.siren3:setLooping(true)
-g.sounds.siren4:setLooping(true)
-g.sounds.siren5:setLooping(true)
-g.sounds.dead:setLooping(true)
+-- Helper to (re)build the sounds table and apply common settings
+local function buildSounds()
+    g.sounds = {
+        opening = love.audio.newSource("sounds/opening.wav", "static"),
+        wakka1  = love.audio.newSource("sounds/wakka1.wav", "static"),
+        wakka2  = love.audio.newSource("sounds/wakka2.wav", "static"),
+        fruit   = love.audio.newSource("sounds/fruit.wav", "static"),
+        died    = love.audio.newSource("sounds/died.wav", "static"),
+        scared  = love.audio.newSource("sounds/scared.wav", "static"),
+        ateGhost= love.audio.newSource("sounds/ateGhost.wav", "static"),
+        siren1  = love.audio.newSource("sounds/siren1.wav", "static"),
+        siren2  = love.audio.newSource("sounds/siren2.wav", "static"),
+        siren3  = love.audio.newSource("sounds/siren3.wav", "static"),
+        siren4  = love.audio.newSource("sounds/siren4.wav", "static"),
+        siren5  = love.audio.newSource("sounds/siren5.wav", "static"),
+        dead    = love.audio.newSource("sounds/dead.wav", "static"),
+        extrapac= love.audio.newSource("sounds/extrapac.wav", "static"),
+        coindrop= love.audio.newSource("sounds/coindrop.wav", "static"),
+    }
+
+    -- Restore looping properties
+    g.sounds.scared:setLooping(true)
+    g.sounds.siren1:setLooping(true)
+    g.sounds.siren2:setLooping(true)
+    g.sounds.siren3:setLooping(true)
+    g.sounds.siren4:setLooping(true)
+    g.sounds.siren5:setLooping(true)
+    g.sounds.dead:setLooping(true)
+
+    -- Reapply volume settings
+    if applyVolume then
+        applyVolume()
+    end
+end
+
+-- Initial sound setup
+buildSounds()
+
+-- Function to reload audio sources (to pick up new default audio device)
+reloadAudioSources = function()
+    -- Stop all currently playing sounds
+    for _, sound in pairs(g.sounds) do
+        if sound:isPlaying() then
+            sound:stop()
+        end
+    end
+    
+    -- Rebuild all audio sources to use the current default audio device
+    buildSounds()
+end
 
 -- Function to apply volume to all sounds
 applyVolume = function()
@@ -129,7 +155,9 @@ end
 score = function(s)
     local oldScore = g.score
     g.score = g.score + s
-    if oldScore < 10000 and g.score >= 10000 then
+    if (g.config.freeGuy == 1 and oldScore < 10000 and g.score >= 10000)
+        or (g.config.freeGuy == 2 and oldScore < 20000 and g.score >= 20000)
+        or (g.config.freeGuy == 3 and oldScore % 10000 > g.score % 10000) then
         love.audio.play( g.sounds.extrapac )
         g.lives = g.lives + 1
     end
@@ -257,8 +285,24 @@ function love.keypressed(key)
         return
     end
 
-    if key == "p" then
-        g.paused = not g.paused
+    if key == "space" then
+        if not g.paused then
+            g.paused = true
+            -- INSERT_YOUR_CODE
+            g.playingSounds = {}
+            for name, sound in pairs(g.sounds) do
+                if sound:isPlaying() then
+                    table.insert(g.playingSounds, sound)
+                    sound:pause()
+                end
+            end
+        else
+            g.paused = false
+            for _, sound in ipairs(g.playingSounds) do
+                sound:play()
+            end
+            g.playingSounds = {}
+        end
     end
 
     if g.scene.keypressed then g.scene.keypressed(key) end
