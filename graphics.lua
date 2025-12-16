@@ -9,21 +9,23 @@ local textChars = 'ABCDEFGHIJKLMNO PQRSTUVWXYZ!©##0123456789/-"'
 local alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
 local ghostScores = {
-    [200] = 72,
-    [400] = 73,
-    [800] = 74,
-    [1600] = 75,
+    [200] = 88,
+    [400] = 89,
+    [800] = 90,
+    [1600] = 91,
+    [3200] = 92,
+    [6400] = 93,
 }
 
 local fruitScores = {
-    [100] = 76,
-    [300] = 79,
-    [500] = 82,
-    [700] = 85,
-    [1000] = 88,
-    [2000] = 91,
-    [3000] = 94,
-    [5000] = 97,
+    [100] = 94,
+    [300] = 97,
+    [500] = 100,
+    [700] = 103,
+    [1000] = 106,
+    [2000] = 109,
+    [3000] = 112,
+    [5000] = 115,
 }
 
 -- Split spritesheet images into 1D arrays (tables of subimages/quads)

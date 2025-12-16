@@ -17,6 +17,7 @@ g.config = {
     startingLives = 3,
     freeGuy = 1,
     hardMode = false,
+    extraGhosts = 0,
 }
 
 -- SCENES

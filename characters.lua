@@ -296,6 +296,84 @@ characters.initialize = function()
     }
     chars.clyde.animator = createGhostAnimator("clyde", false)
 
+    if g.config.extraGhosts >= 1 then
+        chars.punky = {
+            x = (8 * 14),
+            y = (8 * 8) + 4,
+            dir = 2,
+            houseX = 14, houseY = 17,
+            target = function(self)
+                if not self.iDir then
+                    self.iDir = self.dir
+                    return
+                end
+    
+                local xTile, xOff, yTile, yOff = maze.getLoc(self)
+                local candidates = getCandidates(self)
+    
+                if #candidates == 1 then 
+                    self.iDir = candidates[1]
+                else
+                    if self.frightened then
+                        handleFrightenedDirection(self, candidates)
+                    else
+                        local targetX, targetY
+                        if self.dead then
+                            targetX, targetY = 13, 14
+                        elseif g.level.chase then
+                            local pacXTile, pacXOff, pacYTile, pacYOff = maze.getLoc(g.chars.pac)
+                            targetX = pacXTile + constants.deltas[g.chars.pac.dir].x * 2
+                            targetY = pacYTile + constants.deltas[g.chars.pac.dir].y * 2
+                        else
+                            targetX, targetY = self.scatterX, self.scatterY
+                        end
+                        findBestDirection(self, xTile, yTile, targetX, targetY, candidates)
+                    end
+                end
+            end
+        }
+        chars.punky.animator = createGhostAnimator("punky", false)
+    end
+
+    if g.config.extraGhosts >= 2 then
+        chars.gunky = {
+            x = (8 * 14),
+            y = (8 * 32) + 4,
+            dir = 2,
+            houseX = 14, houseY = 17,
+            target = function(self)
+                if not self.iDir then
+                    self.iDir = self.dir
+                    return
+                end
+    
+                local xTile, xOff, yTile, yOff = maze.getLoc(self)
+                local candidates = getCandidates(self)
+    
+                if #candidates == 1 then 
+                    self.iDir = candidates[1]
+                else
+                    if self.frightened then
+                        handleFrightenedDirection(self, candidates)
+                    else
+                        local targetX, targetY
+                        if self.dead then
+                            targetX, targetY = 13, 14
+                        elseif g.level.chase then
+                            local pacXTile, pacXOff, pacYTile, pacYOff = maze.getLoc(g.chars.pac)
+                            targetX = pacXTile + constants.deltas[g.chars.pac.dir].x * -2
+                            targetY = pacYTile + constants.deltas[g.chars.pac.dir].y * -2
+                        else
+                            targetX, targetY = self.scatterX, self.scatterY
+                        end
+                        findBestDirection(self, xTile, yTile, targetX, targetY, candidates)
+                    end
+                end
+            end
+        }
+        chars.gunky.animator = createGhostAnimator("gunky", false)
+    end
+
     g.chars = chars
 end
 
@@ -311,8 +389,9 @@ characters.reset = function()
     g.chars.blinky.leaveRight = false
     g.chars.blinky.speed = logic.getGhostSpeed(g.chars.blinky)
     if g.config.scatterOption == 1 then
-        g.chars.blinky.scatterX = scatterTiles[math.random(1, 4)].x
-        g.chars.blinky.scatterY = scatterTiles[math.random(1, 4)].y
+        local randomScatter = scatterTiles[math.random(1, 4)]
+        g.chars.blinky.scatterX = randomScatter.x
+        g.chars.blinky.scatterY = randomScatter.y
     end
 
     g.chars.pinky.x = (8 * 14)
@@ -327,8 +406,9 @@ characters.reset = function()
     g.chars.pinky.dir = 1
     g.chars.pinky.speed = logic.getGhostSpeed(g.chars.pinky)
     if g.config.scatterOption == 1 then
-        g.chars.pinky.scatterX = scatterTiles[math.random(1, 4)].x
-        g.chars.pinky.scatterY = scatterTiles[math.random(1, 4)].y
+        local randomScatter = scatterTiles[math.random(1, 4)]
+        g.chars.pinky.scatterX = randomScatter.x
+        g.chars.pinky.scatterY = randomScatter.y
     end
 
     g.chars.inky.x = (8 * 12)
@@ -343,8 +423,9 @@ characters.reset = function()
     g.chars.inky.dir = 3
     g.chars.inky.speed = logic.getGhostSpeed(g.chars.inky)
     if g.config.scatterOption == 1 then
-        g.chars.inky.scatterX = scatterTiles[math.random(1, 4)].x
-        g.chars.inky.scatterY = scatterTiles[math.random(1, 4)].y
+        local randomScatter = scatterTiles[math.random(1, 4)]
+        g.chars.inky.scatterX = randomScatter.x
+        g.chars.inky.scatterY = randomScatter.y
     end
 
     g.chars.clyde.x = (8 * 16)
@@ -359,10 +440,42 @@ characters.reset = function()
     g.chars.clyde.dir = 3
     g.chars.clyde.speed = logic.getGhostSpeed(g.chars.clyde)
     if g.config.scatterOption == 1 then
-        g.chars.clyde.scatterX = scatterTiles[math.random(1, 4)].x
-        g.chars.clyde.scatterY = scatterTiles[math.random(1, 4)].y
+        local randomScatter = scatterTiles[math.random(1, 4)]
+        g.chars.clyde.scatterX = randomScatter.x
+        g.chars.clyde.scatterY = randomScatter.y
     end
 
+    if g.config.extraGhosts >= 1 then
+        g.chars.punky.frame = 1
+        g.chars.punky.x = (8 * 14)
+        g.chars.punky.y = (8 * 8) + 4
+        g.chars.punky.dir = 2
+        g.chars.punky.entering = false
+        g.chars.punky.leaving = false
+        g.chars.punky.dead = false
+        g.chars.punky.frightened = false
+        g.chars.punky.leaveRight = false
+        g.chars.punky.speed = logic.getGhostSpeed(g.chars.punky)
+        local randomScatter = scatterTiles[math.random(1, 4)]
+        g.chars.punky.scatterX = randomScatter.x
+        g.chars.punky.scatterY = randomScatter.y
+    end
+
+    if g.config.extraGhosts >= 2 then
+        g.chars.gunky.frame = 1
+        g.chars.gunky.x = (8 * 14)
+        g.chars.gunky.y = (8 * 32) + 4
+        g.chars.gunky.dir = 2
+        g.chars.gunky.entering = false
+        g.chars.gunky.leaving = false
+        g.chars.gunky.dead = false
+        g.chars.gunky.frightened = false
+        g.chars.gunky.leaveRight = false
+        g.chars.gunky.speed = logic.getGhostSpeed(g.chars.gunky)
+        local randomScatter = scatterTiles[math.random(1, 4)]
+        g.chars.gunky.scatterX = randomScatter.x
+        g.chars.gunky.scatterY = randomScatter.y
+    end 
 
     g.chars.pac.x = (8 * 14)
     g.chars.pac.y = (8 * 26) + 4

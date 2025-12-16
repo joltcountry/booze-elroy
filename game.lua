@@ -325,7 +325,7 @@ function game.draw()
 
         -- Draw lives
         for i = 1, g.lives do
-            graphics.drawSpriteAtTile("spr16", 61, i*2, 34)
+            graphics.drawSpriteAtTile("spr16", 77, i*2, 34)
         end        
     end
 
@@ -355,16 +355,16 @@ function game.draw()
     
     if g.mode == "dying" then
         if g.modeTimer > 180 then
-            graphics.drawSprite("spr16", 50, g.chars.pac.x - 8, g.chars.pac.y - 8)
+            graphics.drawSprite("spr16", 66, g.chars.pac.x - 8, g.chars.pac.y - 8)
         elseif g.modeTimer > 100 then
             if g.modeTimer <= 180 and not g.diedSoundPlayed then
                 g.sounds.died:play()
                 g.diedSoundPlayed = true
             end
             local dFrame = 180 - g.modeTimer
-            graphics.drawSprite("spr16", 50 + math.floor(dFrame / 8), g.chars.pac.x - 8, g.chars.pac.y - 8)
+            graphics.drawSprite("spr16", 66 + math.floor(dFrame / 8), g.chars.pac.x - 8, g.chars.pac.y - 8)
         elseif g.modeTimer > 70 then
-            graphics.drawSprite("spr16", 60, g.chars.pac.x - 8, g.chars.pac.y - 8)
+            graphics.drawSprite("spr16", 76, g.chars.pac.x - 8, g.chars.pac.y - 8)
         end
     end
 
