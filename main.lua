@@ -13,6 +13,7 @@ g.config = {
     fastPac = false,
     background = "none",
     volume = 10,
+    crtEffect = true,
 }
 
 -- SCENES
@@ -138,11 +139,17 @@ resizeCanvases = function()
     g.scale = love.graphics.getHeight() / gh
     
     gameCanvas = love.graphics.newCanvas(gw, gh)
-    crtCanvas  = love.graphics.newCanvas(gw * g.scale, gh * g.scale)
+    -- Add 1 pixel to prevent cutoff due to rounding/translation
+    crtCanvas  = love.graphics.newCanvas(math.ceil(gw * g.scale) + 1, math.ceil(gh * g.scale) + 1)
     
     -- Explicitly set filter on canvases (they don't inherit default filter)
-    -- gameCanvas:setFilter("nearest", "nearest")
-    -- crtCanvas:setFilter("nearest", "nearest")
+    if g.config.crtEffect then
+        gameCanvas:setFilter("linear", "linear")
+        crtCanvas:setFilter("linear", "linear")
+    else
+        gameCanvas:setFilter("nearest", "nearest")
+        crtCanvas:setFilter("nearest", "nearest")
+    end
     
     if effect then
         effect.resize(gw * g.scale, gh * g.scale)
@@ -208,13 +215,21 @@ function love.draw()
     love.graphics.clear(0,0,0,1)
     love.graphics.origin()
 
-    effect(function()
+    if g.config.crtEffect then
+        effect(function()
+            love.graphics.push()
+            love.graphics.scale(g.scale, g.scale)
+            love.graphics.translate(0, 1)
+            love.graphics.draw(gameCanvas, 0, 0)
+            love.graphics.pop()
+        end)
+    else
         love.graphics.push()
         love.graphics.scale(g.scale, g.scale)
-        love.graphics.translate(1, 1)
+        love.graphics.translate(0, 1)
         love.graphics.draw(gameCanvas, 0, 0)
         love.graphics.pop()
-    end)
+    end
 
     love.graphics.setCanvas()
 

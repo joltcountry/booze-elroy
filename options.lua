@@ -46,8 +46,26 @@ local menu = {
     },
     {
         options = {
-            { text = "Yes", action = function() g.fullscreen = true; love.window.setFullscreen(true); resizeCanvases() end },
-            { text = "No", action = function() g.fullscreen = false; love.window.setFullscreen(false); resizeCanvases() end },
+            { text = "Yes", action = function() 
+                g.fullscreen = true
+                local _, _, flags = love.window.getMode()
+                local desktopWidth, desktopHeight = love.window.getDesktopDimensions()
+                love.window.setMode(desktopWidth, desktopHeight, {
+                    borderless = true
+                })
+                resizeCanvases()
+            end },
+            { text = "No", action = function() 
+                g.fullscreen = false
+                love.window.setMode(224 * g.scaleOption, 288 * g.scaleOption, {resizable = true})
+                resizeCanvases()
+            end },
+        }
+    },
+    {
+        options = {
+            { text = "Yes", action = function() g.config.crtEffect = true; resizeCanvases() end },
+            { text = "No", action = function() g.config.crtEffect = false; resizeCanvases() end },
         }
     },
     {
@@ -80,7 +98,8 @@ function options.resetSelectedOptions()
     menu[4].selectedOption = g.config.scatterOption == false and 1 or g.config.scatterOption == 1 and 2 or g.config.scatterOption == 2 and 3
     menu[5].selectedOption = g.config.freeGhost and 1 or 2
     menu[6].selectedOption = g.fullscreen and 1 or 2
-    menu[7].selectedOption = g.config.volume + 1
+    menu[7].selectedOption = g.config.crtEffect and 1 or 2
+    menu[8].selectedOption = g.config.volume + 1
 end
 
 function options.start()
@@ -90,7 +109,8 @@ function options.start()
     menu[4].selectedOption = g.config.scatterOption == false and 1 or g.config.scatterOption == 1 and 2 or g.config.scatterOption == 2 and 3
     menu[5].selectedOption = g.config.freeGhost and 1 or 2
     menu[6].selectedOption = g.fullscreen and 1 or 2
-    menu[7].selectedOption = g.config.volume + 1
+    menu[7].selectedOption = g.config.crtEffect and 1 or 2
+    menu[8].selectedOption = g.config.volume + 1
     menu.selectedItem = 1
 end
 
@@ -128,7 +148,8 @@ function options.draw()
     graphics.print("Scatter", 5, 13)
     graphics.print("Free Ghosts", 5, 14)
     graphics.print("Full screen", 5, 15)
-    graphics.print("Volume", 5, 16)
+    graphics.print("CRT Effect", 5, 16)
+    graphics.print("Volume", 5, 17)
     menus.draw(menu, 18, 10, 1)
 
     graphics.print("arrows to select", 5, 25, 2)
