@@ -151,7 +151,8 @@ function game.start()
     mode.setMode("pregame")
     g.lives = g.config.startingLives
     g.score = 0
-
+    g.paused = false
+    
     maze.init()
 
     levels.startLevel(g.levelNumber)

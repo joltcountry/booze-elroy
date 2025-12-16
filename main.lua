@@ -342,7 +342,7 @@ function love.keypressed(key)
         return
     end
 
-    if key == "space" then
+    if key == "tab" then
         if not g.paused then
             g.paused = true
             -- INSERT_YOUR_CODE

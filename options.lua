@@ -10,7 +10,7 @@ local maze = require("maze")
 
 local gw, gh = 224, 288
 
-local backgroundOptions = { "none", "stars", "beach", "arcade", "forest", "abstract", "xmas" }
+local backgroundOptions = { "none", "stars", "beach", "arcade", "forest", "canyon", "abstract", "xmas" }
 
 local function getBackgroundIndex()
     for i, name in ipairs(backgroundOptions) do
