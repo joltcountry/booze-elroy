@@ -1,10 +1,12 @@
 -- Love2D Configuration File
 
 function love.conf(t)
-    t.title = "Love2D App"
-    t.author = "Your Name"
+    t.title = "Booze Elroy"
+    t.author = "Pinback"
     t.version = "11.5"
     
+    t.identity = "booze-elroy"
+
     t.window.width = 1440
     t.window.height = 1080
     t.window.resizable = true

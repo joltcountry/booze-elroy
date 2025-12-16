@@ -107,6 +107,7 @@ g.backgrounds = {
     arcade = love.graphics.newImage("backgrounds/arcade.jpg"),
     forest = love.graphics.newImage("backgrounds/forest.jpg"),
     abstract = love.graphics.newImage("backgrounds/abstract.jpg"),
+    xmas = love.graphics.newImage("backgrounds/xmas.jpg"),
 }
 
 playSiren = function()
@@ -203,11 +204,7 @@ score = function(s)
 
         -- Encode the high score before saving
         local encoded = encodeScore(g.score)
-        if scoreFile then
-            scoreFile:seek(0)  -- Seek to beginning
-            scoreFile:write(encoded)
-            scoreFile:flush()
-        end
+        love.filesystem.write("player.dat", encoded)
     end
 end
 
@@ -273,8 +270,6 @@ function love.load()
             g.highScore = saved
         end
     end
-    -- Open file handle in write mode for future updates (will create if doesn't exist)
-    scoreFile = love.filesystem.newFile("player.dat", "w")
 
     applyVolume()  -- Set initial volume
     setScene("attract")

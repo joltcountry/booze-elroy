@@ -10,7 +10,7 @@ local maze = require("maze")
 
 local gw, gh = 224, 288
 
-local backgroundOptions = { "none", "stars", "beach", "arcade", "forest", "abstract" }
+local backgroundOptions = { "none", "stars", "beach", "arcade", "forest", "abstract", "xmas" }
 
 local function getBackgroundIndex()
     for i, name in ipairs(backgroundOptions) do
@@ -76,6 +76,7 @@ local menu = {
             { text = "Arcade", action = function() g.config.background = "arcade" end },
             { text = "Forest", action = function() g.config.background = "forest" end },
             { text = "Abstract", action = function() g.config.background = "abstract" end },
+            { text = "Xmas", action = function() g.config.background = "xmas" end },
         },
     },
     {
