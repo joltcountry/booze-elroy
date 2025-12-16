@@ -1,11 +1,12 @@
 local menus = {}
 local graphics = require("graphics")
+local mode = require("mode")
 
 menus.main = {
     {
         text = "Play",
         action = function()
-            setScene("game")
+            mode.setMode("play")
         end
     },
     {

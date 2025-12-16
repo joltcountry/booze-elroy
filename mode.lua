@@ -24,6 +24,13 @@ local modes = {
         restart = {
             frames = 0,
             state = { showHelperText = true, showGameName = true, showBooze = true },
+        },
+        play = {
+            frames = 20,
+            state = { showHelperText = false, showGameName = false, showBooze = false },
+            endFunc = function()
+                setScene("game")
+            end
         }
     },
     game = {

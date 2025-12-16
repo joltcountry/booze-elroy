@@ -152,9 +152,10 @@ function game.start()
     g.lives = g.config.startingLives
     g.score = 0
     g.paused = false
-    
+
     maze.init()
 
+    g.state = { hideMaze = true}
     levels.startLevel(g.levelNumber)
     characters.initialize()
     characters.reset()
