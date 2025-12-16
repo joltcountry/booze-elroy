@@ -218,8 +218,8 @@ function options.draw()
     menus.draw(menu, 18, 10, 1)
 
     graphics.drawSpriteAtTile("spr8", g.config.mazeColor + 2, 20, 19)
-    graphics.print("up/down to select", 5, 27, 2)
-    graphics.print("left/right to change", 5, 29, 2)
+    graphics.print("up/down to select", 5, 28, 2)
+    graphics.print("left/right to change", 5, 30, 2)
     love.graphics.setCanvas()
 
 end

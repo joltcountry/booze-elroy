@@ -361,8 +361,8 @@ characters.initialize = function()
                             targetX, targetY = 13, 14
                         elseif g.level.chase then
                             local pacXTile, pacXOff, pacYTile, pacYOff = maze.getLoc(g.chars.pac)
-                            targetX = pacXTile + constants.deltas[g.chars.pac.dir].x * -2
-                            targetY = pacYTile + constants.deltas[g.chars.pac.dir].y * -2
+                            targetX = pacXTile + constants.deltas[g.chars.pac.dir].x * -4
+                            targetY = pacYTile + constants.deltas[g.chars.pac.dir].y * -4
                         else
                             targetX, targetY = self.scatterX, self.scatterY
                         end
