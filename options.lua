@@ -46,42 +46,6 @@ local menu = {
     },
     {
         options = {
-            { text = "Tiny", action = function() 
-                g.scaleOption = 2
-                love.window.setMode(224 * g.scaleOption, 288 * g.scaleOption)
-                resizeCanvases()
-                g.fullscreen = false
-                options.resetSelectedOptions()
-             end
-            },
-            { text = "Small", action = function() 
-                g.scaleOption = 3
-                love.window.setMode(224 * g.scaleOption, 288 * g.scaleOption)
-                resizeCanvases()
-                g.fullscreen = false
-                options.resetSelectedOptions()
-             end
-            },
-            { text = "Medium", action = function()
-                g.scaleOption = 4
-                love.window.setMode(224 * g.scaleOption, 288 * g.scaleOption)
-                resizeCanvases()
-                g.fullscreen = false
-                options.resetSelectedOptions()
-            end
-            },
-            { text = "Large", action = function()
-                g.scaleOption = 5
-                love.window.setMode(224 * g.scaleOption, 288 * g.scaleOption)
-                resizeCanvases()
-                g.fullscreen = false
-                options.resetSelectedOptions()
-            end
-            },
-        }
-    },
-    {
-        options = {
             { text = "Yes", action = function() g.fullscreen = true; love.window.setFullscreen(true); resizeCanvases() end },
             { text = "No", action = function() g.fullscreen = false; love.window.setFullscreen(false); resizeCanvases() end },
         }
@@ -115,9 +79,8 @@ function options.resetSelectedOptions()
     menu[3].selectedOption = g.config.background == "none" and 1 or g.config.background == "stars" and 2 or g.config.background == "beach" and 3 or g.config.background == "arcade" and 4 or g.config.background == "forest" and 5
     menu[4].selectedOption = g.config.scatterOption == false and 1 or g.config.scatterOption == 1 and 2 or g.config.scatterOption == 2 and 3
     menu[5].selectedOption = g.config.freeGhost and 1 or 2
-    menu[6].selectedOption = g.scaleOption == 2 and 1 or g.scaleOption == 3 and 2 or g.scaleOption == 4 and 3 or g.scaleOption == 5 and 4
-    menu[7].selectedOption = g.fullscreen and 1 or 2
-    menu[8].selectedOption = g.config.volume + 1
+    menu[6].selectedOption = g.fullscreen and 1 or 2
+    menu[7].selectedOption = g.config.volume + 1
 end
 
 function options.start()
@@ -126,9 +89,8 @@ function options.start()
     menu[3].selectedOption = g.config.background == "none" and 1 or g.config.background == "stars" and 2 or g.config.background == "beach" and 3 or g.config.background == "arcade" and 4 or g.config.background == "forest" and 5
     menu[4].selectedOption = g.config.scatterOption == false and 1 or g.config.scatterOption == 1 and 2 or g.config.scatterOption == 2 and 3
     menu[5].selectedOption = g.config.freeGhost and 1 or 2
-    menu[6].selectedOption = g.scaleOption == 2 and 1 or g.scaleOption == 3 and 2 or g.scaleOption == 4 and 3 or g.scaleOption == 5 and 4
-    menu[7].selectedOption = g.fullscreen and 1 or 2
-    menu[8].selectedOption = g.config.volume + 1
+    menu[6].selectedOption = g.fullscreen and 1 or 2
+    menu[7].selectedOption = g.config.volume + 1
     menu.selectedItem = 1
 end
 
@@ -165,9 +127,8 @@ function options.draw()
     graphics.print("Background", 5, 12)
     graphics.print("Scatter", 5, 13)
     graphics.print("Free Ghosts", 5, 14)
-    graphics.print("Window Size", 5, 15)
-    graphics.print("Full screen", 5, 16)
-    graphics.print("Volume", 5, 17)
+    graphics.print("Full screen", 5, 15)
+    graphics.print("Volume", 5, 16)
     menus.draw(menu, 18, 10, 1)
 
     graphics.print("arrows to select", 5, 25, 2)

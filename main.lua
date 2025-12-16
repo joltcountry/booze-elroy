@@ -25,7 +25,7 @@ local maze = require("maze")
 local graphics = require("graphics")
 local moonshine = require("moonshine")
 
-love.window.setMode(224 * g.scaleOption, 288 * g.scaleOption)
+love.window.setMode(224 * g.scaleOption, 288 * g.scaleOption, {resizable = true})
 
 -- Game state
 local t = 0
@@ -249,4 +249,9 @@ end
 
 function love.gamepadpressed(joystick, button)
     if g.scene.gamepadpressed then g.scene.gamepadpressed(joystick, button) end
+end
+
+function love.resize(w, h)
+    -- Resize canvases when window is resized
+    resizeCanvases()
 end
