@@ -300,8 +300,9 @@ characters.initialize = function()
         chars.punky = {
             x = (8 * 14),
             y = (8 * 8) + 4,
-            dir = 2,
+            dir = 0,
             houseX = 14, houseY = 17,
+            leavesRight = true,
             target = function(self)
                 if not self.iDir then
                     self.iDir = self.dir
@@ -322,8 +323,8 @@ characters.initialize = function()
                             targetX, targetY = 13, 14
                         elseif g.level.chase then
                             local pacXTile, pacXOff, pacYTile, pacYOff = maze.getLoc(g.chars.pac)
-                            targetX = pacXTile + constants.deltas[g.chars.pac.dir].x * 2
-                            targetY = pacYTile + constants.deltas[g.chars.pac.dir].y * 2
+                            targetX = pacXTile + constants.deltas[g.chars.pac.dir].y * 4
+                            targetY = pacYTile + constants.deltas[g.chars.pac.dir].x * 4
                         else
                             targetX, targetY = self.scatterX, self.scatterY
                         end
@@ -339,8 +340,9 @@ characters.initialize = function()
         chars.gunky = {
             x = (8 * 14),
             y = (8 * 32) + 4,
-            dir = 2,
+            dir = 0,
             houseX = 14, houseY = 17,
+            leavesRight = false,
             target = function(self)
                 if not self.iDir then
                     self.iDir = self.dir
@@ -360,15 +362,18 @@ characters.initialize = function()
                         if self.dead then
                             targetX, targetY = 13, 14
                         elseif g.level.chase then
-                            local pacXTile, pacXOff, pacYTile, pacYOff = maze.getLoc(g.chars.pac)
-                            local midXTile = maze.w / 2
-                            local midYTile = maze.h / 2
+                            -- local pacXTile, pacXOff, pacYTile, pacYOff = maze.getLoc(g.chars.pac)
+                            -- local midXTile = maze.w / 2
+                            -- local midYTile = maze.h / 2
     
-                            local px = midXTile - pacXTile
-                            local py = midYTile - pacYTile
+                            -- local px = midXTile - pacXTile
+                            -- local py = midYTile - pacYTile
                             
-                            targetX = pacXTile + px * 2
-                            targetY = pacYTile + py * 2
+                            -- targetX = pacXTile + px * 2
+                            -- targetY = pacYTile + py * 2
+                            local pacXTile, pacXOff, pacYTile, pacYOff = maze.getLoc(g.chars.pac)
+                            targetX = pacXTile + constants.deltas[g.chars.pac.dir].y * -4
+                            targetY = pacYTile + constants.deltas[g.chars.pac.dir].x * -4
                         else
                             targetX, targetY = self.scatterX, self.scatterY
                         end
@@ -455,7 +460,7 @@ characters.reset = function()
         g.chars.punky.frame = 1
         g.chars.punky.x = (8 * 14)
         g.chars.punky.y = (8 * 8) + 4
-        g.chars.punky.dir = 2
+        g.chars.punky.dir = 0
         g.chars.punky.entering = false
         g.chars.punky.leaving = false
         g.chars.punky.dead = false
@@ -471,7 +476,7 @@ characters.reset = function()
         g.chars.gunky.frame = 1
         g.chars.gunky.x = (8 * 14)
         g.chars.gunky.y = (8 * 32) + 4
-        g.chars.gunky.dir = 2
+        g.chars.gunky.dir = 0
         g.chars.gunky.entering = false
         g.chars.gunky.leaving = false
         g.chars.gunky.dead = false

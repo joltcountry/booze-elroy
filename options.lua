@@ -82,6 +82,7 @@ local menu = {
             { text = "Beach", action = function() g.config.background = "beach" end },
             { text = "Arcade", action = function() g.config.background = "arcade" end },
             { text = "Forest", action = function() g.config.background = "forest" end },
+            { text = "Canyon", action = function() g.config.background = "canyon" end },
             { text = "Abstract", action = function() g.config.background = "abstract" end },
             { text = "Xmas", action = function() g.config.background = "xmas" end },
         },

@@ -177,7 +177,7 @@ logic.move = function(c)
                 end
                 -- Handle leaving house logic
                 if c.leaving and newYTile == c.houseY - 3 and newYOff == constants.centerLine then
-                    c.dir = 2
+                    c.dir = c.leavesRight and 0 or 2
                     c.iDir = false
                     c.leaving = false
                     c.speed = logic.getGhostSpeed(c)
