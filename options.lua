@@ -18,6 +18,19 @@ local menu = {
     },
     {
         options = {
+            { text = "Normal", action = function() g.config.scatterOption = false end },
+            { text = "Random", action = function() g.config.scatterOption = 1 end },
+            { text = "None", action = function() g.config.scatterOption = 2 end },
+        },
+    },
+    {
+        options = {
+            { text = "Yes", action = function() g.config.freeGhost = true end },
+            { text = "No", action = function() g.config.freeGhost = false end },
+        }
+    },
+    {
+        options = {
             { text = "Yes", action = function() g.config.fastPac = true end },
             { text = "No", action = function() g.config.fastPac = false end },
         },
@@ -30,19 +43,6 @@ local menu = {
             { text = "Arcade", action = function() g.config.background = "arcade" end },
             { text = "Forest", action = function() g.config.background = "forest" end },
         },
-    },
-    {
-        options = {
-            { text = "Normal", action = function() g.config.scatterOption = false end },
-            { text = "Random", action = function() g.config.scatterOption = 1 end },
-            { text = "None", action = function() g.config.scatterOption = 2 end },
-        },
-    },
-    {
-        options = {
-            { text = "Yes", action = function() g.config.freeGhost = true end },
-            { text = "No", action = function() g.config.freeGhost = false end },
-        }
     },
     {
         options = {
@@ -93,10 +93,10 @@ local menu = {
 
 function options.resetSelectedOptions()
     menu[1].selectedOption = g.config.pinkyBug and 1 or 2
-    menu[2].selectedOption = g.config.fastPac and 1 or 2
-    menu[3].selectedOption = g.config.background == "none" and 1 or g.config.background == "stars" and 2 or g.config.background == "beach" and 3 or g.config.background == "arcade" and 4 or g.config.background == "forest" and 5
-    menu[4].selectedOption = g.config.scatterOption == false and 1 or g.config.scatterOption == 1 and 2 or g.config.scatterOption == 2 and 3
-    menu[5].selectedOption = g.config.freeGhost and 1 or 2
+    menu[2].selectedOption = g.config.scatterOption == false and 1 or g.config.scatterOption == 1 and 2 or g.config.scatterOption == 2 and 3
+    menu[3].selectedOption = g.config.freeGhost and 1 or 2
+    menu[4].selectedOption = g.config.fastPac and 1 or 2
+    menu[5].selectedOption = g.config.background == "none" and 1 or g.config.background == "stars" and 2 or g.config.background == "beach" and 3 or g.config.background == "arcade" and 4 or g.config.background == "forest" and 5
     menu[6].selectedOption = g.fullscreen and 1 or 2
     menu[7].selectedOption = g.config.crtEffect and 1 or 2
     menu[8].selectedOption = g.config.volume + 1
@@ -104,10 +104,10 @@ end
 
 function options.start()
     menu[1].selectedOption = g.config.pinkyBug and 1 or 2
-    menu[2].selectedOption = g.config.fastPac and 1 or 2
-    menu[3].selectedOption = g.config.background == "none" and 1 or g.config.background == "stars" and 2 or g.config.background == "beach" and 3 or g.config.background == "arcade" and 4 or g.config.background == "forest" and 5
-    menu[4].selectedOption = g.config.scatterOption == false and 1 or g.config.scatterOption == 1 and 2 or g.config.scatterOption == 2 and 3
-    menu[5].selectedOption = g.config.freeGhost and 1 or 2
+    menu[2].selectedOption = g.config.scatterOption == false and 1 or g.config.scatterOption == 1 and 2 or g.config.scatterOption == 2 and 3
+    menu[3].selectedOption = g.config.freeGhost and 1 or 2
+    menu[4].selectedOption = g.config.fastPac and 1 or 2
+    menu[5].selectedOption = g.config.background == "none" and 1 or g.config.background == "stars" and 2 or g.config.background == "beach" and 3 or g.config.background == "arcade" and 4 or g.config.background == "forest" and 5
     menu[6].selectedOption = g.fullscreen and 1 or 2
     menu[7].selectedOption = g.config.crtEffect and 1 or 2
     menu[8].selectedOption = g.config.volume + 1
@@ -143,17 +143,17 @@ function options.draw()
 
     graphics.print("options", 10, 5, 3)
     graphics.print("Pinky Bug", 5, 10)
-    graphics.print("Fast Pac", 5, 11)
-    graphics.print("Background", 5, 12)
-    graphics.print("Scatter", 5, 13)
-    graphics.print("Free Ghosts", 5, 14)
+    graphics.print("Scatter", 5, 11)
+    graphics.print("Free Ghosts", 5, 12)
+    graphics.print("Fast Pac", 5, 13)
+    graphics.print("Background", 5, 14)
     graphics.print("Full screen", 5, 15)
     graphics.print("CRT Effect", 5, 16)
     graphics.print("Volume", 5, 17)
     menus.draw(menu, 18, 10, 1)
 
-    graphics.print("arrows to select", 5, 25, 2)
-    graphics.print("enter to change", 5, 26, 2)
+    graphics.print("up/down to select", 5, 25, 2)
+    graphics.print("left/right to change", 5, 27, 2)
     love.graphics.setCanvas()
 
 end
