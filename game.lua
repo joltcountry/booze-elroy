@@ -152,6 +152,7 @@ function game.start()
     g.lives = g.config.startingLives
     g.score = 0
     g.paused = false
+    g.wakka = false
 
     maze.init()
 
@@ -388,12 +389,59 @@ function game.draw()
     --drawDebugInfo()
 end
 
+local phasePac = function()
+    g.chars.pac.phased = 60
+    if g.sounds.phase:isPlaying() then g.sounds.phase:stop() end
+    g.sounds.phase:play()
+end
+
 function game.keypressed(key)
     if g.state.running and key == "space" and not g.chars.pac.phased and g.config.phasing then
-        g.chars.pac.phased = 60
-        if g.sounds.phase:isPlaying() then g.sounds.phase:stop() end
-        g.sounds.phase:play()
+        phasePac()
+    end
+    if key == "tab" then
+        if not g.paused then
+            g.paused = true
+            -- INSERT_YOUR_CODE
+            g.playingSounds = {}
+            for name, sound in pairs(g.sounds) do
+                if sound:isPlaying() then
+                    table.insert(g.playingSounds, sound)
+                    sound:pause()
+                end
+            end
+        else
+            g.paused = false
+            for _, sound in ipairs(g.playingSounds) do
+                sound:play()
+            end
+            g.playingSounds = {}
+        end
     end
 end
 
+function game.gamepadpressed(joystick, button)
+    if g.state.running and button == "a" and not g.chars.pac.phased and g.config.phasing then
+        phasePac()
+    end
+    if button == "x" then
+        if not g.paused then
+            g.paused = true
+            -- INSERT_YOUR_CODE
+            g.playingSounds = {}
+            for name, sound in pairs(g.sounds) do
+                if sound:isPlaying() then
+                    table.insert(g.playingSounds, sound)
+                    sound:pause()
+                end
+            end
+        else
+            g.paused = false
+            for _, sound in ipairs(g.playingSounds) do
+                sound:play()
+            end
+            g.playingSounds = {}
+        end
+    end
+end
 return game

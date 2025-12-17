@@ -56,7 +56,7 @@ function attract.keypressed(key)
 end
 
 function attract.gamepadpressed(joystick, button)
-    setScene("game")
+    menus.gamepadpressed(menu, button)
 end
 
 function attract.draw()

@@ -6,20 +6,31 @@ g = {
     state = {},
 }
 
-g.config = {
-    scatterOption = false,
-    pinkyBug = true,
-    fastPac = false,
-    background = "none",
-    volume = 7,
-    crtEffect = true,
-    mazeColor = 1,
+g.defaultConfig = {
     startingLives = 3,
     freeGuy = 1,
     hardMode = false,
-    extraGhosts = 0,
+    pinkyBug = true,
+    scatterOption = false,
+    freeGhost = false,
+    fastPac = false,
     phasing = false,
+    extraGhosts = 0,
+    background = "none",
+    mazeColor = 1,
+    fullscreen = false,
+    crtEffect = true,
+    volume = 7,
 }
+
+function resetConfigs()
+    g.config = {}
+    for k, v in pairs(g.defaultConfig) do
+        g.config[k] = v
+    end
+end
+
+resetConfigs()
 
 -- SCENES
 local game = require("game")
@@ -236,6 +247,8 @@ resizeCanvases = function()
     end
 end
 
+
+
 function love.load()
     -- Seed random number generator for proper randomness
     --math.randomseed(os.time())
@@ -245,8 +258,36 @@ function love.load()
     
     local gw, gh = 224, 288
 
-    resizeCanvases()
+    resetConfigs()
     
+    -- Load saved config from options.cfg if it exists
+    if love.filesystem.getInfo("options.cfg") then
+        local success, loadedConfig = pcall(function()
+            local chunk = love.filesystem.load("options.cfg")
+            if chunk then
+                return chunk()
+            end
+        end)
+        if success and loadedConfig and type(loadedConfig) == "table" then
+            -- Merge loaded config into g.config
+            for k, v in pairs(loadedConfig) do
+                if g.defaultConfig[k] ~= nil then  -- Only load known config keys
+                    g.config[k] = v
+                end
+            end
+        end
+    end
+    
+    -- Apply fullscreen setting if enabled
+    if g.config.fullscreen then
+        local desktopWidth, desktopHeight = love.window.getDesktopDimensions()
+        love.window.setMode(desktopWidth, desktopHeight, {
+            borderless = true
+        })
+    end
+    
+    resizeCanvases()
+
     effect = moonshine(moonshine.effects.glow)
     .chain(moonshine.effects.colorgradesimple)
     .chain(moonshine.effects.scanlines)
@@ -275,6 +316,9 @@ function love.load()
             g.highScore = saved
         end
     end
+    
+    -- Open scoreFile handle for writing (used by menus.lua for reset functionality)
+    scoreFile = love.filesystem.newFile("player.dat", "a")
 
     applyVolume()  -- Set initial volume
     setScene("attract")
@@ -345,30 +389,18 @@ function love.keypressed(key)
         return
     end
 
-    if key == "tab" then
-        if not g.paused then
-            g.paused = true
-            -- INSERT_YOUR_CODE
-            g.playingSounds = {}
-            for name, sound in pairs(g.sounds) do
-                if sound:isPlaying() then
-                    table.insert(g.playingSounds, sound)
-                    sound:pause()
-                end
-            end
-        else
-            g.paused = false
-            for _, sound in ipairs(g.playingSounds) do
-                sound:play()
-            end
-            g.playingSounds = {}
-        end
-    end
-
     if g.scene.keypressed then g.scene.keypressed(key) end
 end
 
 function love.gamepadpressed(joystick, button)
+    if button == "b" then
+        if g.scene == attract then
+            love.event.quit()
+        else
+            setScene("attract")
+        end
+        return
+    end
     if g.scene.gamepadpressed then g.scene.gamepadpressed(joystick, button) end
 end
 

@@ -30,6 +30,10 @@ function credits.keypressed(key)
     menus.keypressed(menu, key)
 end
 
+function credits.gamepadpressed(joystick, button)
+    menus.gamepadpressed(menu, button)
+end
+
 function credits.draw()
 
     love.graphics.setCanvas(gameCanvas)

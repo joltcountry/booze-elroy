@@ -19,8 +19,8 @@ ALPHA 4 (12/19/2025)
 ====================
 / Cool background of the code itself
 / Jumping! (phasing)
+/ Controller support for menus/in-game pause/phasing
 Save config/reset defaults
-Controller support for menus/in-game pause/phasing
 
 ALPHA 5 (1/1/2026)
 ===================
