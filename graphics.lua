@@ -121,7 +121,7 @@ graphics.drawChar = function(o, x, y, phased)
     end
     if phased then
         if phased > 0 then love.graphics.setColor(math.random(), math.random(), math.random())
-        else love.graphics.setColor(0, 1, 0) end
+        else love.graphics.setColor(.2 + math.abs(phased) / 60 * .8, math.abs(phased) / 60, 0) end
     end
     love.graphics.draw(sprites[a.spr].sheet, sprites[a.spr].quads[frameIndex], x - 8, y - 8)
     if phased then love.graphics.setColor(1, 1, 1) end

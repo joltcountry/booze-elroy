@@ -13,28 +13,39 @@ Added a few more backgrounds
 High scores now preserved between sessions
 
 
+ALPHA Release Notes
+===================
+NEW OPTION: Phasing!  It's just like jumping!  (space/A button)
+
+Added controller support for menus/in-game pause/phasing
+Added option to save current configuration
+Added option to reset default configuration
+Added "retro" background option
+Added placeholder Intermissions
+Fixes to graphic and audio glitches
+Changed in-menu sound effects to be awesomer
+Moved reset highscore to Options menu
+
+o added maze colors
+
+
 ROADMAP
 -------
-ALPHA 4 (12/19/2025)
-====================
-/ Cool background of the code itself
-/ Jumping! (phasing)
-/ Controller support for menus/in-game pause/phasing
-Save config/reset defaults
 
 ALPHA 5 (1/1/2026)
 ===================
-Alternate mazes
+Alternate mazes (scale fruit & siren)
 "Random" maze mode
 Additional backgrounds/maze colors
 
 ALPHA 6 (1/26/2026)
 ===================
-Large mazes
+Large mazes (scale fruit & siren)
 Additional mazes/backgrounds/maze colors
 
 BETA 1 (2/26/2026)
 ==================
 Improved attract screen
 Intermissions
+ -- ONLY level mode is shown
 Two-player mode

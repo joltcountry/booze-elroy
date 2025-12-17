@@ -6,6 +6,8 @@ g = {
     state = {},
 }
 
+g.config = {}
+
 g.defaultConfig = {
     startingLives = 3,
     freeGuy = 1,
@@ -24,9 +26,10 @@ g.defaultConfig = {
 }
 
 function resetConfigs()
-    g.config = {}
     for k, v in pairs(g.defaultConfig) do
-        g.config[k] = v
+        if k ~= "fullscreen" then
+            g.config[k] = v
+        end
     end
 end
 
