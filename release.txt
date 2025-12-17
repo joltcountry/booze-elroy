@@ -1,0 +1,39 @@
+ALPHA 3 Release Notes
+=====================
+NEW OPTION: Extra Life (10000, 20000, every 10k)
+NEW OPTION: Starting Lives (1, 3, 5)
+NEW OPTION: Hard mode (on/off) -- hard mode skips levels internally
+NEW OPTION: Extra ghosts (0, 1, 2) - meet PUNKY and GUNKY!!
+NEW OPTION: Maze color (try 'em all!)
+NEW MENU ITEM: "Reset High Score"
+
+Added WASD keyboard support
+Added TAB to pause in-game
+Added a few more backgrounds
+High scores now preserved between sessions
+
+
+ROADMAP
+-------
+ALPHA 4 (12/26/2025)
+====================
+Jumping!
+Controller support for menus/in-game pause
+Save config/reset defaults
+
+ALPHA 5 (1/1/2026)
+===================
+Alternate mazes
+"Random" maze mode
+Additional backgrounds/maze colors
+
+ALPHA 6 (1/26/2026)
+===================
+Large mazes
+Additional mazes/backgrounds/maze colors
+
+BETA 1 (2/26/2026)
+==================
+Improved attract screen
+Intermissions
+Two-player mode
