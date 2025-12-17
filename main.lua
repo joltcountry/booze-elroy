@@ -112,6 +112,7 @@ g.backgrounds = {
     abstract = love.graphics.newImage("backgrounds/abstract.jpg"),
     xmas = love.graphics.newImage("backgrounds/xmas.jpg"),
     canyon = love.graphics.newImage("backgrounds/canyon.jpg"),
+    retro = love.graphics.newImage("backgrounds/retro.jpg"),
 }
 
 playSiren = function()
