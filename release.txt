@@ -1,6 +1,5 @@
 ALPHA 3 Release Notes
 =====================
-https://drive.google.com/file/d/1VwiCsR48t_76TV4HTZ1EuBWEAJlxp0QZ/view?usp=sharing
 NEW OPTION: Extra Life (10000, 20000, every 10k)
 NEW OPTION: Starting Lives (1, 3, 5)
 NEW OPTION: Hard mode (on/off) -- hard mode skips levels internally
