@@ -76,8 +76,10 @@ menus.keypressed = function(menu, key)
     if menu.selectedItem < 1 then menu.selectedItem = #menu end
     if menu.selectedItem > #menu then menu.selectedItem = 1 end
     if key == "return" then
-        g.sounds.coindrop:stop()
-        g.sounds.coindrop:play()
+        if menu[menu.selectedItem].text and menu[menu.selectedItem].text ~= "Exit" then
+            g.sounds.coindrop:stop()
+            g.sounds.coindrop:play()
+        end
         if menu[menu.selectedItem].options then
             menu.selectedItem = menu.selectedItem + 1
             if menu.selectedItem < 1 then menu.selectedItem = #menu end

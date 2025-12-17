@@ -105,7 +105,7 @@ end
 
 graphics.animations = require("animations")
 
-graphics.drawChar = function(o, x, y)
+graphics.drawChar = function(o, x, y, phased)
     local a = o:animator()
     if not a or not a.frames then
         return  -- Safety check: animation not available
@@ -119,7 +119,12 @@ graphics.drawChar = function(o, x, y)
     if not frameIndex or not sprites[a.spr] or not sprites[a.spr].quads[frameIndex] then
         return  -- Safety check: quad not available
     end
+    if phased then
+        if phased > 0 then love.graphics.setColor(math.random(), math.random(), math.random())
+        else love.graphics.setColor(0, 1, 0) end
+    end
     love.graphics.draw(sprites[a.spr].sheet, sprites[a.spr].quads[frameIndex], x - 8, y - 8)
+    if phased then love.graphics.setColor(1, 1, 1) end
 end
 
 graphics.drawScenery = function(o, x, y)

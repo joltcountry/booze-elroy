@@ -84,7 +84,11 @@ local createGhostAnimator = function(ghostName, elroyCheck)
         elseif elroyCheck and #g.dots <= g.level.elroy1 and not g.suspendElroy then
             return graphics.animations.booze
         else
-            return graphics.animations[ghostName][self.dir]
+            if self.iDir and not self.leaving and not self.housing then -- hack
+                return graphics.animations[ghostName][self.iDir]
+            else
+                return graphics.animations[ghostName][self.dir]
+            end
         end
     end
 end
@@ -491,6 +495,7 @@ characters.reset = function()
     g.chars.pac.x = (8 * 14)
     g.chars.pac.y = (8 * 26) + 4
     g.chars.pac.dir = 2
+    g.chars.pac.phased = false
     if g.config.fastPac then g.chars.pac.speed = 1.6 else
         g.chars.pac.speed = g.level.pacSpeed
     end

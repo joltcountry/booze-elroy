@@ -70,6 +70,12 @@ local menu = {
     },
     {
         options = {
+            { text = "Yes", action = function() g.config.phasing = true end },
+            { text = "No", action = function() g.config.phasing = false end },
+        },
+    },
+    {
+        options = {
             { text = "0", action = function() g.config.extraGhosts = 0 end },
             { text = "1", action = function() g.config.extraGhosts = 1 end },
             { text = "2", action = function() g.config.extraGhosts = 2 end },
@@ -150,12 +156,13 @@ function options.resetSelectedOptions()
     menu[5].selectedOption = g.config.scatterOption == false and 1 or g.config.scatterOption == 1 and 2 or g.config.scatterOption == 2 and 3
     menu[6].selectedOption = g.config.freeGhost and 1 or 2
     menu[7].selectedOption = g.config.fastPac and 1 or 2
-    menu[8].selectedOption = g.config.extraGhosts + 1
-    menu[9].selectedOption = getBackgroundIndex()
-    menu[10].selectedOption = g.config.mazeColor
-    menu[11].selectedOption = g.fullscreen and 1 or 2
-    menu[12].selectedOption = g.config.crtEffect and 1 or 2
-    menu[13].selectedOption = g.config.volume + 1
+    menu[8].selectedOption = g.config.phasing and 1 or 2
+    menu[9].selectedOption = g.config.extraGhosts + 1
+    menu[10].selectedOption = getBackgroundIndex()
+    menu[11].selectedOption = g.config.mazeColor
+    menu[12].selectedOption = g.fullscreen and 1 or 2
+    menu[13].selectedOption = g.config.crtEffect and 1 or 2
+    menu[14].selectedOption = g.config.volume + 1
 end
 
 function options.start()
@@ -166,12 +173,13 @@ function options.start()
     menu[5].selectedOption = g.config.scatterOption == false and 1 or g.config.scatterOption == 1 and 2 or g.config.scatterOption == 2 and 3
     menu[6].selectedOption = g.config.freeGhost and 1 or 2
     menu[7].selectedOption = g.config.fastPac and 1 or 2
-    menu[8].selectedOption = g.config.extraGhosts + 1
-    menu[9].selectedOption = getBackgroundIndex()
-    menu[10].selectedOption = g.config.mazeColor
-    menu[11].selectedOption = g.fullscreen and 1 or 2
-    menu[12].selectedOption = g.config.crtEffect and 1 or 2
-    menu[13].selectedOption = g.config.volume + 1
+    menu[8].selectedOption = g.config.phasing and 1 or 2
+    menu[9].selectedOption = g.config.extraGhosts + 1
+    menu[10].selectedOption = getBackgroundIndex()
+    menu[11].selectedOption = g.config.mazeColor
+    menu[12].selectedOption = g.fullscreen and 1 or 2
+    menu[13].selectedOption = g.config.crtEffect and 1 or 2
+    menu[14].selectedOption = g.config.volume + 1
     menu.selectedItem = 1
 end
 
@@ -210,17 +218,18 @@ function options.draw()
     graphics.print("Scatter", 2, 14)
     graphics.print("Free Ghosts", 2, 15)
     graphics.print("Fast Pac", 2, 16)
-    graphics.print("Extra Ghosts", 2, 17)
-    graphics.print("Background", 2, 18)
-    graphics.print("Maze Color", 2, 19)
-    graphics.print("Full screen", 2, 20)
-    graphics.print("CRT Effect", 2, 21)
-    graphics.print("Volume", 2, 22)
+    graphics.print("Phasing", 2, 17)
+    graphics.print("Extra Ghosts", 2, 18)
+    graphics.print("Background", 2, 19)
+    graphics.print("Maze Color", 2, 20)
+    graphics.print("Full screen", 2, 21)
+    graphics.print("CRT Effect", 2, 22)
+    graphics.print("Volume", 2, 23)
     menus.draw(menu, 18, 10, 1)
 
-    graphics.drawSpriteAtTile("spr8", g.config.mazeColor + 2, 20, 19)
-    graphics.print("up/down to select", 5, 28, 2)
-    graphics.print("left/right to change", 5, 30, 2)
+    graphics.drawSpriteAtTile("spr8", g.config.mazeColor + 2, 20, 20)
+    graphics.print("up/down to select", 5, 29, 2)
+    graphics.print("left/right to change", 5, 31, 2)
     love.graphics.setCanvas()
 
 end

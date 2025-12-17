@@ -181,6 +181,13 @@ function game.update(dt)
         g.starvation = g.starvation or 0
         g.starvation = g.starvation + 1
 
+        if g.chars.pac.phased then 
+            g.chars.pac.phased = g.chars.pac.phased - 1 
+            if g.chars.pac.phased == -60 then
+                g.chars.pac.phased = false
+            end
+        end
+
         -- Leaving logic
         local leavingChars = {}
         for name, char in pairs(g.chars) do
@@ -342,7 +349,7 @@ function game.draw()
 
     -- Draw characters (ghosts last)
     if g.state.showPac then
-        graphics.drawChar(g.chars.pac, g.chars.pac.x, g.chars.pac.y)
+        graphics.drawChar(g.chars.pac, g.chars.pac.x, g.chars.pac.y, g.chars.pac.phased)
     end
     if g.state.showGhosts then
         for name, char in pairs(g.chars) do
@@ -377,9 +384,16 @@ function game.draw()
 
     love.graphics.setCanvas()
 
-    -- Draw debug info
+-- Draw debug info
     --drawDebugInfo()
 end
 
-return game
+function game.keypressed(key)
+    if g.state.running and key == "space" and not g.chars.pac.phased and g.config.phasing then
+        g.chars.pac.phased = 60
+        if g.sounds.phase:isPlaying() then g.sounds.phase:stop() end
+        g.sounds.phase:play()
+    end
+end
 
+return game

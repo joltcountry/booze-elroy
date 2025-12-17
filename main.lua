@@ -18,6 +18,7 @@ g.config = {
     freeGuy = 1,
     hardMode = false,
     extraGhosts = 0,
+    phasing = false,
 }
 
 -- SCENES
@@ -59,6 +60,7 @@ local function buildSounds()
         dead    = love.audio.newSource("sounds/dead.wav", "static"),
         extrapac= love.audio.newSource("sounds/extrapac.wav", "static"),
         coindrop= love.audio.newSource("sounds/coindrop.wav", "static"),
+        phase = love.audio.newSource("sounds/phase.wav", "static"),
     }
 
     -- Restore looping properties

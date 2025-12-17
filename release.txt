@@ -15,8 +15,9 @@ High scores now preserved between sessions
 
 ROADMAP
 -------
-ALPHA 4 (12/26/2025)
+ALPHA 4 (12/19/2025)
 ====================
+Cool background of the code itself
 Jumping!
 Controller support for menus/in-game pause
 Save config/reset defaults

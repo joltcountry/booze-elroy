@@ -90,8 +90,9 @@ local modes = {
                 for _, char in pairs(g.chars) do
                     char.hidden = false
                 end
+                g.sounds.scared:stop()
                 if not g.sounds.dead:isPlaying() then
-                    love.audio.play( g.sounds.dead )
+                    g.sounds.dead:play()
                 end
             end
         },
