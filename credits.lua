@@ -36,6 +36,12 @@ function credits.draw()
     love.graphics.clear(0, 0, 0, 1)
     love.graphics.origin()
 
+    if g.backgrounds[g.config.background] then
+        love.graphics.setColor(.5, .5, .5)
+        love.graphics.draw(g.backgrounds[g.config.background], 0, 0, 0, 224 / g.backgrounds[g.config.background]:getWidth(), 288  / g.backgrounds[g.config.background]:getHeight())
+        love.graphics.setColor(1, 1, 1)
+    end
+
     local msg1 = "booze elroy"
     local msg2 = "designed and developed by"
     local msg3 = "pinback"
@@ -54,7 +60,7 @@ function credits.draw()
         graphics.print(formatScore(g.highScore), 10, 1)
     end
 
-    graphics.print(msg1, 14 - string.len(msg1) / 2, 7)
+    graphics.print(msg1, 14 - string.len(msg1) / 2, 7, 3)
     graphics.print(msg2, 14 - string.len(msg2) / 2, 9)
     graphics.print(msg3, 14 - string.len(msg3) / 2, 11, 4)
     graphics.print(msg4, 14 - string.len(msg4) / 2, 14)

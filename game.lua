@@ -326,7 +326,7 @@ function game.draw()
         end
 
         -- Draw lives
-        for i = 1, g.lives do
+        for i = 1, math.min(5, g.lives) do
             graphics.drawSpriteAtTile("spr16", 77, i*2, 34)
         end        
     end
