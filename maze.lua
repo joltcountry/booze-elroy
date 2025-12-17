@@ -2,7 +2,7 @@ local graphics = require("graphics")
 local constants = require("constants")
 local utils = require("utils")
 local indexes = '123456789ABCDEFGHIJKLMNOPQRSTUVWXY'
-
+local afterDark = 'ABC7Y8DEFGHKL'
 maze = {}
 
 maze.maxColors = 5
@@ -82,6 +82,45 @@ local map = {
     "6.DEEEEEEEEF.DF.DEEEEEEEEF.9", -- 29
     "6..........................9", -- 30
     "IJJJJJJJJJJJJJJJJJJJJJJJJJJM", -- 31 (bottom “void” row; often unused)
+    "                            ",
+}
+
+local afterDark = {
+    -- 28 columns each
+    "                            ",
+    "                            ",
+    "                            ",
+    "                            ", --  1
+    "                            ", --  2
+    "  XXXX XXXXX    XXXXX XXXX  ", --  3
+    "  XXXX XXXXX    XXXXX XXXX  ", --  4
+    "  XXXX XXXXX    XXXXX XXXX  ", --  5
+    "                            ", --  6
+    "  XXXX XX XXXXXXXX XX XXXX  ", --  7
+    "  XXXX XX XXXXXXXX XX XXXX  ", --  8
+    "       XX    XX    XX       ", --  9
+    "       XXXXX XX XXXXX       ", -- 10
+    "       XXXXX XX XXXXX       ", -- 11 (warp tunnels row; spaces = void)
+    "       XX          XX       ", -- 12 (entrance to house row)
+    "       XX          XX       ", -- 13
+    "       XX          XX       ", -- 14
+    "                            ", -- 15 (center row; gate ==)
+    "       XX          XX       ", -- 16
+    "       XX          XX       ", -- 17
+    "       XX          XX       ", -- 18
+    "       XX XXXXXXXX XX       ", -- 19
+    "       XX XXXXXXXX XX       ", -- 20
+    "             XX             ", -- 21
+    "  XXXX XXXXX XX XXXXX XXXX  ", -- 22
+    "  XXXX XXXXX XX XXXXX XXXX  ", -- 23
+    "    XX                XX    ", -- 24 (^^ above house: no-ghost tiles)
+    "    XX XX XXXXXXXX XX XX    ", -- 25
+    "    XX XX XXXXXXXX XX XX    ", -- 26
+    "       XX    XX    XX       ", -- 27
+    "  XXXXXXXXXX XX XXXXXXXXXX  ", -- 28
+    "  XXXXXXXXXX XX XXXXXXXXXX  ", -- 29
+    "                            ", -- 30
+    "                            ", -- 31 (bottom “void” row; often unused)
     "                            ",
 }
 
@@ -250,7 +289,7 @@ maze.draw = function(color)
                     break
                 end
             end
-            if spriteNum and (g.mode ~= "levelAnimation" or c ~= "P") then
+            if spriteNum and (g.mode ~= "levelAnimation" or c ~= "P") and (not g.config.afterDark or string.sub(afterDark[y], x, x) ~= "X") then
                 graphics.drawSprite("spr8", (spriteNum - 1) * maze.maxColors + 3 + color, (x-1) * constants.tileSize,(y-1) * constants.tileSize)
             end
         end

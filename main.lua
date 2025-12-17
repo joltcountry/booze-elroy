@@ -12,6 +12,7 @@ g.defaultConfig = {
     startingLives = 3,
     freeGuy = 1,
     hardMode = false,
+    afterDark = false,
     pinkyBug = true,
     scatterOption = false,
     freeGhost = false,
@@ -26,11 +27,12 @@ g.defaultConfig = {
 }
 
 function resetConfigs()
+    local fullscreen = g.config.fullscreen
+    g.config = {}
     for k, v in pairs(g.defaultConfig) do
-        if k ~= "fullscreen" then
-            g.config[k] = v
-        end
+        g.config[k] = v
     end
+    g.config.fullscreen = fullscreen
 end
 
 resetConfigs()
