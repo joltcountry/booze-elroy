@@ -124,18 +124,31 @@ local modes = {
         levelComplete = {
             state = { running = false, showPac = true, showGhosts = true },
             frames = 120,
-            nextMode = "levelAnimation",
             startFunc = function()
                 stopSiren()
                 g.sounds.dead:stop()
                 g.sounds.scared:stop()
-
+            end,
+            nextMode = "levelAnimation"
+        },
+        intermission1 = {
+            state = { running = false, showPac = false, showGhosts = false, hideMaze = true, hideScore = true, hideLines = true },
+            frames = 360,
+            nextMode = "pause",
+            endFunc = function()
+                g.intermissionBoozes = nil
             end
         },
         levelAnimation = {
             state = { running = false, showPac = false, showGhosts = false },
             frames = 85,
-            nextMode = "pause",
+            endFunc = function()
+                if g.levelNumber == 2 or g.levelNumber == 5 or g.levelNumber == 9 or g.levelNumber == 13 or g.levelNumber == 17 then 
+                    mode.setMode("intermission1")
+                else
+                    mode.setMode("pause")
+                end
+            end
         },
         pause = {
             state = { hideMaze = true, running = false, showPac = false, showGhosts = false },
@@ -154,10 +167,14 @@ local modes = {
     }
 }
 
-mode.setMode = function(mode)
-    if modes[g.scene.name][mode] then
-        g.mode = mode
-        modes[g.scene.name][mode].started = false
+mode.isStarted = function(modeName)
+    return modes[g.scene.name][modeName].started
+end
+
+mode.setMode = function(modeName)
+    if modes[g.scene.name][modeName] then
+        g.mode = modeName
+        modes[g.scene.name][modeName].started = false
     end
 end
 

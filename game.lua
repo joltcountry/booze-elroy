@@ -284,6 +284,41 @@ function game.update(dt)
         end
     end
 
+    if g.mode == "intermission1" then
+        if not g.intermissionBoozes then
+            g.intermissionBoozes = {}
+            for i = 1, 40 do
+                local x = math.random(0, maze.w * 8)
+                local y = math.random(0, maze.h * 8)
+                table.insert(g.intermissionBoozes, {x = x, y = y})
+            end
+        end
+        for i, booze in ipairs(g.intermissionBoozes) do
+            local mode = (i - 1) % 4
+            if mode == 0 then
+                booze.x = booze.x + 1
+            elseif mode == 1 then
+                booze.y = booze.y + 1
+            elseif mode == 2 then
+                booze.x = booze.x - 1
+            elseif mode == 3 then
+                booze.y = booze.y - 1
+            end
+
+            if booze.x > maze.w * 8 then
+                booze.x = 0
+            elseif booze.x == -1 then
+                booze.x = maze.w * 8
+            end
+
+            if booze.y > maze.h * 8 then
+                booze.y = 0
+            elseif booze.y == -1 then
+                booze.y = maze.h * 8
+            end
+        end
+    end
+
 
 end
 
@@ -306,11 +341,13 @@ function game.draw()
     end
 
     -- Draw score
-    if fc % 32 < 16 then graphics.print("1up", 3, 0) end
-    graphics.print("high score", 9, 0)
-    graphics.print(formatScore(g.score or 0), 0, 1, 0)
-    if g.highScore then
-        graphics.print(formatScore(g.highScore), 10, 1)
+    if not g.state.hideScore then
+        if fc % 32 < 16 then graphics.print("1up", 3, 0) end
+        graphics.print("high score", 9, 0)
+        graphics.print(formatScore(g.score or 0), 0, 1, 0)
+        if g.highScore then
+            graphics.print(formatScore(g.highScore), 10, 1)
+        end
     end
 
     if not g.state.hideMaze then
@@ -327,18 +364,19 @@ function game.draw()
         for _, scenery in ipairs(g.powers) do
             graphics.drawScenery(scenery, scenery.x, scenery.y)
         end
-
-        -- Draw level display
-        for i = 1, #g.level.levelDisplay do
-            graphics.drawSpriteAtTile(g.level.levelDisplay[i].sheet, g.level.levelDisplay[i].quad, 26 - (i*2), 34)
-        end
-
         -- Draw lives
-        for i = 1, math.min(5, g.lives) do
-            graphics.drawSpriteAtTile("spr16", 77, i*2, 34)
-        end        
+        if not g.state.hideLives then
+            for i = 1, math.min(5, g.lives) do
+                graphics.drawSpriteAtTile("spr16", 77, i*2, 34)
+            end        
+        end
     end
 
+    -- Draw level display
+    for i = 1, #g.level.levelDisplay do
+        graphics.drawSpriteAtTile(g.level.levelDisplay[i].sheet, g.level.levelDisplay[i].quad, 26 - (i*2), 34)
+    end
+    
     -- Draw fruit
     if g.fruitTimer then
         graphics.drawSprite(g.level.fruit.sheet, g.level.fruit.quad, fruits.x - 8, fruits.y - 8)
@@ -381,6 +419,18 @@ function game.draw()
     if g.mode == "gameover" then
         graphics.print("game", 9, 20, 1)
         graphics.print("over", 15, 20, 1)
+    end
+
+    if g.mode == "intermission1" then
+
+        if g.modeTimer < 300 and mode.isStarted("intermission1") then
+            for _, booze in ipairs(g.intermissionBoozes) do
+                graphics.drawSprite("spr16", 86, booze.x, booze.y)
+            end
+            graphics.print("pardon our dust!", 6, 15, 6)
+            graphics.print("intermission", 8, 19, 3)
+            graphics.print("under construction", 5, 21, 3)
+        end
     end
 
     love.graphics.setCanvas()
