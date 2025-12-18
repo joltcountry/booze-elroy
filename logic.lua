@@ -37,13 +37,7 @@ local handleGhostCollision = function(ghost, pacXTile, pacYTile, ghostXTile, gho
             ghost.hidden = true
             mode.setMode("ateGhost")
             g.sounds.ateGhost:play()
-            if g.ghostScore then
-                if g.ghostScore < 6400 then -- c'mon, be reasonable
-                    g.ghostScore = g.ghostScore * 2
-                end
-            else
-                g.ghostScore = 200
-            end
+            if g.ghostScore then g.ghostScore = g.ghostScore * 2 else g.ghostScore = 200 end
             score(g.ghostScore)
             return true -- collision handled
         elseif not ghost.dead then
