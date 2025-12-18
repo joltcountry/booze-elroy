@@ -15,11 +15,13 @@ High scores now preserved between sessions
 
 ALPHA 4 Release Notes
 ===================
-NEW MODE:  Autoplay!  (Experimental.  And dumb.)
+NEW MODE: Autoplay!  (Experimental.  And dumb.)
 
 NEW OPTION: Phasing!  It's just like jumping!  (space/A button)
 NEW OPTION: Blindfold (hide the maze, the dots, both, or everything!)
 NEW OPTION: Starting level
+
+IMPROVED ATTRACT SCREEN: rolls to gameplay after a few seconds
 
 Added controller support for menus/in-game pause/phasing
 Added option to save current configuration
