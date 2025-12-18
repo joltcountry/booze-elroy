@@ -70,7 +70,7 @@ end
 -- Helper function to handle player input
 local handlePlayerInput = function()
     g.chars.pac.iDir = false
-    if g.autoplay then 
+    if g.autoplay or g.attract then 
         local xTile, xOff, yTile, yOff = maze.getLoc(g.chars.pac)
         if xOff == constants.centerLine and yOff == constants.centerLine then
             -- Autoplay: pick a random dir until maze.isBlocked(dir) is false AND dir is not two off of g.chars.pac.dir
@@ -221,7 +221,11 @@ function game.start()
     
     g.levelNumber = g.config.startingLevel
     g.scenery = {}
-    mode.setMode("pregame")
+    if g.attract then
+        mode.setMode("ready")
+    else
+        mode.setMode("pregame")
+    end
     g.lives = g.config.startingLives
     g.score = 0
     g.paused = false

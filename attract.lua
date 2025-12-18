@@ -32,6 +32,10 @@ function attract.start()
     mode.setMode("startup")
     menu.selectedItem = 1
     stopSiren()
+    if g.config.originalVolume then
+        g.config.volume = g.config.originalVolume
+    end
+    applyVolume()
     for _, snd in pairs(g.sounds) do
         if type(snd.stop) == "function" then snd:stop() end
     end

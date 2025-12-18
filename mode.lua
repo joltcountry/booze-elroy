@@ -22,8 +22,14 @@ local modes = {
             nextMode = "restart"
         },
         restart = {
-            frames = 0,
+            frames = 600,
             state = { showHelperText = true, showGameName = true, showBooze = true },
+            endFunc = function()
+                g.attract = true
+                g.config.originalVolume = g.config.volume
+                g.config.volume = 0
+                setScene("game")
+            end
         },
         play = {
             frames = 20,
@@ -107,7 +113,7 @@ local modes = {
                 stopSiren()
                 g.sounds.dead:stop()
                 g.sounds.scared:stop()
-            end
+            end,
         },
         dying = {
             state = { running = false, showPac = false, showGhosts = false },
@@ -115,6 +121,13 @@ local modes = {
             nextMode = "ready",
             startFunc = function()
                 g.diedSoundPlayed = false
+            end,
+            endFunc = function()
+                if g.attract then
+                    g.config.volume = g.config.originalVolume
+                    g.attract = false
+                    setScene("attract")
+                end
             end
         },
         gameover = {
