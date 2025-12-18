@@ -383,7 +383,7 @@ function game.draw()
     love.graphics.clear(0, 0, 0, 1)
     love.graphics.origin()
     if g.backgrounds[g.config.background] then
-        love.graphics.setColor(.5, .5, .5)
+        love.graphics.setColor(.4, .4, .4)
         love.graphics.draw(g.backgrounds[g.config.background], 0, 0, 0, 224 / g.backgrounds[g.config.background]:getWidth(), 288  / g.backgrounds[g.config.background]:getHeight())
         love.graphics.setColor(1, 1, 1)
     end

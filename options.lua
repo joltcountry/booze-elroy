@@ -10,7 +10,7 @@ local maze = require("maze")
 
 local gw, gh = 224, 288
 
-local backgroundOptions = { "none", "stars", "beach", "arcade", "forest", "canyon", "abstract", "retro","xmas" }
+local backgroundOptions = { "none", "stars", "beach", "arcade", "forest", "canyon", "abstract", "wave1", "wave2", "lines", "retro","xmas" }
 
 local function getBackgroundIndex()
     for i, name in ipairs(backgroundOptions) do
@@ -159,6 +159,9 @@ local menu = {
             { text = "Forest", action = function() g.config.background = "forest" end },
             { text = "Canyon", action = function() g.config.background = "canyon" end },
             { text = "Abstract", action = function() g.config.background = "abstract" end },
+            { text = "Wave1", action = function() g.config.background = "wave1" end },
+            { text = "Wave2", action = function() g.config.background = "wave2" end },
+            { text = "Lines", action = function() g.config.background = "lines" end },
             { text = "Retro", action = function() g.config.background = "retro" end },
             { text = "Xmas", action = function() g.config.background = "xmas" end },
         },
@@ -322,7 +325,7 @@ function options.draw()
     love.graphics.origin()
 
     if g.backgrounds[g.config.background] then
-        love.graphics.setColor(.5, .5, .5)
+        love.graphics.setColor(.4, .4, .4)
         love.graphics.draw(g.backgrounds[g.config.background], 0, 0, 0, 224 / g.backgrounds[g.config.background]:getWidth(), 288  / g.backgrounds[g.config.background]:getHeight())
         love.graphics.setColor(1, 1, 1)
     end

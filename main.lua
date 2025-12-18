@@ -131,6 +131,9 @@ g.backgrounds = {
     xmas = love.graphics.newImage("backgrounds/xmas.jpg"),
     canyon = love.graphics.newImage("backgrounds/canyon.jpg"),
     retro = love.graphics.newImage("backgrounds/retro.jpg"),
+    wave1 = love.graphics.newImage("backgrounds/wave1.jpg"),
+    wave2 = love.graphics.newImage("backgrounds/wave2.jpg"),
+    lines = love.graphics.newImage("backgrounds/lines.jpg"),
 }
 
 playSiren = function()
@@ -264,7 +267,7 @@ function love.load()
     --love.graphics.setDefaultFilter("nearest", "nearest")
     
     love.mouse.setVisible(false)
-    
+
     local gw, gh = 224, 288
 
     resetConfigs()
