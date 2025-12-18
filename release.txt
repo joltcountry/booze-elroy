@@ -16,19 +16,21 @@ High scores now preserved between sessions
 ALPHA Release Notes
 ===================
 NEW OPTION: Phasing!  It's just like jumping!  (space/A button)
-NEW OPTION: After Dark!  (hidden maze walls)
+NEW OPTION: Blindfold (hide the maze, the dots, both, or everything!)
+NEW OPTION: Starting level
 
 Added controller support for menus/in-game pause/phasing
 Added option to save current configuration
 Added option to reset default configuration
 Added "retro" background option
 Added "none" option for extra lives
+Added "random" option for maze colors
 Added placeholder Intermissions
-Fixes to graphic and audio glitches
+Fixed audio bug, fixed a couple video bugs
 Changed in-menu sound effects to be awesomer
 Moved reset highscore to Options menu
+Changed extra ghost AI
 
-- random color
 - new colors
 
 

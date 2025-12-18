@@ -362,13 +362,13 @@ function game.update(dt)
 
             if booze.x > maze.w * 8 then
                 booze.x = 0
-            elseif booze.x == -1 then
+            elseif booze.x < 0 then
                 booze.x = maze.w * 8
             end
 
             if booze.y > maze.h * 8 then
                 booze.y = 0
-            elseif booze.y == -1 then
+            elseif booze.y < 0 then
                 booze.y = maze.h * 8
             end
         end
@@ -407,9 +407,9 @@ function game.draw()
 
     if not g.state.hideMaze then
         if g.mode == "levelAnimation" and g.modeTimer % 20 > 10 then
-            maze.draw(5)
+            maze.draw(maze.maxColors)
         elseif g.mode ~= "pause" then
-            maze.draw(g.config.mazeColor)
+            maze.draw(g.currentMazeColor)
         end
         
         -- Draw scenery (use ipairs for arrays)
@@ -500,7 +500,10 @@ function game.draw()
 
     if g.mode == "intermission1" then
 
-        if g.modeTimer < 300 and mode.isStarted("intermission1") then
+        if g.modeTimer <= 660 and mode.isStarted("intermission1") then
+            if g.modeTimer == 660 then
+                g.sounds.intermission1:play()
+            end
             for _, booze in ipairs(g.intermissionBoozes) do
                 graphics.drawSprite("spr16", booze.spr, booze.x, booze.y)
             end

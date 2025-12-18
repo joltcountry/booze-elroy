@@ -78,6 +78,7 @@ local function buildSounds()
         extrapac= love.audio.newSource("sounds/extrapac.wav", "static"),
         coindrop= love.audio.newSource("sounds/coindrop.wav", "static"),
         phase = love.audio.newSource("sounds/phase.wav", "static"),
+        intermission1 = love.audio.newSource("sounds/intermission1.wav", "static"),
     }
 
     -- Restore looping properties

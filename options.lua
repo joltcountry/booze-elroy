@@ -168,6 +168,7 @@ local menu = {
             { text = "2", action = function() g.config.mazeColor = 2 end },
             { text = "3", action = function() g.config.mazeColor = 3 end },
             { text = "4", action = function() g.config.mazeColor = 4 end },
+            { text = "Random", action = function() g.config.mazeColor = 0 end },
         }
     },
     {
@@ -262,7 +263,7 @@ function options.resetSelectedOptions()
     menu[10].selectedOption = g.config.phasing and 1 or 2
     menu[11].selectedOption = g.config.extraGhosts + 1
     menu[12].selectedOption = getBackgroundIndex()
-    menu[13].selectedOption = g.config.mazeColor
+    menu[13].selectedOption = g.config.mazeColor == 0 and 5 or g.config.mazeColor
     menu[14].selectedOption = g.config.fullscreen and 1 or 2
     menu[15].selectedOption = g.config.crtEffect and 1 or 2
     menu[16].selectedOption = g.config.volume + 1
@@ -287,7 +288,7 @@ function options.start()
     menu[10].selectedOption = g.config.phasing and 1 or 2
     menu[11].selectedOption = g.config.extraGhosts + 1
     menu[12].selectedOption = getBackgroundIndex()
-    menu[13].selectedOption = g.config.mazeColor
+    menu[13].selectedOption = g.config.mazeColor == 0 and 5 or g.config.mazeColor
     menu[14].selectedOption = g.config.fullscreen and 1 or 2
     menu[15].selectedOption = g.config.crtEffect and 1 or 2
     menu[16].selectedOption = g.config.volume + 1
@@ -344,7 +345,10 @@ function options.draw()
     graphics.print("Volume", 2, 21)
     menus.draw(menu, 18, 6, 1)
 
-    graphics.drawSpriteAtTile("spr8", g.config.mazeColor + 2, 20, 18)
+    if g.config.mazeColor > 0 then 
+        graphics.drawSpriteAtTile("spr8", g.config.mazeColor + 2, 20, 18)
+    end
+    
     graphics.print("up/down to select", 4, 32, 2)
     graphics.print("left/right to change", 3, 33, 2)
     love.graphics.setCanvas()

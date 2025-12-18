@@ -136,7 +136,7 @@ local modes = {
         },
         intermission1 = {
             state = { running = false, showPac = false, showGhosts = false, hideMaze = true, hideScore = true, hideLines = true },
-            frames = 360,
+            frames = 720,
             nextMode = "pause",
             endFunc = function()
                 g.intermissionBoozes = nil
