@@ -325,12 +325,10 @@ characters.initialize = function()
                         local targetX, targetY
                         if self.dead then
                             targetX, targetY = 13, 14
-                        elseif g.level.chase then
+                        else -- never scatters
                             local pacXTile, pacXOff, pacYTile, pacYOff = maze.getLoc(g.chars.pac)
                             targetX = pacXTile + constants.deltas[g.chars.pac.dir].y * (math.random(0, 8) - 4)
                             targetY = pacYTile + constants.deltas[g.chars.pac.dir].x * (math.random(0, 8) - 4)
-                        else
-                            targetX, targetY = self.scatterX, self.scatterY
                         end
                         findBestDirection(self, xTile, yTile, targetX, targetY, candidates)
                     end
@@ -365,7 +363,7 @@ characters.initialize = function()
                         local targetX, targetY
                         if self.dead then
                             targetX, targetY = 13, 14
-                        elseif g.level.chase then
+                        else -- never scatters
                             local pacXTile, pacXOff, pacYTile, pacYOff = maze.getLoc(g.chars.pac)
                             local midXTile = maze.w / 2
                             local midYTile = maze.h / 2
@@ -375,11 +373,6 @@ characters.initialize = function()
                             
                             targetX = pacXTile + px * 2
                             targetY = pacYTile + py * 2
-                            -- local pacXTile, pacXOff, pacYTile, pacYOff = maze.getLoc(g.chars.pac)
-                            -- targetX = pacXTile + constants.deltas[g.chars.pac.dir].y * -4
-                            -- targetY = pacYTile + constants.deltas[g.chars.pac.dir].x * -4
-                        else
-                            targetX, targetY = self.scatterX, self.scatterY
                         end
                         findBestDirection(self, xTile, yTile, targetX, targetY, candidates)
                     end
@@ -387,6 +380,45 @@ characters.initialize = function()
             end
         }
         chars.gunky.animator = createGhostAnimator("gunky", false)
+    end
+
+    if g.config.extraGhosts >= 3 then
+        chars.gronky = {
+            x = -2 * 8,
+            y = (8 * 17) + 4,
+            dir = math.random(0,1) * 2,
+            houseX = 14, houseY = 17,
+            leavesRight = math.random(0, 1) == 1,
+            target = function(self)
+                if not self.iDir then
+                    self.iDir = self.dir
+                    return
+                end
+    
+                local xTile, xOff, yTile, yOff = maze.getLoc(self)
+                local candidates = getCandidates(self)
+    
+                if #candidates == 1 then 
+                    self.iDir = candidates[1]
+                else
+                    if self.frightened then
+                        handleFrightenedDirection(self, candidates)
+                    else
+                        local targetX, targetY
+                        if self.dead then
+                            targetX, targetY = 13, 14
+                        else -- never scatters
+                            local myXTile, myXOff, myYTile, myYOff = maze.getLoc(self)
+
+                            targetX = myXTile + constants.deltas[math.random(0, 3)].x
+                            targetY = myYTile + constants.deltas[math.random(0, 3)].y
+                        end
+                        findBestDirection(self, xTile, yTile, targetX, targetY, candidates)
+                    end
+                end
+            end
+        }
+        chars.gronky.animator = createGhostAnimator("gronky", false)
     end
 
     g.chars = chars
@@ -476,9 +508,6 @@ characters.reset = function()
         g.chars.punky.frightened = false
         g.chars.punky.leaveRight = false
         g.chars.punky.speed = logic.getGhostSpeed(g.chars.punky)
-        local randomScatter = scatterTiles[math.random(1, 4)]
-        g.chars.punky.scatterX = randomScatter.x
-        g.chars.punky.scatterY = randomScatter.y
     end
 
     if g.config.extraGhosts >= 2 then
@@ -493,9 +522,21 @@ characters.reset = function()
         g.chars.gunky.frightened = false
         g.chars.gunky.leaveRight = false
         g.chars.gunky.speed = logic.getGhostSpeed(g.chars.gunky)
-        local randomScatter = scatterTiles[math.random(1, 4)]
-        g.chars.gunky.scatterX = randomScatter.x
-        g.chars.gunky.scatterY = randomScatter.y
+    end 
+
+    if g.config.extraGhosts >= 3 then
+        g.chars.gronky.frame = 1
+        g.chars.gronky.x = (8 * -2)
+        g.chars.gronky.y = (8 * 17) + 4
+        g.chars.gunky.dir = math.random(0,1) * 2
+        g.chars.gronky.iDir = nil
+        g.chars.gronky.leavesRight = math.random(0, 1) == 1
+        g.chars.gronky.entering = false
+        g.chars.gronky.leaving = false
+        g.chars.gronky.dead = false
+        g.chars.gronky.frightened = false
+        g.chars.gronky.leaveRight = false
+        g.chars.gronky.speed = logic.getGhostSpeed(g.chars.gronky)
     end 
 
     g.chars.pac.x = (8 * 14)

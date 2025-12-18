@@ -353,7 +353,7 @@ function game.update(dt)
                 local y = math.random(0, maze.h * 8)
                 local vx = math.random() * 2 - 1
                 local vy = math.random() * 2 - 1
-                table.insert(g.intermissionBoozes, {spr = math.random(78,87), x = x, y = y, vx = vx, vy = vy})
+                table.insert(g.intermissionBoozes, {spr = math.random(86,95), x = x, y = y, vx = vx, vy = vy})
             end
         end
         for i, booze in ipairs(g.intermissionBoozes) do
@@ -444,13 +444,13 @@ function game.draw()
         -- Draw lives
         if not g.state.hideLives then
             for i = 1, math.min(5, g.lives) do
-                graphics.drawSpriteAtTile("spr16", 77, i*2, 34)
+                graphics.drawSpriteAtTile("spr16", 85, i*2, 34)
             end        
         end
     end
 
-    -- Draw level display
-    for i = 1, #g.level.levelDisplay do
+-- Draw level display
+for i = 1, #g.level.levelDisplay do
         graphics.drawSpriteAtTile(g.level.levelDisplay[i].sheet, g.level.levelDisplay[i].quad, 26 - (i*2), 34)
     end
     
@@ -480,16 +480,16 @@ function game.draw()
     
     if g.mode == "dying" then
         if g.modeTimer > 180 then
-            graphics.drawSprite("spr16", 66, g.chars.pac.x - 8, g.chars.pac.y - 8)
+            graphics.drawSprite("spr16", 74, g.chars.pac.x - 8, g.chars.pac.y - 8)
         elseif g.modeTimer > 100 then
             if g.modeTimer <= 180 and not g.diedSoundPlayed then
                 g.sounds.died:play()
                 g.diedSoundPlayed = true
             end
             local dFrame = 180 - g.modeTimer
-            graphics.drawSprite("spr16", 66 + math.floor(dFrame / 8), g.chars.pac.x - 8, g.chars.pac.y - 8)
+            graphics.drawSprite("spr16", 74 + math.floor(dFrame / 8), g.chars.pac.x - 8, g.chars.pac.y - 8)
         elseif g.modeTimer > 70 then
-            graphics.drawSprite("spr16", 76, g.chars.pac.x - 8, g.chars.pac.y - 8)
+            graphics.drawSprite("spr16", 84, g.chars.pac.x - 8, g.chars.pac.y - 8)
         end
     end
 

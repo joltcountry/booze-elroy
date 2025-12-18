@@ -147,6 +147,7 @@ local menu = {
             { text = "0", action = function() g.config.extraGhosts = 0 end },
             { text = "1", action = function() g.config.extraGhosts = 1 end },
             { text = "2", action = function() g.config.extraGhosts = 2 end },
+            { text = "3", action = function() g.config.extraGhosts = 3 end },
         }
     },
     {
@@ -348,7 +349,7 @@ function options.draw()
     if g.config.mazeColor > 0 then 
         graphics.drawSpriteAtTile("spr8", g.config.mazeColor + 2, 20, 18)
     end
-    
+
     graphics.print("up/down to select", 4, 32, 2)
     graphics.print("left/right to change", 3, 33, 2)
     love.graphics.setCanvas()

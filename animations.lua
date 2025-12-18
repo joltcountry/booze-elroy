@@ -153,37 +153,59 @@ local animations = {
             speed = 10,
         },
     },
-    dead = {
+    gronky = {
         [0] = {
             spr = "spr16",
-            frames = {62},
+            frames = {58, 59},
+            speed = 10,
         },
         [1] = {
             spr = "spr16",
-            frames = {63},
+            frames = {60, 61},
+            speed = 10,
         },
         [2] = {
             spr = "spr16",
-            frames = {64},
+            frames = {62, 63},
+            speed = 10,
         },
         [3] = {
             spr = "spr16",
-            frames = {65},
+            frames = {64, 65},
+            speed = 10,
+        },
+    },
+    dead = {
+        [0] = {
+            spr = "spr16",
+            frames = {70},
+        },
+        [1] = {
+            spr = "spr16",
+            frames = {71},
+        },
+        [2] = {
+            spr = "spr16",
+            frames = {72},
+        },
+        [3] = {
+            spr = "spr16",
+            frames = {73},
         },
     },
     scaredBlue = {
         spr = "spr16",
-        frames = {58, 59},
+        frames = {66, 67},
         speed = 10
     },
     scaredWhite = {
         spr = "spr16",
-        frames = {60, 61},
+        frames = {68, 69},
         speed = 10
     },
     booze = {
         spr = "spr16",
-        frames = {86,87},
+        frames = {94,95},
         speed = 10,
     },
     power = {

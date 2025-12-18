@@ -1,42 +1,42 @@
 local fruits = {
     cherry = {
         sheet = "spr16",
-        quad = 78,
+        quad = 86,
         score = 100,
     },
     strawberry = {
         sheet = "spr16",
-        quad = 79,
+        quad = 87,
         score = 300,
     },
     peach = {
         sheet = "spr16",
-        quad = 80,
+        quad = 88,
         score = 500,
     },
     apple = {
         sheet = "spr16",
-        quad = 81,
+        quad = 89,
         score = 700,
     },
     melon = {
         sheet = "spr16",
-        quad = 82,
+        quad = 90,
         score = 1000,
     },
     galaxian = {
         sheet = "spr16",
-        quad = 83,
+        quad = 91,
         score = 2000,
     },
     bell = {
         sheet = "spr16",
-        quad = 84,
+        quad = 92,
         score = 3000,
     },
     key = {
         sheet = "spr16",
-        quad = 85,
+        quad = 93,
         score = 5000,
     },
     x = 14 * 8,
