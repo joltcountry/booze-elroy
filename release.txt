@@ -22,13 +22,14 @@ Added controller support for menus/in-game pause/phasing
 Added option to save current configuration
 Added option to reset default configuration
 Added "retro" background option
+Added "none" option for extra lives
 Added placeholder Intermissions
 Fixes to graphic and audio glitches
 Changed in-menu sound effects to be awesomer
 Moved reset highscore to Options menu
 
-o add "none" option for extra guy
-o add random mazes and maze color
+- random color
+- new colors
 
 
 ROADMAP

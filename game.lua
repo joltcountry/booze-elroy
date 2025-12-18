@@ -203,7 +203,7 @@ function game.start()
         reloadAudioSources()
     end
     
-    g.levelNumber = 1
+    g.levelNumber = g.config.startingLevel
     g.scenery = {}
     mode.setMode("pregame")
     g.lives = g.config.startingLives
@@ -413,11 +413,29 @@ function game.draw()
         end
         
         -- Draw scenery (use ipairs for arrays)
-        for _, scenery in ipairs(g.dots) do
-            graphics.drawScenery(scenery, scenery.x, scenery.y)
+        if (not g.config.afterDark or g.config.afterDark == 1) then
+            if (g.mode == "playerUp") then
+                local a = (135 - g.modeTimer) / 135
+                love.graphics.setColor(a, a, a)
+            end
+            for _, scenery in ipairs(g.dots) do
+                graphics.drawScenery(scenery, scenery.x, scenery.y)
+            end
+            if (g.mode == "playerUp") then
+                love.graphics.setColor(1, 1, 1)
+            end
         end
-        for _, scenery in ipairs(g.powers) do
-            graphics.drawScenery(scenery, scenery.x, scenery.y)
+        if (not g.config.afterDark or g.config.afterDark < 4) then
+            if (g.mode == "playerUp") then
+                local a = (135 - g.modeTimer) / 135
+                love.graphics.setColor(a, a, a)
+            end
+            for _, scenery in ipairs(g.powers) do
+                graphics.drawScenery(scenery, scenery.x, scenery.y)
+            end
+            if (g.mode == "playerUp") then
+                love.graphics.setColor(1, 1, 1)
+            end
         end
         
         -- Draw particle explosions

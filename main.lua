@@ -10,6 +10,7 @@ g.config = {}
 
 g.defaultConfig = {
     startingLives = 3,
+    startingLevel = 1,
     freeGuy = 1,
     hardMode = false,
     afterDark = false,

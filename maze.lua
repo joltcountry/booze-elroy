@@ -296,7 +296,7 @@ maze.draw = function(color)
                     break
                 end
             end
-            if spriteNum and (g.mode ~= "levelAnimation" or c ~= "P") and (not g.config.afterDark or string.sub(afterDark[y], x, x) ~= "X") then
+            if spriteNum and (g.mode ~= "levelAnimation" or c ~= "P") and (not g.config.afterDark or g.config.afterDark == 2 or string.sub(afterDark[y], x, x) ~= "X") then
                 graphics.drawSprite("spr8", (spriteNum - 1) * maze.maxColors + 3 + color, (x-1) * constants.tileSize,(y-1) * constants.tileSize)
             end
         end

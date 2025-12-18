@@ -65,6 +65,31 @@ local menu = {
     },
     {
         options = {
+            { text = "1", action = function() g.config.startingLevel = 1 end },
+            { text = "2", action = function() g.config.startingLevel = 2 end },
+            { text = "3", action = function() g.config.startingLevel = 3 end },
+            { text = "4", action = function() g.config.startingLevel = 4 end },
+            { text = "5", action = function() g.config.startingLevel = 5 end },
+            { text = "6", action = function() g.config.startingLevel = 6 end },
+            { text = "7", action = function() g.config.startingLevel = 7 end },
+            { text = "8", action = function() g.config.startingLevel = 8 end },
+            { text = "9", action = function() g.config.startingLevel = 9 end },
+            { text = "10", action = function() g.config.startingLevel = 10 end },
+            { text = "11", action = function() g.config.startingLevel = 11 end },
+            { text = "12", action = function() g.config.startingLevel = 12 end },
+            { text = "13", action = function() g.config.startingLevel = 13 end },
+            { text = "14", action = function() g.config.startingLevel = 14 end },
+            { text = "15", action = function() g.config.startingLevel = 15 end },
+            { text = "16", action = function() g.config.startingLevel = 16 end },
+            { text = "17", action = function() g.config.startingLevel = 17 end },
+            { text = "18", action = function() g.config.startingLevel = 18 end },
+            { text = "19", action = function() g.config.startingLevel = 19 end },
+            { text = "20", action = function() g.config.startingLevel = 20 end },
+            { text = "21", action = function() g.config.startingLevel = 21 end },
+        }
+    },
+    {
+        options = {
             { text = "10000", action = function() g.config.freeGuy = 1 end },
             { text = "20000", action = function() g.config.freeGuy = 2 end },
             { text = "every 10k", action = function() g.config.freeGuy = 3 end },
@@ -79,8 +104,11 @@ local menu = {
     },
     {
         options = {
-            { text = "Yes", action = function() g.config.afterDark = true end },
             { text = "No", action = function() g.config.afterDark = false end },
+            { text = "Maze", action = function() g.config.afterDark = 1 end },
+            { text = "Dots", action = function() g.config.afterDark = 2 end },
+            { text = "Both", action = function() g.config.afterDark = 3 end },
+            { text = "All", action = function() g.config.afterDark = 4 end },
         }
     },
     {
@@ -223,20 +251,21 @@ local menu = {
 
 function options.resetSelectedOptions()
     menu[1].selectedOption = g.config.startingLives == 1 and 1 or g.config.startingLives == 3 and 2 or g.config.startingLives == 5 and 3
-    menu[2].selectedOption = g.config.freeGuy
-    menu[3].selectedOption = g.config.hardMode and 1 or 2
-    menu[4].selectedOption = g.config.afterDark and 1 or 2
-    menu[5].selectedOption = g.config.pinkyBug and 1 or 2
-    menu[6].selectedOption = g.config.scatterOption == false and 1 or g.config.scatterOption == 1 and 2 or g.config.scatterOption == 2 and 3
-    menu[7].selectedOption = g.config.freeGhost and 1 or 2
-    menu[8].selectedOption = g.config.fastPac and 1 or 2
-    menu[9].selectedOption = g.config.phasing and 1 or 2
-    menu[10].selectedOption = g.config.extraGhosts + 1
-    menu[11].selectedOption = getBackgroundIndex()
-    menu[12].selectedOption = g.config.mazeColor
-    menu[13].selectedOption = g.config.fullscreen and 1 or 2
-    menu[14].selectedOption = g.config.crtEffect and 1 or 2
-    menu[15].selectedOption = g.config.volume + 1
+    menu[2].selectedOption = g.config.startingLevel
+    menu[3].selectedOption = g.config.freeGuy
+    menu[4].selectedOption = g.config.hardMode and 1 or 2
+    menu[5].selectedOption = g.config.afterDark == false and 1 or g.config.afterDark == 1 and 2 or g.config.afterDark == 2 and 3 or g.config.afterDark == 3 and 4
+    menu[6].selectedOption = g.config.pinkyBug and 1 or 2
+    menu[7].selectedOption = g.config.scatterOption == false and 1 or g.config.scatterOption == 1 and 2 or g.config.scatterOption == 2 and 3
+    menu[8].selectedOption = g.config.freeGhost and 1 or 2
+    menu[9].selectedOption = g.config.fastPac and 1 or 2
+    menu[10].selectedOption = g.config.phasing and 1 or 2
+    menu[11].selectedOption = g.config.extraGhosts + 1
+    menu[12].selectedOption = getBackgroundIndex()
+    menu[13].selectedOption = g.config.mazeColor
+    menu[14].selectedOption = g.config.fullscreen and 1 or 2
+    menu[15].selectedOption = g.config.crtEffect and 1 or 2
+    menu[16].selectedOption = g.config.volume + 1
 
     for i = 1, #menu do
         if menu[i].options then
@@ -247,20 +276,21 @@ end
 
 function options.start()
     menu[1].selectedOption = g.config.startingLives == 1 and 1 or g.config.startingLives == 3 and 2 or g.config.startingLives == 5 and 3
-    menu[2].selectedOption = g.config.freeGuy
-    menu[3].selectedOption = g.config.hardMode and 1 or 2
-    menu[4].selectedOption = g.config.afterDark and 1 or 2
-    menu[5].selectedOption = g.config.pinkyBug and 1 or 2
-    menu[6].selectedOption = g.config.scatterOption == false and 1 or g.config.scatterOption == 1 and 2 or g.config.scatterOption == 2 and 3
-    menu[7].selectedOption = g.config.freeGhost and 1 or 2
-    menu[8].selectedOption = g.config.fastPac and 1 or 2
-    menu[9].selectedOption = g.config.phasing and 1 or 2
-    menu[10].selectedOption = g.config.extraGhosts + 1
-    menu[11].selectedOption = getBackgroundIndex()
-    menu[12].selectedOption = g.config.mazeColor
-    menu[13].selectedOption = g.config.fullscreen and 1 or 2
-    menu[14].selectedOption = g.config.crtEffect and 1 or 2
-    menu[15].selectedOption = g.config.volume + 1
+    menu[2].selectedOption = g.config.startingLevel
+    menu[3].selectedOption = g.config.freeGuy
+    menu[4].selectedOption = g.config.hardMode and 1 or 2
+    menu[5].selectedOption = g.config.afterDark == false and 1 or g.config.afterDark == 1 and 2 or g.config.afterDark == 2 and 3 or g.config.afterDark == 3 and 4
+    menu[6].selectedOption = g.config.pinkyBug and 1 or 2
+    menu[7].selectedOption = g.config.scatterOption == false and 1 or g.config.scatterOption == 1 and 2 or g.config.scatterOption == 2 and 3
+    menu[8].selectedOption = g.config.freeGhost and 1 or 2
+    menu[9].selectedOption = g.config.fastPac and 1 or 2
+    menu[10].selectedOption = g.config.phasing and 1 or 2
+    menu[11].selectedOption = g.config.extraGhosts + 1
+    menu[12].selectedOption = getBackgroundIndex()
+    menu[13].selectedOption = g.config.mazeColor
+    menu[14].selectedOption = g.config.fullscreen and 1 or 2
+    menu[15].selectedOption = g.config.crtEffect and 1 or 2
+    menu[16].selectedOption = g.config.volume + 1
     menu.selectedItem = 1
 end
 
@@ -297,23 +327,24 @@ function options.draw()
 
     graphics.print("options", 10, 4, 3)
     graphics.print("Starting Lives", 2, 6)
-    graphics.print("extra life", 2, 7)
-    graphics.print("Hard Mode", 2, 8)
-    graphics.print("After Dark", 2, 9)
-    graphics.print("Pinky Bug", 2, 10)
-    graphics.print("Scatter", 2, 11)
-    graphics.print("Free Ghosts", 2, 12)
-    graphics.print("Fast Pac", 2, 13)
-    graphics.print("Phasing", 2, 14)
-    graphics.print("Extra Ghosts", 2, 15)
-    graphics.print("Background", 2, 16)
-    graphics.print("Maze Color", 2, 17)
-    graphics.print("Full screen", 2, 18)
-    graphics.print("CRT Effect", 2, 19)
-    graphics.print("Volume", 2, 20)
+    graphics.print("Starting Level", 2, 7)
+    graphics.print("extra life", 2, 8)
+    graphics.print("Hard Mode", 2, 9)
+    graphics.print("Blindfold", 2, 10)
+    graphics.print("Pinky Bug", 2, 11)
+    graphics.print("Scatter", 2, 12)
+    graphics.print("Free Ghosts", 2, 13)
+    graphics.print("Fast Pac", 2, 14)
+    graphics.print("Phasing", 2, 15)
+    graphics.print("Extra Ghosts", 2, 16)
+    graphics.print("Background", 2, 17)
+    graphics.print("Maze Color", 2, 18)
+    graphics.print("Full screen", 2, 19)
+    graphics.print("CRT Effect", 2, 20)
+    graphics.print("Volume", 2, 21)
     menus.draw(menu, 18, 6, 1)
 
-    graphics.drawSpriteAtTile("spr8", g.config.mazeColor + 2, 20, 17)
+    graphics.drawSpriteAtTile("spr8", g.config.mazeColor + 2, 20, 18)
     graphics.print("up/down to select", 4, 32, 2)
     graphics.print("left/right to change", 3, 33, 2)
     love.graphics.setCanvas()

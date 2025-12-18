@@ -44,6 +44,9 @@ local modes = {
             state = { running = false, showPac = false, showGhosts = false },
             nextMode = "ready",
             startFunc = function()
+                for name, power in pairs(g.powers) do
+                    power.frame = 1
+                end
                 g.sounds.opening:play()
             end
         },
