@@ -32,8 +32,8 @@ function attract.start()
     mode.setMode("startup")
     menu.selectedItem = 1
     stopSiren()
-    if g.config.originalVolume then
-        g.config.volume = g.config.originalVolume
+    if g.originalVolume then
+        g.configvolume = g.originalVolume
     end
     applyVolume()
     for _, snd in pairs(g.sounds) do
@@ -69,9 +69,10 @@ function attract.draw()
     love.graphics.clear(0, 0, 0, 1)
     love.graphics.origin()
 
-    if g.backgrounds[g.config.background] then
+    if not g.currentBackground then g.currentBackground = g.config.background end
+    if g.backgrounds[g.currentBackground] then
         love.graphics.setColor(.4, .4, .4)
-        love.graphics.draw(g.backgrounds[g.config.background], 0, 0, 0, 224 / g.backgrounds[g.config.background]:getWidth(), 288  / g.backgrounds[g.config.background]:getHeight())
+        love.graphics.draw(g.backgrounds[g.currentBackground], 0, 0, 0, 224 / g.backgrounds[g.currentBackground]:getWidth(), 288  / g.backgrounds[g.currentBackground]:getHeight())
         love.graphics.setColor(1, 1, 1)
     end
 

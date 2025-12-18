@@ -211,9 +211,6 @@ end
 
 function game.start()
 
-    -- i want this removed!  but I need it for testing
-    math.randomseed(os.time())
-
     -- One-time audio-device-sensitive reload of sources when starting the game
     if reloadAudioSources then
         reloadAudioSources()
@@ -402,11 +399,11 @@ function game.draw()
 
     love.graphics.clear(0, 0, 0, 1)
     love.graphics.origin()
-    if g.backgrounds[g.config.background] then
-        love.graphics.setColor(.4, .4, .4)
-        love.graphics.draw(g.backgrounds[g.config.background], 0, 0, 0, 224 / g.backgrounds[g.config.background]:getWidth(), 288  / g.backgrounds[g.config.background]:getHeight())
-        love.graphics.setColor(1, 1, 1)
-    end
+    if not g.currentBackground then g.currentBackground = g.config.background end
+    love.graphics.setColor(.4, .4, .4)
+    love.graphics.draw(g.backgrounds[g.currentBackground], 0, 0, 0, 224 / g.backgrounds[g.currentBackground]:getWidth(), 288  / g.backgrounds[g.currentBackground]:getHeight())
+    love.graphics.setColor(1, 1, 1)
+
     -- Draw mode messages
     if g.mode == "playerUp" then
         graphics.print("player one", 9, 14, 3)

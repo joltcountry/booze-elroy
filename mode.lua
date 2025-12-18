@@ -26,7 +26,7 @@ local modes = {
             state = { showHelperText = true, showGameName = true, showBooze = true },
             endFunc = function()
                 g.attract = true
-                g.config.originalVolume = g.config.volume
+                g.originalVolume = g.config.volume
                 g.config.volume = 0
                 setScene("game")
             end
@@ -124,8 +124,9 @@ local modes = {
             end,
             endFunc = function()
                 if g.attract then
-                    g.config.volume = g.config.originalVolume
+                    g.config.volume = g.originalVolume
                     g.attract = false
+                    g.originalVolume = nil
                     setScene("attract")
                 end
             end

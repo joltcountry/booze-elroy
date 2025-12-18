@@ -785,6 +785,7 @@ levels.startLevel = function()
     g.globalCounter = false
     g.suspendElroy = false
     g.currentMazeColor = g.config.mazeColor == 0 and math.random(1, maze.maxColors - 1) or g.config.mazeColor
+    g.currentBackground = g.config.background == "random" and backgroundOptions[math.random(2, #backgroundOptions)] or g.config.background
 end
 
 levels.resetLevel = function()

@@ -226,7 +226,7 @@ score = function(s)
     end
         
     -- Update high score
-    if (not g.highScore or g.score > g.highScore) and g.score > 0 then
+    if (not g.highScore or g.score > g.highScore) and g.score > 0 and not g.attract then
         g.highScore = g.score
 
         -- Encode the high score before saving
@@ -261,18 +261,15 @@ end
 
 
 function love.load()
-    -- Seed random number generator for proper randomness
-    --math.randomseed(os.time())
-    
-    -- Set filter FIRST, before creating any canvases or loading images
-    --love.graphics.setDefaultFilter("nearest", "nearest")
+
+    math.randomseed(os.time())
     
     love.mouse.setVisible(false)
 
     local gw, gh = 224, 288
 
     resetConfigs()
-    
+
     -- Load saved config from options.cfg if it exists
     if love.filesystem.getInfo("options.cfg") then
         local success, loadedConfig = pcall(function()
@@ -299,6 +296,10 @@ function love.load()
         })
     end
     
+    if g.config.background == "random" then
+        g.currentBackground = backgroundOptions[math.random(2, #backgroundOptions)]
+    end
+
     resizeCanvases()
 
     effect = moonshine(moonshine.effects.glow)
