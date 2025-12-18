@@ -28,6 +28,7 @@ Added option to save current configuration
 Added option to reset default configuration
 Added "none" option for extra lives
 Added "random" option for maze colors
+Added "random" option for backgrounds
 Added eight new maze colors
 Added four new backgrounds
 Added third extra ghost ("gronky!")
