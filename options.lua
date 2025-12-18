@@ -68,6 +68,7 @@ local menu = {
             { text = "10000", action = function() g.config.freeGuy = 1 end },
             { text = "20000", action = function() g.config.freeGuy = 2 end },
             { text = "every 10k", action = function() g.config.freeGuy = 3 end },
+            { text = "none", action = function() g.config.freeGuy = 4 end },
         }
     },
     {

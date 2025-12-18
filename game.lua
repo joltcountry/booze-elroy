@@ -136,6 +136,63 @@ local drawDebugInfo = function()
     end
 end
 
+-- Particle system for power pellet explosions
+g.particles = {}
+
+g.createParticleExplosion = function(x, y)
+    -- Create random particles like fireworks
+    for i = 1, 50 do
+        local angle = math.random() * math.pi * 2  -- Completely random angle
+        local speed = math.random() * 1.5
+        local vx = math.cos(angle) * speed
+        local vy = math.sin(angle) * speed
+        table.insert(g.particles, {
+            x = x + (math.random() - 0.5) * 4,  -- Slight random offset for spread
+            y = y + (math.random() - 0.5) * 4,
+            vx = vx,
+            vy = vy,
+            life = 60,  -- frames to live
+            maxLife = 60,
+            size = 0.5 + math.random(),
+            colors = {
+                -- Pick either yellow (#ffff00) or purple (#B000ff) at random
+                (function()
+                    if math.random() < 0.5 then
+                        -- yellow: 1, 1, 0
+                        return {1, 1, 0}
+                    else
+                        -- purple: 176/255, 0, 1
+                        return {176/255, 0, 1}
+                    end
+                end)()
+            }
+        })
+    end
+end
+
+local updateParticles = function()
+    for i = #g.particles, 1, -1 do
+        local p = g.particles[i]
+        p.x = p.x + p.vx
+        p.y = p.y + p.vy
+        p.vx = p.vx * 0.97  -- friction
+        p.vy = p.vy * 0.97
+        p.life = p.life - 1
+        if p.life <= 0 then
+            table.remove(g.particles, i)
+        end
+    end
+end
+
+local drawParticles = function()
+    for _, p in ipairs(g.particles) do
+        local alpha = 1
+        love.graphics.setColor(p.colors[1], p.colors[2], p.colors[3], alpha)  -- Yellow-white particles
+        love.graphics.circle("fill", p.x, p.y, p.size)
+    end
+    love.graphics.setColor(1, 1, 1)  -- Reset color
+end
+
 function game.start()
 
     -- i want this removed!  but I need it for testing
@@ -153,6 +210,7 @@ function game.start()
     g.score = 0
     g.paused = false
     g.wakka = false
+    g.particles = {}  -- Initialize particles
 
     maze.init()
 
@@ -256,6 +314,9 @@ function game.update(dt)
             mode.setMode("levelComplete")
         end
         
+        -- Update particles
+        updateParticles()
+        
         -- Update animation
         if g.chars.pac.moved then
             graphics.updateAnimation(g.chars.pac, fc)
@@ -287,23 +348,17 @@ function game.update(dt)
     if g.mode == "intermission1" then
         if not g.intermissionBoozes then
             g.intermissionBoozes = {}
-            for i = 1, 40 do
+            for i = 1, 50 do
                 local x = math.random(0, maze.w * 8)
                 local y = math.random(0, maze.h * 8)
-                table.insert(g.intermissionBoozes, {x = x, y = y})
+                local vx = math.random() * 2 - 1
+                local vy = math.random() * 2 - 1
+                table.insert(g.intermissionBoozes, {spr = math.random(78,87), x = x, y = y, vx = vx, vy = vy})
             end
         end
         for i, booze in ipairs(g.intermissionBoozes) do
-            local mode = (i - 1) % 4
-            if mode == 0 then
-                booze.x = booze.x + 1
-            elseif mode == 1 then
-                booze.y = booze.y + 1
-            elseif mode == 2 then
-                booze.x = booze.x - 1
-            elseif mode == 3 then
-                booze.y = booze.y - 1
-            end
+            booze.x = booze.x + booze.vx
+            booze.y = booze.y + booze.vy
 
             if booze.x > maze.w * 8 then
                 booze.x = 0
@@ -364,6 +419,10 @@ function game.draw()
         for _, scenery in ipairs(g.powers) do
             graphics.drawScenery(scenery, scenery.x, scenery.y)
         end
+        
+        -- Draw particle explosions
+        drawParticles()
+        
         -- Draw lives
         if not g.state.hideLives then
             for i = 1, math.min(5, g.lives) do
@@ -425,7 +484,7 @@ function game.draw()
 
         if g.modeTimer < 300 and mode.isStarted("intermission1") then
             for _, booze in ipairs(g.intermissionBoozes) do
-                graphics.drawSprite("spr16", 86, booze.x, booze.y)
+                graphics.drawSprite("spr16", booze.spr, booze.x, booze.y)
             end
             graphics.print("pardon our dust!", 6, 15, 6)
             graphics.print("intermission", 8, 19, 3)

@@ -15,7 +15,7 @@ local checkCollisions = function(collectibles, xTile, yTile)
             score(item.score)
             g.chars.pac.skipCounter = item.skipCounter
             table.remove(collectibles, i)
-            if item.action then item.action() end
+            if item.action then item.action(xTile, yTile) end
         end
     end
 end
