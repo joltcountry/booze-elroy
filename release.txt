@@ -22,10 +22,10 @@ NEW OPTION: Starting level
 Added controller support for menus/in-game pause/phasing
 Added option to save current configuration
 Added option to reset default configuration
-Added "retro" background option
 Added "none" option for extra lives
 Added "random" option for maze colors
 Added eight new maze colors
+Added four new backgrounds
 Added third extra ghost ("gronky!")
 Added placeholder Intermissions
 Fixed audio bug, fixed a couple video bugs
