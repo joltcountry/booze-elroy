@@ -70,6 +70,22 @@ end
 -- Helper function to handle player input
 local handlePlayerInput = function()
     g.chars.pac.iDir = false
+    if g.autoplay then 
+        local xTile, xOff, yTile, yOff = maze.getLoc(g.chars.pac)
+        if xOff == constants.centerLine and yOff == constants.centerLine then
+            -- Autoplay: pick a random dir until maze.isBlocked(dir) is false AND dir is not two off of g.chars.pac.dir
+            local picked = false
+            while not picked do
+                local dir = math.random(0,3)
+                -- not allow reversing
+                if (math.abs(g.chars.pac.dir - dir) ~= 2) and not maze.isBlocked(g.chars.pac, dir) then
+                    g.chars.pac.iDir = dir
+                    picked = true
+                end
+            end
+        end
+        return
+    end
     if joystick then
         -- Check d-pad first (has priority)
         if joystick:isGamepadDown("dpright") then g.chars.pac.iDir = 0 end

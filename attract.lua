@@ -91,7 +91,7 @@ function attract.draw()
         graphics.print(msg1, 14 - string.len(msg1) / 2, 5)
         graphics.print(msg2, 14 - string.len(msg2) / 2, 7)
         
-        menus.draw(menus.main, 6, 23)
+        menus.draw(menus.main, 6, 23, 1)
     end
     if g.state.showGameName then
         graphics.print(msg3, 14 - string.len(msg3) / 2, 15, math.random(0,6))

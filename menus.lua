@@ -15,28 +15,41 @@ end
 menus.main = {
     {
         text = "Play",
+        x = 10, y = 25,
         action = function()
+            g.autoplay = false
             mode.setMode("play")
         end
     },
     {
+        x = 10, y = 26,
         text = "Options",
         action = function()
             setScene("options")
         end
     },
     {
+        x = 10, y = 27,
         text = "Credits",
         action = function()
             setScene("credits")
         end
     },
     {
+        x = 10, y = 28,
         text = "Exit",
         action = function()
             love.event.quit()
         end
-    }
+    },
+    {
+        text = "Autoplay",
+        x = 10, y = 30,
+        action = function()
+            g.autoplay = true
+            mode.setMode("play")
+        end
+    },
 }
 
 menus.credits = {

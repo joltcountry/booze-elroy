@@ -4,6 +4,7 @@
 g = {
     scaleOption = 3,
     state = {},
+    autoplay = true,
 }
 
 g.config = {}

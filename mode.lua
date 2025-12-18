@@ -121,7 +121,11 @@ local modes = {
             state = { running = false, showPac = false, showGhosts = false },
             frames = 120,
             endFunc = function()
-                setScene("attract")
+                if g.autoplay then
+                    setScene("game")
+                else
+                    setScene("attract")
+                end
             end
         },
         levelComplete = {
