@@ -263,6 +263,8 @@ function love.load()
     -- Set filter FIRST, before creating any canvases or loading images
     --love.graphics.setDefaultFilter("nearest", "nearest")
     
+    love.mouse.setVisible(false)
+    
     local gw, gh = 224, 288
 
     resetConfigs()
