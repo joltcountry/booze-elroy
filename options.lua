@@ -250,9 +250,8 @@ local menu = {
 
         x = 5, y = 27,
         action = function()
-            scoreFile:seek(0)  -- Seek to beginning
-            scoreFile:write("")
-            scoreFile:flush()
+            -- Overwrite the file with empty string to reset it
+            love.filesystem.write("player.dat", "")
             g.highScore = false
         end
     },

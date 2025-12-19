@@ -33,8 +33,9 @@ function attract.start()
     menu.selectedItem = 1
     stopSiren()
     if g.originalVolume then
-        g.configvolume = g.originalVolume
+        g.config.volume = g.originalVolume
     end
+    g.attract = false
     applyVolume()
     for _, snd in pairs(g.sounds) do
         if type(snd.stop) == "function" then snd:stop() end
