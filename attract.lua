@@ -35,6 +35,9 @@ function attract.start()
     if g.originalVolume then
         g.config.volume = g.originalVolume
     end
+    if g.volumeBeforeMute then
+        g.config.volume = g.volumeBeforeMute
+    end
     g.attract = false
     applyVolume()
     for _, snd in pairs(g.sounds) do

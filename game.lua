@@ -325,7 +325,8 @@ local drawParticles = function()
 end
 
 function game.start()
-
+    g.volumeBeforeMute = nil
+    g.muted = false
     -- One-time audio-device-sensitive reload of sources when starting the game
     if reloadAudioSources then
         reloadAudioSources()
@@ -654,6 +655,18 @@ for i = 1, #g.level.levelDisplay do
 end
 
 function game.keypressed(key)
+    if key == "m" then
+        if g.muted then
+            g.config.volume = g.volumeBeforeMute
+            applyVolume()
+        else
+            g.volumeBeforeMute = g.config.volume
+            g.config.volume = 0
+            applyVolume()
+        end
+        g.muted = not g.muted
+        return
+    end
     if g.state.running and key == "space" and not g.chars.pac.phased and g.config.phasing then
         phasePac()
     end
