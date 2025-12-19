@@ -104,7 +104,7 @@ local handlePlayerInput = function()
         then
             if g.config.phasing and not g.chars.pac.phased then
                 phasePac()
-            else
+            elseif not g.chars.pac.phased then
 --                if not g.state.turnaroundCooldown and not g.chars.pac.phased then
                     g.chars.pac.iDir = (g.chars.pac.dir + 2) % 4
 --                    g.state.turnaroundCooldown = math.ceil(math.max(maze.w, maze.h) / 2)
