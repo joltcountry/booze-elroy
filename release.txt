@@ -15,13 +15,13 @@ High scores now preserved between sessions
 
 ALPHA 4 Release Notes
 ===================
-NEW MODE: Autoplay!  (Experimental.  And dumb.)
+NEW MODE: Autoplay! (Highly experimental and dangerous)
 
-NEW OPTION: Phasing!  It's just like jumping!  (space/A button)
+NEW OPTION: Phasing!  (space/A button to become invulnerable for 60 seconds.  60 second cooldown.)
 NEW OPTION: Blindfold (hide the maze, the dots, both, or everything!)
 NEW OPTION: Starting level
 
-IMPROVED ATTRACT SCREEN: rolls to gameplay after a few seconds
+IMPROVED ATTRACT SCREEN: rolls to gameplay after a few seconds.  Fun, right?  RIGHT!?!
 
 Added controller support for menus/in-game pause/phasing
 Added option to save current configuration
@@ -29,8 +29,8 @@ Added option to reset default configuration
 Added "none" option for extra lives
 Added "random" option for maze colors
 Added "random" option for backgrounds
-Added eight new maze colors
-Added four new backgrounds
+Added nine new maze colors
+Added five new backgrounds
 Added third extra ghost ("gronky!")
 Added placeholder Intermissions
 Fixed audio bug, fixed a couple video bugs
@@ -44,18 +44,17 @@ ROADMAP
 
 ALPHA 5 (1/1/2026)
 ===================
-Alternate mazes (scale fruit & siren)
+Alternate mazes (fruit & sound effects scaled properly)
 "Random" maze mode (pick mazes randomly, not random maze generation)
 Additional backgrounds/maze colors
 
 ALPHA 6 (1/26/2026)
 ===================
-Large mazes (scale fruit & siren)
+Large mazes
 Additional mazes/backgrounds/maze colors
 
 BETA 1 (2/26/2026)
 ==================
 Improved attract screen
 Intermissions
- -- ONLY level mode is shown
-Two-player mode?
+Two player mode

@@ -96,35 +96,22 @@ local handlePlayerInput = function()
     -- AUTOPLAY AI.  OOF --
     if g.autoplay or g.attract then 
         local xTile, xOff, yTile, yOff = maze.getLoc(g.chars.pac)
-        local oneInFront = { xTile = xTile + constants.deltas[g.chars.pac.dir].x, yTile = yTile + constants.deltas[g.chars.pac.dir].y }
+        
         if isScaryMonster(xTile, yTile, g.chars.pac.dir, 1) 
             or isScaryMonster(xTile, yTile, g.chars.pac.dir, 2)
-            or isScaryMonster(oneInFront.xTile, oneInFront.yTile, (g.chars.pac.dir - 1) % 4, 1) 
-            or isScaryMonster(oneInFront.xTile, oneInFront.yTile, (g.chars.pac.dir + 1) % 4, 1)
         then
             if g.config.phasing and not g.chars.pac.phased then
                 phasePac()
             else
-                if not g.state.turnaroundCooldown then
+                if not g.state.turnaroundCooldown and not g.chars.pac.phased then
                     g.chars.pac.iDir = (g.chars.pac.dir + 2) % 4
-                    g.state.turnaroundCooldown = math.ceil(math.min(maze.w, maze.h) / 2)
+                    g.state.turnaroundCooldown = math.ceil(math.max(maze.w, maze.h) / 2)
                     return
                 end
             end
         end
 
         if xOff == constants.centerLine and yOff == constants.centerLine then
-
-            local candidates = {}
-            for i = 0, 3 do
-                if not maze.isBlocked(g.chars.pac, i) and (g.chars.pac.phased or (not isScaryMonster(xTile, yTile, i, 1) and not isScaryMonster(xTile, yTile, i, 2))) then
-                    if math.abs(i - g.chars.pac.dir) == 2 and not g.state.turnaroundCooldown then
-                        table.insert(candidates, i)
-                    elseif math.abs(i - g.chars.pac.dir) ~= 2 then
-                        table.insert(candidates, i)
-                    end
-                end
-            end
 
             if g.state.turnaroundCooldown and g.state.turnaroundCooldown > 0 then
                 g.state.turnaroundCooldown = g.state.turnaroundCooldown - 1
@@ -133,25 +120,66 @@ local handlePlayerInput = function()
                 end
             end
 
+            local candidates = {}
+            for i = 0, 3 do
+                if not maze.isBlocked(g.chars.pac, i) 
+                and 
+                (g.chars.pac.phased or 
+                (not isScaryMonster(xTile, yTile, i, 1) 
+                 and not isScaryMonster(xTile, yTile, i, 2))) then
+                    if math.abs(i - g.chars.pac.dir) == 2 and not g.state.turnaroundCooldown then
+                        table.insert(candidates, i)
+                    elseif math.abs(i - g.chars.pac.dir) ~= 2 then
+                        table.insert(candidates, i)
+                    end
+                end
+            end
+
             if #candidates == 1 then
                 g.chars.pac.iDir = candidates[1]
+                return
+            end
+
+            -- INSERT_YOUR_CODE
+            local dotCandidates = {}
+            for _, candidate in ipairs(candidates) do
+                local nx = xTile + constants.deltas[candidate].x
+                local ny = yTile + constants.deltas[candidate].y
+                -- Check if this matches any dot
+                local found = false
+                for _, dot in ipairs(g.dots) do
+                    if dot.x == nx and dot.y == ny then
+                        table.insert(dotCandidates, candidate)
+                    end
+                end
+                -- Check if this matches any power
+                for _, power in ipairs(g.powers) do
+                    if power.x == nx and power.y == ny then
+                        table.insert(dotCandidates, candidate)
+                    end
+                end
+            end
+
+            if #dotCandidates > 0 then
+                g.chars.pac.iDir = dotCandidates[math.random(#dotCandidates)]
                 return
             end
 
             -- Combine all dot and power positions and choose the closest to Pac-Man's tile
             local positions = {}
 
-            for _, char in pairs(g.chars) do
-                if char.target and char.frightened then
-                    local charXTile, _, charYTile, _ = maze.getLoc(char)
-                    -- INSERT_YOUR_CODE
-                    local dx = charXTile - xTile
-                    local dy = charYTile - yTile
-                    if math.abs(dx) <= 4 and math.abs(dy) <= 4 then
-                        table.insert(positions, {x = charXTile, y = charYTile})
-                    end
-                end
-            end
+            -- chase down ghosts
+            -- for _, char in pairs(g.chars) do
+            --     if char.target and char.frightened then
+            --         local charXTile, _, charYTile, _ = maze.getLoc(char)
+            --         -- INSERT_YOUR_CODE
+            --         local dx = charXTile - xTile
+            --         local dy = charYTile - yTile
+            --         if math.abs(dx) <= 4 and math.abs(dy) <= 4 then
+            --             table.insert(positions, {x = charXTile, y = charYTile})
+            --         end
+            --     end
+            --end
             if #positions == 0 then
             -- INSERT_YOUR_CODE
                 if g.fruitTimer then
@@ -191,7 +219,7 @@ local handlePlayerInput = function()
 
             findBestDirection(g.chars.pac, xTile, yTile, bestTarget.x, bestTarget.y, candidates)
             if g.chars.pac.iDir and math.abs(g.chars.pac.iDir - g.chars.pac.dir) == 2 then
-                g.state.turnaroundCooldown = math.ceil(math.min(maze.w, maze.h) / 2)
+                g.state.turnaroundCooldown = math.ceil(math.max(maze.w, maze.h) / 2)
             end
         end
     end
