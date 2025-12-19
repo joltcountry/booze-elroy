@@ -8,7 +8,7 @@ local fruits = require("fruits")
 
 -- Helper function to check and handle collisions with collectibles
 local checkCollisions = function(collectibles, xTile, yTile)
-    if g.chars.pac.phased and g.chars.pac.phased > 0 then return end
+    if g.chars.pac.phased and g.chars.pac.phased >= 0 then return end
     for i = #collectibles, 1, -1 do
         local item = collectibles[i]
         if xTile == item.x and yTile == item.y then
@@ -22,7 +22,7 @@ end
 
 -- Helper function to handle collision between Pac-Man and a ghost
 local handleGhostCollision = function(ghost, pacXTile, pacYTile, ghostXTile, ghostYTile)
-    if g.chars.pac.phased and g.chars.pac.phased > 0 then return false end
+    if g.chars.pac.phased and g.chars.pac.phased >= 0 then return false end
     if g.mode == "ateGhost" or g.mode == "caught" then return false end
     if pacXTile == ghostXTile and pacYTile == ghostYTile then
         if ghost.frightened then

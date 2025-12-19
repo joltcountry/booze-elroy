@@ -67,14 +67,13 @@ local handleModeSwitching = function()
     end
 end
 
-local isScaryMonster = function(pac, dir, distance)
+local isScaryMonster = function(xTile, yTile, dir, distance)
     distance = distance or 1
-    local pacXTile, pacXOff, pacYTile, pacYOff = maze.getLoc(pac)
     for _, char in pairs(g.chars) do
-        if char.target and not char.dead and not char.frightened then
+        if char.target and not char.dead and not char.frightened and not char.housing then
             local d = constants.deltas[dir]
-            local targetX = pacXTile + (d.x * distance)
-            local targetY = pacYTile + (d.y * distance)
+            local targetX = xTile + (d.x * distance)
+            local targetY = yTile + (d.y * distance)
             local charXTile, charXOff, charYTile, charYOff = maze.getLoc(char)
             if charXTile == targetX and charYTile == targetY then
                 return true
@@ -83,22 +82,54 @@ local isScaryMonster = function(pac, dir, distance)
     end
 end
 
+local phasePac = function()
+    g.chars.pac.phased = 60
+    if g.sounds.phase:isPlaying() then g.sounds.phase:stop() end
+    g.sounds.phase:play()
+end
+
+
 -- Helper function to handle player input
 local handlePlayerInput = function()
     g.chars.pac.iDir = false
+
+    -- AUTOPLAY AI.  OOF --
     if g.autoplay or g.attract then 
-        if isScaryMonster(g.chars.pac, g.chars.pac.dir, 2) or isScaryMonster(g.chars.pac, g.chars.pac.dir, 1) then
-            g.chars.pac.iDir = (g.chars.pac.dir + 2) % 4
-            return
+        local xTile, xOff, yTile, yOff = maze.getLoc(g.chars.pac)
+        local oneInFront = { xTile = xTile + constants.deltas[g.chars.pac.dir].x, yTile = yTile + constants.deltas[g.chars.pac.dir].y }
+        if isScaryMonster(xTile, yTile, g.chars.pac.dir, 1) 
+            or isScaryMonster(xTile, yTile, g.chars.pac.dir, 2)
+            or isScaryMonster(oneInFront.xTile, oneInFront.yTile, (g.chars.pac.dir - 1) % 4, 1) 
+            or isScaryMonster(oneInFront.xTile, oneInFront.yTile, (g.chars.pac.dir + 1) % 4, 1)
+        then
+            if g.config.phasing and not g.chars.pac.phased then
+                phasePac()
+            else
+                if not g.state.turnaroundCooldown then
+                    g.chars.pac.iDir = (g.chars.pac.dir + 2) % 4
+                    g.state.turnaroundCooldown = math.ceil(math.min(maze.w, maze.h) / 2)
+                    return
+                end
+            end
         end
 
-        local xTile, xOff, yTile, yOff = maze.getLoc(g.chars.pac)
         if xOff == constants.centerLine and yOff == constants.centerLine then
 
             local candidates = {}
             for i = 0, 3 do
-                if not maze.isBlocked(g.chars.pac, i) and not isScaryMonster(g.chars.pac, i) and math.abs(i - g.chars.pac.dir) ~= 2 then
-                    table.insert(candidates, i)
+                if not maze.isBlocked(g.chars.pac, i) and (g.chars.pac.phased or (not isScaryMonster(xTile, yTile, i, 1) and not isScaryMonster(xTile, yTile, i, 2))) then
+                    if math.abs(i - g.chars.pac.dir) == 2 and not g.state.turnaroundCooldown then
+                        table.insert(candidates, i)
+                    elseif math.abs(i - g.chars.pac.dir) ~= 2 then
+                        table.insert(candidates, i)
+                    end
+                end
+            end
+
+            if g.state.turnaroundCooldown and g.state.turnaroundCooldown > 0 then
+                g.state.turnaroundCooldown = g.state.turnaroundCooldown - 1
+                if g.state.turnaroundCooldown == 0 then
+                    g.state.turnaroundCooldown = nil
                 end
             end
 
@@ -116,7 +147,7 @@ local handlePlayerInput = function()
                     -- INSERT_YOUR_CODE
                     local dx = charXTile - xTile
                     local dy = charYTile - yTile
-                    if math.abs(dx) <= 8 and math.abs(dy) <= 8 then
+                    if math.abs(dx) <= 4 and math.abs(dy) <= 4 then
                         table.insert(positions, {x = charXTile, y = charYTile})
                     end
                 end
@@ -129,13 +160,12 @@ local handlePlayerInput = function()
                 for _, dot in ipairs(g.dots) do
                     table.insert(positions, {x = dot.x, y = dot.y})
                 end
-                for _, power in ipairs(g.powers) do
-                    table.insert(positions, {x = power.x, y = power.y})
+                if not g.frightened then
+                    for _, power in ipairs(g.powers) do
+                        table.insert(positions, {x = power.x, y = power.y})
+                    end
                 end
             end
-
-            -- INSERT_YOUR_CODE
-            -- Also append the x/y tiles of any g.chars that have both "target" and "frightened"
 
             -- Find closest
             local minDist = nil
@@ -160,9 +190,14 @@ local handlePlayerInput = function()
             end
 
             findBestDirection(g.chars.pac, xTile, yTile, bestTarget.x, bestTarget.y, candidates)
-
+            if g.chars.pac.iDir and math.abs(g.chars.pac.iDir - g.chars.pac.dir) == 2 then
+                g.state.turnaroundCooldown = math.ceil(math.min(maze.w, maze.h) / 2)
+            end
         end
     end
+
+    -- END OF AUTOPLAY AI.  OOF --
+
     if joystick then
         -- Check d-pad first (has priority)
         if joystick:isGamepadDown("dpright") then g.chars.pac.iDir = 0 end
@@ -611,12 +646,6 @@ for i = 1, #g.level.levelDisplay do
 
 -- Draw debug info
     --drawDebugInfo()
-end
-
-local phasePac = function()
-    g.chars.pac.phased = 60
-    if g.sounds.phase:isPlaying() then g.sounds.phase:stop() end
-    g.sounds.phase:play()
 end
 
 function game.keypressed(key)
