@@ -339,7 +339,7 @@ function game.start()
         mode.setMode("pregame")
     end
     g.lives = g.config.startingLives
-    g.score = 0
+    if not g.attract then g.score = 0 end
     g.paused = false
     g.wakka = false
     g.particles = {}  -- Initialize particles
