@@ -413,7 +413,7 @@ function love.keypressed(key)
         options.resetSelectedOptions(true)
         return
     end
-    if key == "escape" or key == "backspace"then
+    if key == "escape" or key == "backspace" then
         if g.scene == attract then
             love.event.quit()
         else

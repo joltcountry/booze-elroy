@@ -110,6 +110,7 @@ local modes = {
             frames = 60,
             nextMode = "dying",
             startFunc = function()
+                g.state.turnaroundCooldown = nil
                 stopSiren()
                 g.sounds.dead:stop()
                 g.sounds.scared:stop()
