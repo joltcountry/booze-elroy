@@ -5,7 +5,7 @@ local indexes = '123456789ABCDEFGHIJKLMNOPQRSTUVWXY'
 local afterDark = 'ABC7Y8DEFGHKL'
 maze = {}
 
-maze.maxColors = 13
+maze.maxColors = 14
 
 local map = {
     -- 28 columns each

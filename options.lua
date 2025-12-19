@@ -10,7 +10,7 @@ local maze = require("maze")
 
 local gw, gh = 224, 288
 
-backgroundOptions = { "none", "stars", "beach", "arcade", "forest", "canyon", "abstract", "wave1", "wave2", "lines", "retro","xmas" }
+backgroundOptions = { "none", "stars", "beach", "arcade", "forest", "canyon", "clouds", "abstract", "wave1", "wave2", "lines", "retro","xmas" }
 
 local function getBackgroundIndex()
     for i, name in ipairs(backgroundOptions) do
@@ -158,6 +158,7 @@ local menu = {
             { text = "Arcade", action = function() g.config.background = "arcade"; g.currentBackground = "arcade" end },
             { text = "Forest", action = function() g.config.background = "forest"; g.currentBackground = "forest" end },
             { text = "Canyon", action = function() g.config.background = "canyon"; g.currentBackground = "canyon" end },
+            { text = "Clouds", action = function() g.config.background = "clouds"; g.currentBackground = "clouds" end },
             { text = "Abstract", action = function() g.config.background = "abstract"; g.currentBackground = "abstract" end },
             { text = "Wave1", action = function() g.config.background = "wave1"; g.currentBackground = "wave1" end },
             { text = "Wave2", action = function() g.config.background = "wave2"; g.currentBackground = "wave2" end },
@@ -181,6 +182,7 @@ local menu = {
             { text = "10", action = function() g.config.mazeColor = 10 end },
             { text = "11", action = function() g.config.mazeColor = 11 end },
             { text = "12", action = function() g.config.mazeColor = 12 end },
+            { text = "13", action = function() g.config.mazeColor = 13 end },
             { text = "Random", action = function() g.config.mazeColor = 0 end },
         }
     },
@@ -300,7 +302,7 @@ function options.start()
     menu[9].selectedOption = g.config.fastPac and 1 or 2
     menu[10].selectedOption = g.config.phasing and 1 or 2
     menu[11].selectedOption = g.config.extraGhosts + 1
-    menu[12].selectedOption = g.config.background == "random" and 13 or getBackgroundIndex()
+    menu[12].selectedOption = g.config.background == "random" and 14 or getBackgroundIndex()
     menu[13].selectedOption = g.config.mazeColor == 0 and maze.maxColors or g.config.mazeColor
     menu[14].selectedOption = g.config.fullscreen and 1 or 2
     menu[15].selectedOption = g.config.crtEffect and 1 or 2

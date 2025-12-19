@@ -131,6 +131,7 @@ g.backgrounds = {
     abstract = love.graphics.newImage("backgrounds/abstract.jpg"),
     xmas = love.graphics.newImage("backgrounds/xmas.jpg"),
     canyon = love.graphics.newImage("backgrounds/canyon.jpg"),
+    clouds = love.graphics.newImage("backgrounds/clouds.jpg"),
     retro = love.graphics.newImage("backgrounds/retro.jpg"),
     wave1 = love.graphics.newImage("backgrounds/wave1.jpg"),
     wave2 = love.graphics.newImage("backgrounds/wave2.jpg"),
