@@ -67,24 +67,100 @@ local handleModeSwitching = function()
     end
 end
 
+local isScaryMonster = function(pac, dir)
+    local pacXTile, pacXOff, pacYTile, pacYOff = maze.getLoc(pac)
+    for _, char in pairs(g.chars) do
+        if char.target and not char.dead and not char.frightened then
+            local d = constants.deltas[dir]
+            local targetX = pacXTile + (d.x * 1)
+            local targetY = pacYTile + (d.y * 1)
+            local charXTile, charXOff, charYTile, charYOff = maze.getLoc(char)
+            if charXTile == targetX and charYTile == targetY then
+                return true
+            end
+        end
+    end
+end
+
 -- Helper function to handle player input
 local handlePlayerInput = function()
     g.chars.pac.iDir = false
     if g.autoplay or g.attract then 
+        if isScaryMonster(g.chars.pac, g.chars.pac.dir) then
+            g.chars.pac.iDir = (g.chars.pac.dir + 2) % 4
+            return
+        end
+
         local xTile, xOff, yTile, yOff = maze.getLoc(g.chars.pac)
         if xOff == constants.centerLine and yOff == constants.centerLine then
-            -- Autoplay: pick a random dir until maze.isBlocked(dir) is false AND dir is not two off of g.chars.pac.dir
-            local picked = false
-            while not picked do
-                local dir = math.random(0,3)
-                -- not allow reversing
-                if (math.abs(g.chars.pac.dir - dir) ~= 2) and not maze.isBlocked(g.chars.pac, dir) then
-                    g.chars.pac.iDir = dir
-                    picked = true
+
+            local candidates = {}
+            for i = 0, 3 do
+                if not maze.isBlocked(g.chars.pac, i) and not isScaryMonster(g.chars.pac, i) and math.abs(i - g.chars.pac.dir) ~= 2 then
+                    table.insert(candidates, i)
                 end
             end
+
+            if #candidates == 1 then
+                g.chars.pac.iDir = candidates[1]
+                return
+            end
+
+            -- Combine all dot and power positions and choose the closest to Pac-Man's tile
+            local positions = {}
+
+            for _, char in pairs(g.chars) do
+                if char.target and char.frightened then
+                    local charXTile, _, charYTile, _ = maze.getLoc(char)
+                    -- INSERT_YOUR_CODE
+                    local dx = charXTile - xTile
+                    local dy = charYTile - yTile
+                    if math.abs(dx) <= 8 and math.abs(dy) <= 8 then
+                        table.insert(positions, {x = charXTile, y = charYTile})
+                    end
+                end
+            end
+            if #positions == 0 then
+            -- INSERT_YOUR_CODE
+                if g.fruitTimer then
+                    table.insert(positions, {x = fruits.x/8, y = fruits.y/8})
+                end
+                for _, dot in ipairs(g.dots) do
+                    table.insert(positions, {x = dot.x, y = dot.y})
+                end
+                for _, power in ipairs(g.powers) do
+                    table.insert(positions, {x = power.x, y = power.y})
+                end
+            end
+
+            -- INSERT_YOUR_CODE
+            -- Also append the x/y tiles of any g.chars that have both "target" and "frightened"
+
+            -- Find closest
+            local minDist = nil
+            local closest = {}
+            for _, pos in ipairs(positions) do
+                local dx = pos.x - xTile
+                local dy = pos.y - yTile
+                local dist = dx * dx + dy * dy -- squared distance
+                if not minDist or dist < minDist then
+                    minDist = dist
+                    closest = {pos}
+                elseif dist == minDist then
+                    table.insert(closest, pos)
+                end
+            end
+
+            local bestTarget;
+            if #closest > 1 then
+                bestTarget = closest[math.random(#closest)]
+            else
+                bestTarget = closest[1]
+            end
+
+            findBestDirection(g.chars.pac, xTile, yTile, bestTarget.x, bestTarget.y, candidates)
+
         end
-        return
     end
     if joystick then
         -- Check d-pad first (has priority)

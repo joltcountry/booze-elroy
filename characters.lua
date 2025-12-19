@@ -54,13 +54,15 @@ local handleFrightenedDirection = function(self, candidates)
 end
 
 -- Helper function to find best direction based on distance to target
-local findBestDirection = function(self, xTile, yTile, targetX, targetY, candidates)
+findBestDirection = function(self, xTile, yTile, targetX, targetY, candidates)
     local shortest = math.huge
+    local isGhost = self.target ~= nil  -- Pac-man doesn't have a target function
     for _, dir in ipairs(candidates) do
         local newXTile = xTile + constants.deltas[dir].x
         local newYTile = yTile + constants.deltas[dir].y
         -- Dead ghosts can pass through disallowed tiles (x/y markers) to return to house
-        if not maze.isDisallowed(newXTile, newYTile) then 
+        -- Pac-man should never be blocked by disallowed tiles (only ghosts are)
+        if not isGhost or g.config.freeGhost or not maze.isDisallowed(newXTile, newYTile) then 
             local dist = (newXTile - targetX) ^ 2 + (newYTile - targetY) ^ 2
             if dist <= shortest then 
                 shortest = dist

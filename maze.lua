@@ -229,6 +229,15 @@ maze.init = function()
 
 end
 
+maze.getChar = function(x,y)
+    if x < 0 or x >= #map[1] or y < 0 or y >= #map then
+        return false
+    end
+
+    local c = string.sub(map[y+1], x+1, x+1)
+    return c
+end
+
 maze.isWall = function(x,y)
     if x < 0 or x >= #map[1] then
         return false
