@@ -140,32 +140,7 @@ local handlePlayerInput = function()
                 return
             end
 
-            -- INSERT_YOUR_CODE
-            local dotCandidates = {}
-            for _, candidate in ipairs(candidates) do
-                local nx = xTile + constants.deltas[candidate].x
-                local ny = yTile + constants.deltas[candidate].y
-                -- Check if this matches any dot
-                local found = false
-                for _, dot in ipairs(g.dots) do
-                    if dot.x == nx and dot.y == ny then
-                        table.insert(dotCandidates, candidate)
-                    end
-                end
-                -- Check if this matches any power
-                for _, power in ipairs(g.powers) do
-                    if power.x == nx and power.y == ny then
-                        table.insert(dotCandidates, candidate)
-                    end
-                end
-            end
-
-            if #dotCandidates > 0 then
-                g.chars.pac.iDir = dotCandidates[math.random(#dotCandidates)]
-                return
-            end
-
-            -- Combine all dot and power positions and choose the closest to Pac-Man's tile
+              -- Combine all dot and power positions and choose the closest to Pac-Man's tile
             local positions = {}
 
             -- chase down ghosts
@@ -180,20 +155,20 @@ local handlePlayerInput = function()
             --         end
             --     end
             --end
-            if #positions == 0 then
+            -- if #positions == 0 then
             -- INSERT_YOUR_CODE
-                if g.fruitTimer then
-                    table.insert(positions, {x = fruits.x/8, y = fruits.y/8})
-                end
-                for _, dot in ipairs(g.dots) do
-                    table.insert(positions, {x = dot.x, y = dot.y})
-                end
-                if not g.frightened then
-                    for _, power in ipairs(g.powers) do
-                        table.insert(positions, {x = power.x, y = power.y})
-                    end
+            if g.fruitTimer then
+                table.insert(positions, {x = fruits.x/8, y = fruits.y/8})
+            end
+            for _, dot in ipairs(g.dots) do
+                table.insert(positions, {x = dot.x, y = dot.y})
+            end
+            if not g.frightened then
+                for _, power in ipairs(g.powers) do
+                    table.insert(positions, {x = power.x, y = power.y})
                 end
             end
+            -- end
 
             -- Find closest
             local minDist = nil
