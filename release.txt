@@ -43,18 +43,23 @@ Alt-Enter now switches between fullscreen and windowed
 ROADMAP
 -------
 
-ALPHA 5 (1/1/2026)
+ALPHA 5 (1/4/2026)
 ===================
 New mazes
 "Random" maze mode (pick mazes randomly, not random maze generation)
 Additional backgrounds/maze colors
 
-ALPHA 6 (1/26/2026)
+ALPHA 6 (1/18/2026)
+===================
+"Pac-Man Plus" mode
+Additional mazes/backgrounds/maze colors
+
+ALPHA 7 (2/15/2026)
 ===================
 Large mazes
 Additional mazes/backgrounds/maze colors
 
-BETA 1 (2/26/2026)
+BETA 1 (3/1/2026)
 ==================
 Improved attract screen
 Intermissions
