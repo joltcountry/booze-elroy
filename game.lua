@@ -96,9 +96,11 @@ local handlePlayerInput = function()
     -- AUTOPLAY AI.  OOF --
     if g.autoplay or g.attract then 
         local xTile, xOff, yTile, yOff = maze.getLoc(g.chars.pac)
-        
+        local oneAhead = { xTile = xTile + constants.deltas[g.chars.pac.dir].x, yTile = yTile + constants.deltas[g.chars.pac.dir].y }
         if isScaryMonster(xTile, yTile, g.chars.pac.dir, 1) 
             or isScaryMonster(xTile, yTile, g.chars.pac.dir, 2)
+            or isScaryMonster(oneAhead.xTile, oneAhead.yTile, (g.chars.pac.dir + 1) % 4, 1)
+            or isScaryMonster(oneAhead.xTile, oneAhead.yTile, (g.chars.pac.dir - 1) % 4, 1)
         then
             if g.config.phasing and not g.chars.pac.phased then
                 phasePac()
@@ -163,10 +165,8 @@ local handlePlayerInput = function()
             for _, dot in ipairs(g.dots) do
                 table.insert(positions, {x = dot.x, y = dot.y})
             end
-            if not g.frightened then
-                for _, power in ipairs(g.powers) do
-                    table.insert(positions, {x = power.x, y = power.y})
-                end
+            for _, power in ipairs(g.powers) do
+                table.insert(positions, {x = power.x, y = power.y})
             end
             -- end
 
