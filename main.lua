@@ -396,6 +396,23 @@ end
 
 function love.keypressed(key)
     -- global
+    if (key == "return" or key == "kpenter") and (love.keyboard.isDown("lalt") or love.keyboard.isDown("ralt")) then
+        if not g.config.fullscreen then
+            g.config.fullscreen = true
+            local _, _, flags = love.window.getMode()
+            local desktopWidth, desktopHeight = love.window.getDesktopDimensions()
+            love.window.setMode(desktopWidth, desktopHeight, {
+                borderless = true
+            })
+            resizeCanvases()
+        else
+            g.config.fullscreen = false
+            love.window.setMode(224 * g.scaleOption, 288 * g.scaleOption, {resizable = true})
+            resizeCanvases()
+        end
+        options.resetSelectedOptions(true)
+        return
+    end
     if key == "escape" or key == "backspace"then
         if g.scene == attract then
             love.event.quit()

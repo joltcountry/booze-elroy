@@ -264,7 +264,13 @@ local menu = {
     }
 }
 
-function options.resetSelectedOptions()
+function options.resetSelectedOptions(fullscreenOnly)
+
+    if fullscreenOnly then
+        menu[14].selectedOption = g.config.fullscreen and 1 or 2
+        return
+    end
+    
     menu[1].selectedOption = g.config.startingLives == 1 and 1 or g.config.startingLives == 3 and 2 or g.config.startingLives == 5 and 3
     menu[2].selectedOption = g.config.startingLevel
     menu[3].selectedOption = g.config.freeGuy
@@ -276,7 +282,7 @@ function options.resetSelectedOptions()
     menu[9].selectedOption = g.config.fastPac and 1 or 2
     menu[10].selectedOption = g.config.phasing and 1 or 2
     menu[11].selectedOption = g.config.extraGhosts + 1
-    menu[12].selectedOption = g.config.background == "random" and 13 or getBackgroundIndex()
+    menu[12].selectedOption = g.config.background == "random" and 14 or getBackgroundIndex()
     menu[13].selectedOption = g.config.mazeColor == 0 and maze.maxColors or g.config.mazeColor
     menu[14].selectedOption = g.config.fullscreen and 1 or 2
     menu[15].selectedOption = g.config.crtEffect and 1 or 2
