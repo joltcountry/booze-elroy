@@ -67,13 +67,14 @@ local handleModeSwitching = function()
     end
 end
 
-local isScaryMonster = function(pac, dir)
+local isScaryMonster = function(pac, dir, distance)
+    distance = distance or 1
     local pacXTile, pacXOff, pacYTile, pacYOff = maze.getLoc(pac)
     for _, char in pairs(g.chars) do
         if char.target and not char.dead and not char.frightened then
             local d = constants.deltas[dir]
-            local targetX = pacXTile + (d.x * 1)
-            local targetY = pacYTile + (d.y * 1)
+            local targetX = pacXTile + (d.x * distance)
+            local targetY = pacYTile + (d.y * distance)
             local charXTile, charXOff, charYTile, charYOff = maze.getLoc(char)
             if charXTile == targetX and charYTile == targetY then
                 return true
@@ -86,7 +87,7 @@ end
 local handlePlayerInput = function()
     g.chars.pac.iDir = false
     if g.autoplay or g.attract then 
-        if isScaryMonster(g.chars.pac, g.chars.pac.dir) then
+        if isScaryMonster(g.chars.pac, g.chars.pac.dir, 2) or isScaryMonster(g.chars.pac, g.chars.pac.dir, 1) then
             g.chars.pac.iDir = (g.chars.pac.dir + 2) % 4
             return
         end
