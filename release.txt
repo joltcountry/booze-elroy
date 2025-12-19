@@ -44,7 +44,7 @@ ROADMAP
 
 ALPHA 5 (1/1/2026)
 ===================
-Alternate mazes (fruit & sound effects scaled properly)
+New mazes
 "Random" maze mode (pick mazes randomly, not random maze generation)
 Additional backgrounds/maze colors
 
