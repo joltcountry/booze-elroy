@@ -217,6 +217,7 @@ local function decodeScore(encoded)
 end
 
 score = function(s)
+    if g.attract then return end
     local oldScore = g.score
     g.score = g.score + s
     if (g.config.freeGuy == 1 and oldScore < 10000 and g.score >= 10000)
@@ -227,7 +228,7 @@ score = function(s)
     end
         
     -- Update high score
-    if (not g.highScore or g.score > g.highScore) and g.score > 0 and not g.attract then
+    if (not g.highScore or g.score > g.highScore) and g.score > 0 then
         g.highScore = g.score
 
         -- Encode the high score before saving
