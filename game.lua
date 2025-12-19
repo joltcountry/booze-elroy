@@ -515,9 +515,11 @@ function game.draw()
     love.graphics.clear(0, 0, 0, 1)
     love.graphics.origin()
     if not g.currentBackground then g.currentBackground = g.config.background end
-    love.graphics.setColor(.4, .4, .4)
-    love.graphics.draw(g.backgrounds[g.currentBackground], 0, 0, 0, 224 / g.backgrounds[g.currentBackground]:getWidth(), 288  / g.backgrounds[g.currentBackground]:getHeight())
-    love.graphics.setColor(1, 1, 1)
+    if g.backgrounds[g.currentBackground] then
+        love.graphics.setColor(.4, .4, .4)
+        love.graphics.draw(g.backgrounds[g.currentBackground], 0, 0, 0, 224 / g.backgrounds[g.currentBackground]:getWidth(), 288  / g.backgrounds[g.currentBackground]:getHeight())
+        love.graphics.setColor(1, 1, 1)
+    end
 
     -- Draw mode messages
     if g.mode == "playerUp" then
