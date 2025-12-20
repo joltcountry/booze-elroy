@@ -170,11 +170,21 @@ instances.pac.scatterPositions = {
     clyde = { x = 0, y = 33 },
 }
 instances.pac.decorate = function()
+    -- Draw mode messages
+    if g.mode == "playerUp" then
+        graphics.print("player one", 9, 14, 3)
+        graphics.print("ready!", 11, 20, 6)
+    elseif g.state.showReady then
+        graphics.print("ready!", 11, 20, 6)
+    end
+
     graphics.print("BO", 3, 6, 3)
     graphics.print("OZE", 8, 6, 3)
     graphics.print("ELR", 17, 6, 3)
     graphics.print("OY", 23, 6, 3)
 end
+instances.pac.playerone = 14
+instances.pac.ready = 20
 
 instances.pac.defaultColor = 1
 
@@ -186,9 +196,9 @@ instances.mspac1.fruitTriggers = { 150, 60 }
 instances.mspac1.fruitLoc = { x = 14 * 8, y = 20 * 8 + 4 }
 instances.mspac1.houseCenter = { x = 14, y = 17 }
 instances.mspac1.pacStart = { x = 14, y = 26 }
-instances.mspac1.punkyStart = { x = 14, y = 8 }
+instances.mspac1.punkyStart = { x = 14, y = 7 }
 instances.mspac1.gunkyStart = { x = 14, y = 32 }
-instances.mspac1.gronkyStart = { x = -2, y = 17 }
+instances.mspac1.gronkyStart = { x = -2, y = 11 }
 instances.mspac1.scatterTiles = {
     { x = 25, y = -1 },
     { x = 2, y = -1 },
@@ -201,6 +211,8 @@ instances.mspac1.scatterPositions = {
     inky = { x = 27, y = 33 },
     clyde = { x = 0, y = 33 },
 }
+instances.mspac1.playerone = 14
+instances.mspac1.ready = 20
 
 instances.mspac1.defaultColor = 11
 
@@ -209,12 +221,12 @@ instances.booze1 = Maze(maps.booze1)
 instances.booze1.maxColors = MAX_COLORS
 instances.booze1.sirenTriggers = { 20, 40, 90, 140 }
 instances.booze1.fruitTriggers = { 150, 60 }
-instances.booze1.fruitLoc = { x = 14 * 8, y = 20 * 8 + 4 }
-instances.booze1.houseCenter = { x = 14, y = 17 }
-instances.booze1.pacStart = { x = 14, y = 26 }
-instances.booze1.punkyStart = { x = 14, y = 8 }
-instances.booze1.gunkyStart = { x = 14, y = 32 }
-instances.booze1.gronkyStart = { x = -2, y = 17 }
+instances.booze1.fruitLoc = { x = 14 * 8, y = 21 * 8 + 4 }
+instances.booze1.houseCenter = { x = 14, y = 27 }
+instances.booze1.pacStart = { x = 14, y = 9 }
+instances.booze1.punkyStart = { x = 14, y = 21 }
+instances.booze1.gunkyStart = { x = 14, y = 30 }
+instances.booze1.gronkyStart = { x = -2, y = 24 }
 instances.booze1.scatterTiles = {
     { x = 25, y = -1 },
     { x = 2, y = -1 },
@@ -227,8 +239,10 @@ instances.booze1.scatterPositions = {
     inky = { x = 27, y = 33 },
     clyde = { x = 0, y = 33 },
 }
+instances.booze1.playerone = 24
+instances.booze1.ready = 30
 
-instances.booze1.defaultColor = 9
+instances.booze1.defaultColor = 10
 
 -- Module table
 local maze = {}

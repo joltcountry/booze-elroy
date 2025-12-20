@@ -65,5 +65,9 @@ Additional mazes/backgrounds/maze colors
 BETA 1 (3/1/2026)
 ==================
 Improved attract screen
+ --- six ghosts waddle out, leaving a gap in the middle
+ --- elroy rises from the bottom with the logo, taking his place in the middle
+ --- then some text appears
+ --- that's it
 Intermissions
 Two player mode

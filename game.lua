@@ -539,6 +539,14 @@ function game.draw()
         love.graphics.setColor(1, 1, 1)
     end
 
+        -- Draw mode messages
+    if g.mode == "playerUp" then
+        graphics.print("player one", 9, getCurrentMaze().playerone, 3)
+        graphics.print("ready!", 11, getCurrentMaze().ready, 6)
+    elseif g.state.showReady then
+        graphics.print("ready!", 11, getCurrentMaze().ready, 6)
+    end
+
     -- Draw score
     if not g.state.hideScore then
         if fc % 32 < 16 then graphics.print("1up", 3, 0) end

@@ -112,7 +112,7 @@ logic.advance = function(c, xOff, yOff)
         if yTile == currentMaze.h + 1 then
             c.y = 1 * constants.tileSize + yOff
         elseif yTile == 0 then
-            c.y = (currentMaze.h) *constants.tileSize + yOff
+            c.y = (currentMaze.h) * constants.tileSize + yOff
         end
     end
 
