@@ -26,7 +26,7 @@ g.defaultConfig = {
     fullscreen = false,
     crtEffect = true,
     volume = 7,
-    maze = "pac",
+    maze = "mspac1",
 }
 
 function resetConfigs()

@@ -1,7 +1,7 @@
 local maps = {}
 
 -- Default map for backward compatibility
-maps.defaultMap = {
+maps.pac = {
     -- 28 columns each
     "                            ",
     "                            ",
@@ -39,6 +39,46 @@ maps.defaultMap = {
     "IJJJJJJJJJJJJJJJJJJJJJJJJJJM", -- 31 (bottom "void" row; often unused)
     "                            ",
 }
+
+maps.mspac1 = {
+    -- 28 columns each
+    "                            ",
+    "                            ",
+    "                            ",
+    "1222222342222222222342222225", --  1
+    "6......78..........78......9", --  2
+    "6`abbc.78.abbbbbbc.78.abbc`9", --  3
+    "6.deef.DF.deeeeeef.DF.deef.9", --  4
+    "6..........................9", --  5
+    "IJC.ac.abbbc.ac.abbbc.ac.AJM", --  6
+    "  6.&*.&yyy*.&*.&yyy*.&*.9  ", --  7
+    "22F.df.deeef.&*.deeef.df.D22", --  8
+    "__ ..........&*....&*.... __", --  9
+    "JJC.JC.&kbbc &* abbl*.AJJJJJ", -- 10
+    "  6. 6.&heef;df;deeg*.9     ", -- 11 (warp tunnels row; spaces = void)
+    "  6. 6.&*          &*.9     ", -- 12 (entrance to house row)
+    "  6. 6.&* NJOPPQJR &*.9     ", -- 13
+    "  6.2F.df 9      6 df.D22222", -- 14
+    "  6._ .   9      6   . _____", -- 15 (center row; gate ==)
+    "22FJJC.ac 9      6 ac.AJJJJJ", -- 16
+    "__   6.&* S222222T &*.9     ", -- 17
+    "     6.&*          &*.9     ", -- 18
+    "     6.&* abbbbbbc &*.9     ", -- 19
+    "12222F.df deegheef df.D22225", -- 20
+    "6............&*............9", -- 21
+    "6.abbc.abbbc.&*.abbbc.abbc.9", -- 22
+    "6.deg*.deeef:df:deeef.&hef.9", -- 23
+    "6`..&*.......  .......&*..`9", -- 24 (^^ above house: no-ghost tiles)
+    "XBC.&*.ac.abbbbbbc.ac.&*.ABV", -- 25
+    "WEF.df.&*.deegheef.&*.df.DEU", -- 26
+    "6......&*....&*....&*......9", -- 27
+    "6`abbbblkbbc.&*.abblkbbbbc`9", -- 28
+    "6.deeeeeeeef.df.deeeeeeeef.9", -- 29
+    "6..........................9", -- 30
+    "IJJJJJJJJJJJJJJJJJJJJJJJJJJM", -- 31 (bottom "void" row; often unused)
+    "                            ",
+}
+
 
 -- local defaultMap = {
 --     -- 28 columns each
