@@ -1,6 +1,6 @@
 local graphics = require("graphics")
 local constants = require("constants")
-local utils = require("utils")
+local handlers = require("handlers")
 local indexes = '123456789ABCDEFGHIJKLMNOPQRSTUVWXY'
 local afterDark = 'ABC7Y8DEFGHKL'
 
@@ -85,77 +85,6 @@ local defaultMap = {
 
 -- Module-level constant
 local MAX_COLORS = 15
-
--- Handler functions (these are shared across all maze instances)
-local handleDotEaten = function()
-    if g.wakka then
-        g.sounds.wakka2:play()
-        g.wakka = false
-    else
-        g.sounds.wakka1:play()
-        g.wakka = true
-    end
-
-    local found = false
-    for i, v in ipairs(g.sirenTriggers) do
-        if v == #g.dots then
-            found = true
-            break
-        end
-    end
-    if found and not g.sounds.dead:isPlaying() and not g.sounds.scared:isPlaying() then
-        stopSiren()
-        playSiren()
-    end
-
-    if #g.dots == 170 or #g.dots == 70 then
-        g.fruitTimer = 9 * 60 + math.random(0, 60)
-    end
-    g.starvation = 0
-
-    -- Leaving logic
-    local leavingChars = {}
-    for name, char in pairs(g.chars) do
-        if char.housing and char.leavingPreference ~= nil then
-            table.insert(leavingChars, char)
-        end
-    end
-    table.sort(leavingChars, function(a, b)
-        return a.leavingPreference < b.leavingPreference
-    end)
-
-    if g.globalCounter then 
-        g.globalCounter = g.globalCounter + 1
-    else
-        for i = 1, #leavingChars do
-            local char = leavingChars[i]
-            if char.dotCounter > 0 then
-                char.dotCounter = char.dotCounter - 1
-                break
-            end
-        end
-    end
-
-end
-
-local handlePowerEaten = function(xTile, yTile)
-    if g.wakka then
-        g.sounds.wakka2:play()
-        g.wakka = false
-    else
-        g.sounds.wakka1:play()
-        g.wakka = true
-    end
-
-    utils.activateFrightenedMode()
-    
-    -- -- Create particle explosion at power pellet location
-    -- if g.createParticleExplosion then
-    --     local x = xTile * constants.tileSize + constants.tileSize / 2
-    --     local y = yTile * constants.tileSize + constants.tileSize / 2
-    --     g.createParticleExplosion(x, y)
-    -- end
-end
 
 local upperCase = function(c)
     local upper = string.upper(c)
@@ -254,12 +183,12 @@ local function Maze(map)
         g.dots = {}
         for _, p in ipairs(powers) do
             table.insert(g.powers, {
-                x = p.x, y = p.y, score = 50, skipCounter = 3, action = handlePowerEaten, animator = function() return graphics.animations.power end
+                x = p.x, y = p.y, score = 50, skipCounter = 3, action = handlers.handlePowerEaten, animator = function() return graphics.animations.power end
             })
         end
         for _, d in ipairs(dots) do
             table.insert(g.dots, {
-                x = d.x, y = d.y, score = 10, skipCounter = 1, action = handleDotEaten, animator = function() return graphics.animations.dot end
+                x = d.x, y = d.y, score = 10, skipCounter = 1, action = handlers.handleDotEaten, animator = function() return graphics.animations.dot end
             })
         end    
     end

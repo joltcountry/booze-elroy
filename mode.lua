@@ -1,6 +1,6 @@
 local characters = require("characters")
 local levels = require("levels")
-
+local maze = require("maze")
 -- local game = require("game")
 -- local attract = require("attract")
 
