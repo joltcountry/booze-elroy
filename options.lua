@@ -60,6 +60,7 @@ local menu = {
         options = {
             { text = "pac", action = function() g.config.maze = "pac"; g.currentMaze = "pac" end },
             { text = "mspac1", action = function() g.config.maze = "mspac1"; g.currentMaze = "mspac1" end },
+            { text = "booze1", action = function() g.config.maze = "booze1"; g.currentMaze = "booze1" end },
             { text = "random", action = function() g.config.maze = "random"; g.currentMaze = g.mazes[math.random(1, #g.mazes)] end },
         }
     },
@@ -280,7 +281,7 @@ function options.resetSelectedOptions(fullscreenOnly)
         return
     end
     
-    menu[1].selectedOption = g.config.maze == "random" and 3 or g.config.maze == "pac" and 1 or g.config.maze == "mspac1" and 2
+    menu[1].selectedOption = g.config.maze == "random" and 3 or g.config.maze == "pac" and 1 or g.config.maze == "mspac1" and 2 or g.config.maze == "booze1" and 3
     menu[2].selectedOption = g.config.startingLives == 1 and 1 or g.config.startingLives == 3 and 2 or g.config.startingLives == 5 and 3
     menu[3].selectedOption = g.config.startingLevel
     menu[4].selectedOption = g.config.freeGuy
@@ -306,7 +307,7 @@ function options.resetSelectedOptions(fullscreenOnly)
 end
 
 function options.start()
-    menu[1].selectedOption = g.config.maze == "random" and 3 or g.config.maze == "pac" and 1 or g.config.maze == "mspac1" and 2
+    menu[1].selectedOption = g.config.maze == "random" and 3 or g.config.maze == "pac" and 1 or g.config.maze == "mspac1" and 2 or g.config.maze == "booze1" and 3
     menu[2].selectedOption = g.config.startingLives == 1 and 1 or g.config.startingLives == 3 and 2 or g.config.startingLives == 5 and 3
     menu[3].selectedOption = g.config.startingLevel
     menu[4].selectedOption = g.config.freeGuy

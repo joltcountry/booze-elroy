@@ -539,16 +539,6 @@ function game.draw()
         love.graphics.setColor(1, 1, 1)
     end
 
-    -- Draw mode messages
-    if g.mode == "playerUp" then
-        local currentMaze = getCurrentMaze()
-        graphics.print("player one", 9, currentMaze.houseCenter.y - 3, 3)
-        graphics.print("ready!", 11, currentMaze.houseCenter.y + 3, 6)
-    elseif g.state.showReady then
-        local currentMaze = getCurrentMaze()
-        graphics.print("ready!", 11, currentMaze.houseCenter.y + 3, 6)
-    end
-
     -- Draw score
     if not g.state.hideScore then
         if fc % 32 < 16 then graphics.print("1up", 3, 0) end
@@ -605,7 +595,7 @@ function game.draw()
     end
 
 -- Draw level display
-for i = 1, #g.level.levelDisplay do
+    for i = 1, #g.level.levelDisplay do
         graphics.drawSpriteAtTile(g.level.levelDisplay[i].sheet, g.level.levelDisplay[i].quad, 26 - (i*2), 34)
     end
     
@@ -619,6 +609,12 @@ for i = 1, #g.level.levelDisplay do
         local fruitLoc = getCurrentMaze().fruitLoc
         graphics.drawFruitScore(g.level.fruit.score, fruitLoc.x - 8, fruitLoc.y - 8)
     end
+    love.graphics.setScissor(
+        0,
+        3 * 8,
+        getCurrentMaze().w * 8,
+        (getCurrentMaze().h - 4) * 8
+    )
 
     -- Draw characters (ghosts last)
     if g.state.showPac then
@@ -630,6 +626,7 @@ for i = 1, #g.level.levelDisplay do
         end
     end
     
+    love.graphics.setScissor()
     if g.mode == "ateGhost" then
         local currentMaze = getCurrentMaze()
         pacXTile, pacXOff, pacYTile, pacYOff = currentMaze.getLoc(g.chars.pac)

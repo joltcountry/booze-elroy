@@ -45,7 +45,7 @@ local function Maze(map)
     end
 
     self.isWall = function(x, y)
-        if x < 0 or x >= #self.map[1] then
+        if x < 0 or x >= #self.map[1] or y < 3 or y >= #self.map - 1 then
             return false
         end
 
@@ -54,7 +54,7 @@ local function Maze(map)
     end
 
     self.isTunnel = function(x, y)
-        if x < 0 or x >= #self.map[1] then
+        if x < 0 or x >= #self.map[1] or y < 3 or y >= #self.map - 1 then
             return false
         end
 
@@ -63,7 +63,7 @@ local function Maze(map)
     end
 
     self.isDisallowed = function(x, y)
-        if x < 0 or x >= #self.map[1] or g.config.freeGhost then
+        if x < 0 or x >= #self.map[1] or y < 3 or y >= #self.map - 1 or g.config.freeGhost then
             return false
         end
 
@@ -204,6 +204,31 @@ instances.mspac1.scatterPositions = {
 
 instances.mspac1.defaultColor = 11
 
+-- Create "pac" maze instance
+instances.booze1 = Maze(maps.booze1)
+instances.booze1.maxColors = MAX_COLORS
+instances.booze1.sirenTriggers = { 20, 40, 90, 140 }
+instances.booze1.fruitTriggers = { 150, 60 }
+instances.booze1.fruitLoc = { x = 14 * 8, y = 20 * 8 + 4 }
+instances.booze1.houseCenter = { x = 14, y = 17 }
+instances.booze1.pacStart = { x = 14, y = 26 }
+instances.booze1.punkyStart = { x = 14, y = 8 }
+instances.booze1.gunkyStart = { x = 14, y = 32 }
+instances.booze1.gronkyStart = { x = -2, y = 17 }
+instances.booze1.scatterTiles = {
+    { x = 25, y = -1 },
+    { x = 2, y = -1 },
+    { x = 27, y = 33 },
+    { x = 0, y = 33 },
+}
+instances.booze1.scatterPositions = {
+    blinky = { x = 25, y = -1 },
+    pinky = { x = 2, y = -1 },
+    inky = { x = 27, y = 33 },
+    clyde = { x = 0, y = 33 },
+}
+
+instances.booze1.defaultColor = 9
 
 -- Module table
 local maze = {}

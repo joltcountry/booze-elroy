@@ -109,10 +109,10 @@ logic.advance = function(c, xOff, yOff)
         elseif xTile == -3 then
             c.x = (currentMaze.w + 1) * constants.tileSize + xOff
         end
-        if yTile == currentMaze.h + 2 then
-            c.y = -2 * constants.tileSize + yOff
-        elseif yTile == -3 then
-            c.y = (currentMaze.h + 1) * constants.tileSize + yOff
+        if yTile == currentMaze.h + 1 then
+            c.y = 1 * constants.tileSize + yOff
+        elseif yTile == 0 then
+            c.y = (currentMaze.h) *constants.tileSize + yOff
         end
     end
 
@@ -271,7 +271,8 @@ logic.turn = function(c)
         end
 
         -- if perpendicular turn
-        if (c.dir - c.iDir) % 2 == 1 and xTile > 0 and xTile < currentMaze.w then -- the xTile check is so he can't leave tunnel
+        -- this line also checks wraparounds
+        if (c.dir - c.iDir) % 2 == 1 and yTile > 3 and yTile < currentMaze.h - 1 and xTile > 0 and xTile < currentMaze.w then -- the xTile check is so he can't leave tunnel
             local turnWindow = c.turnWindow or 0
             if c.dir % 2 == 0 then -- left or right
                 if not currentMaze.isBlocked(c, c.iDir) and math.abs(xOff - constants.centerLine) <= turnWindow then -- moving up or down
