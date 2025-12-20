@@ -153,6 +153,19 @@ instances.pac.maxColors = MAX_COLORS
 instances.pac.sirenTriggers = { 20, 40, 100, 150 }
 instances.pac.fruitTriggers = { 170, 70 }
 instances.pac.fruitLoc = { x = 14 * 8, y = 20 * 8 + 4 }
+instances.pac.houseCenter = { x = 14, y = 17 }
+instances.pac.scatterTiles = {
+    { x = 25, y = -1 },
+    { x = 2, y = -1 },
+    { x = 27, y = 33 },
+    { x = 0, y = 33 },
+}
+instances.pac.scatterPositions = {
+    blinky = { x = 25, y = -1 },
+    pinky = { x = 2, y = -1 },
+    inky = { x = 27, y = 33 },
+    clyde = { x = 0, y = 33 },
+}
 
 -- Module table
 local maze = {}

@@ -102,18 +102,13 @@ local createGhostAnimator = function(ghostName, elroyCheck)
     end
 end
 
-local scatterTiles = {
-    { x = 25, y = -1 },
-    { x = 2, y = -1 },
-    { x = 27, y = 33 },
-    { x = 0, y = 33 },
-}
-
 characters.initialize = function()
     local level = levels.getLevel(g.levelNumber)
     local chars = {}
+    local currentMaze = getCurrentMaze()
+    local houseCenter = currentMaze.houseCenter
     chars.pac = {
-        x = (8 * 14),
+        x = (8 * houseCenter.x),
         y = (8 * 26) + 4,
         dir = 2, -- 0 = right, 1 down, 2 left, 3 right
         turnWindow = 3
@@ -122,12 +117,15 @@ characters.initialize = function()
         return graphics.animations.pac[g.chars.pac.dir]
     end
 
+    local currentMaze = getCurrentMaze()
+    local scatterPositions = currentMaze.scatterPositions
+    local houseCenter = currentMaze.houseCenter
     chars.blinky = {
-        x = (8 * 14),
-        y = (8 * 14) + 4,
+        x = (8 * houseCenter.x),
+        y = (8 * (houseCenter.y - 3)) + 4,
         dir = 2,
-        scatterX = 25, scatterY = -1,
-        houseX = 14, houseY = 17,
+        scatterX = scatterPositions.blinky.x, scatterY = scatterPositions.blinky.y,
+        houseX = houseCenter.x, houseY = houseCenter.y,
         elroy = true,
         target = function(self)
             if not self.iDir then
@@ -147,7 +145,7 @@ characters.initialize = function()
                 else
                     local targetX, targetY
                     if self.dead then
-                        targetX, targetY = 13, 14
+                        targetX, targetY = houseCenter.x - 1, houseCenter.y - 3
                     elseif g.level.chase or (#g.dots <= g.level.elroy1 and not g.suspendElroy) then
                         local pacXTile, pacXOff, pacYTile, pacYOff = currentMaze.getLoc(g.chars.pac)
                         targetX, targetY = pacXTile, pacYTile
@@ -165,12 +163,12 @@ characters.initialize = function()
     chars.blinky.animator = createGhostAnimator("blinky", true)
 
     chars.pinky = {
-        x = (8 * 14),
-        y = (8 * 17) + 4,
+        x = (8 * houseCenter.x),
+        y = (8 * houseCenter.y) + 4,
         dir = 1,
         housing = true,
-        scatterX = 2, scatterY = -1,
-        houseX = 14, houseY = 17,
+        scatterX = scatterPositions.pinky.x, scatterY = scatterPositions.pinky.y,
+        houseX = houseCenter.x, houseY = houseCenter.y,
         leavingPreference = 0,
         dotCounter = level.pinkyCounter,
         globalCounter = 7,
@@ -192,7 +190,7 @@ characters.initialize = function()
                 else
                     local targetX, targetY
                     if self.dead then
-                        targetX, targetY = 13, 14
+                        targetX, targetY = houseCenter.x - 1, houseCenter.y - 3
                     elseif g.level.chase then
                         local pacXTile, pacXOff, pacYTile, pacYOff = currentMaze.getLoc(g.chars.pac)
                         targetX = pacXTile + constants.deltas[g.chars.pac.dir].x * 4
@@ -212,12 +210,12 @@ characters.initialize = function()
     chars.pinky.animator = createGhostAnimator("pinky", false)
 
     chars.inky = {
-        x = (8 * 12),
-        y = (8 * 17) + 4,
+        x = (8 * (houseCenter.x - 2)),
+        y = (8 * houseCenter.y) + 4,
         dir = 3,
         housing = true,
-        scatterX = 27, scatterY = 33,
-        houseX = 12, houseY = 17,
+        scatterX = scatterPositions.inky.x, scatterY = scatterPositions.inky.y,
+        houseX = houseCenter.x - 2, houseY = houseCenter.y,
         leavingPreference = 1,
         globalCounter = 17,
         dotCounter = level.inkyCounter,
@@ -239,7 +237,7 @@ characters.initialize = function()
                 else
                     local targetX, targetY
                     if self.dead then
-                        targetX, targetY = 13, 14
+                        targetX, targetY = houseCenter.x - 1, houseCenter.y - 3
                     elseif g.level.chase then
                         local pacXTile, pacXOff, pacYTile, pacYOff = currentMaze.getLoc(g.chars.pac)
                         local bXTile, bXOff, bYTile, bYOff = currentMaze.getLoc(g.chars.blinky)
@@ -266,12 +264,12 @@ characters.initialize = function()
     chars.inky.animator = createGhostAnimator("inky", false)
 
     chars.clyde = {
-        x = (8 * 16),
-        y = (8 * 17) + 4,
+        x = (8 * (houseCenter.x + 2)),
+        y = (8 * houseCenter.y) + 4,
         dir = 3,
         housing = true,
-        scatterX = 0, scatterY = 33,
-        houseX = 16, houseY = 17,
+        scatterX = scatterPositions.clyde.x, scatterY = scatterPositions.clyde.y,
+        houseX = houseCenter.x + 2, houseY = houseCenter.y,
         leavingPreference = 2,
         dotCounter = level.clydeCounter,
         globalCounter = 32,
@@ -293,7 +291,7 @@ characters.initialize = function()
                 else
                     local targetX, targetY
                     if self.dead then
-                        targetX, targetY = 13, 14
+                        targetX, targetY = houseCenter.x - 1, houseCenter.y - 3
                     elseif g.level.chase then
                         local pacXTile, pacXOff, pacYTile, pacYOff = currentMaze.getLoc(g.chars.pac)
                         if ((xTile - pacXTile) ^ 2 + (yTile - pacYTile) ^ 2) > 64 then
@@ -315,10 +313,10 @@ characters.initialize = function()
 
     if g.config.extraGhosts >= 1 then
         chars.punky = {
-            x = (8 * 14),
+            x = (8 * houseCenter.x),
             y = (8 * 8) + 4,
             dir = 0,
-            houseX = 14, houseY = 17,
+            houseX = houseCenter.x, houseY = houseCenter.y,
             leavesRight = true,
             target = function(self)
                 if not self.iDir then
@@ -337,8 +335,9 @@ characters.initialize = function()
                         handleFrightenedDirection(self, candidates)
                     else
                         local targetX, targetY
+                        local houseCenter = currentMaze.houseCenter
                         if self.dead then
-                            targetX, targetY = 13, 14
+                            targetX, targetY = houseCenter.x - 1, houseCenter.y - 3
                         else -- never scatters
                             local pacXTile, pacXOff, pacYTile, pacYOff = currentMaze.getLoc(g.chars.pac)
                             targetX = pacXTile + constants.deltas[g.chars.pac.dir].y * (math.random(0, 8) - 4)
@@ -354,10 +353,10 @@ characters.initialize = function()
 
     if g.config.extraGhosts >= 2 then
         chars.gunky = {
-            x = (8 * 14),
+            x = (8 * houseCenter.x),
             y = (8 * 32) + 4,
             dir = 0,
-            houseX = 14, houseY = 17,
+            houseX = houseCenter.x, houseY = houseCenter.y,
             leavesRight = false,
             target = function(self)
                 if not self.iDir then
@@ -376,8 +375,9 @@ characters.initialize = function()
                         handleFrightenedDirection(self, candidates)
                     else
                         local targetX, targetY
+                        local houseCenter = currentMaze.houseCenter
                         if self.dead then
-                            targetX, targetY = 13, 14
+                            targetX, targetY = houseCenter.x - 1, houseCenter.y - 3
                         else -- never scatters
                             local pacXTile, pacXOff, pacYTile, pacYOff = currentMaze.getLoc(g.chars.pac)
                             local midXTile = currentMaze.w / 2
@@ -400,9 +400,9 @@ characters.initialize = function()
     if g.config.extraGhosts >= 3 then
         chars.gronky = {
             x = -2 * 8,
-            y = (8 * 17) + 4,
+            y = (8 * houseCenter.y) + 4,
             dir = math.random(0,1) * 2,
-            houseX = 14, houseY = 17,
+            houseX = houseCenter.x, houseY = houseCenter.y,
             leavesRight = math.random(0, 1) == 1,
             target = function(self)
                 if not self.iDir then
@@ -421,8 +421,9 @@ characters.initialize = function()
                         handleFrightenedDirection(self, candidates)
                     else
                         local targetX, targetY
+                        local houseCenter = currentMaze.houseCenter
                         if self.dead then
-                            targetX, targetY = 13, 14
+                            targetX, targetY = houseCenter.x - 1, houseCenter.y - 3
                         else -- never scatters
                             local myXTile, myXOff, myYTile, myYOff = currentMaze.getLoc(self)
 
@@ -441,9 +442,11 @@ characters.initialize = function()
 end
 
 characters.reset = function()
+    local currentMaze = getCurrentMaze()
+    local houseCenter = currentMaze.houseCenter
     g.chars.blinky.frame = 1
-    g.chars.blinky.x = (8 * 14)
-    g.chars.blinky.y = (8 * 14) + 4
+    g.chars.blinky.x = (8 * houseCenter.x)
+    g.chars.blinky.y = (8 * (houseCenter.y - 3)) + 4
     g.chars.blinky.dir = 2
     g.chars.blinky.iDir = nil
     g.chars.blinky.entering = false
@@ -453,13 +456,15 @@ characters.reset = function()
     g.chars.blinky.leaveRight = false
     g.chars.blinky.speed = logic.getGhostSpeed(g.chars.blinky)
     if g.config.scatterOption == 1 then
+        local currentMaze = getCurrentMaze()
+        local scatterTiles = currentMaze.scatterTiles
         local randomScatter = scatterTiles[math.random(1, 4)]
         g.chars.blinky.scatterX = randomScatter.x
         g.chars.blinky.scatterY = randomScatter.y
     end
 
-    g.chars.pinky.x = (8 * 14)
-    g.chars.pinky.y = (8 * 17) + 4
+    g.chars.pinky.x = (8 * houseCenter.x)
+    g.chars.pinky.y = (8 * houseCenter.y) + 4
     g.chars.pinky.frame = 1
     g.chars.pinky.housing = true
     g.chars.pinky.entering = false
@@ -471,13 +476,15 @@ characters.reset = function()
     g.chars.pinky.iDir = nil
     g.chars.pinky.speed = logic.getGhostSpeed(g.chars.pinky)
     if g.config.scatterOption == 1 then
+        local currentMaze = getCurrentMaze()
+        local scatterTiles = currentMaze.scatterTiles
         local randomScatter = scatterTiles[math.random(1, 4)]
         g.chars.pinky.scatterX = randomScatter.x
         g.chars.pinky.scatterY = randomScatter.y
     end
 
-    g.chars.inky.x = (8 * 12)
-    g.chars.inky.y = (8 * 17) + 4
+    g.chars.inky.x = (8 * (houseCenter.x - 2))
+    g.chars.inky.y = (8 * houseCenter.y) + 4
     g.chars.inky.frame = 1
     g.chars.inky.housing = true
     g.chars.inky.entering = false
@@ -489,13 +496,15 @@ characters.reset = function()
     g.chars.inky.iDir = nil
     g.chars.inky.speed = logic.getGhostSpeed(g.chars.inky)
     if g.config.scatterOption == 1 then
+        local currentMaze = getCurrentMaze()
+        local scatterTiles = currentMaze.scatterTiles
         local randomScatter = scatterTiles[math.random(1, 4)]
         g.chars.inky.scatterX = randomScatter.x
         g.chars.inky.scatterY = randomScatter.y
     end
 
-    g.chars.clyde.x = (8 * 16)
-    g.chars.clyde.y = (8 * 17) + 4
+    g.chars.clyde.x = (8 * (houseCenter.x + 2))
+    g.chars.clyde.y = (8 * houseCenter.y) + 4
     g.chars.clyde.frame = 1
     g.chars.clyde.housing = true    
     g.chars.clyde.entering = false
@@ -507,6 +516,8 @@ characters.reset = function()
     g.chars.clyde.iDir = nil
     g.chars.clyde.speed = logic.getGhostSpeed(g.chars.clyde)
     if g.config.scatterOption == 1 then
+        local currentMaze = getCurrentMaze()
+        local scatterTiles = currentMaze.scatterTiles
         local randomScatter = scatterTiles[math.random(1, 4)]
         g.chars.clyde.scatterX = randomScatter.x
         g.chars.clyde.scatterY = randomScatter.y
@@ -514,7 +525,7 @@ characters.reset = function()
 
     if g.config.extraGhosts >= 1 then
         g.chars.punky.frame = 1
-        g.chars.punky.x = (8 * 14)
+        g.chars.punky.x = (8 * houseCenter.x)
         g.chars.punky.y = (8 * 8) + 4
         g.chars.punky.dir = 0
         g.chars.punky.iDir = nil
@@ -528,7 +539,7 @@ characters.reset = function()
 
     if g.config.extraGhosts >= 2 then
         g.chars.gunky.frame = 1
-        g.chars.gunky.x = (8 * 14)
+        g.chars.gunky.x = (8 * houseCenter.x)
         g.chars.gunky.y = (8 * 32) + 4
         g.chars.gunky.dir = 0
         g.chars.gunky.iDir = nil
@@ -543,7 +554,7 @@ characters.reset = function()
     if g.config.extraGhosts >= 3 then
         g.chars.gronky.frame = 1
         g.chars.gronky.x = (8 * -2)
-        g.chars.gronky.y = (8 * 17) + 4
+        g.chars.gronky.y = (8 * houseCenter.y) + 4
         g.chars.gunky.dir = math.random(0,1) * 2
         g.chars.gronky.iDir = nil
         g.chars.gronky.leavesRight = math.random(0, 1) == 1
@@ -555,7 +566,7 @@ characters.reset = function()
         g.chars.gronky.speed = logic.getGhostSpeed(g.chars.gronky)
     end 
 
-    g.chars.pac.x = (8 * 14)
+    g.chars.pac.x = (8 * houseCenter.x)
     g.chars.pac.y = (8 * 26) + 4
     g.chars.pac.dir = 2
     g.chars.pac.phased = false

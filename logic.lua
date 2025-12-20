@@ -152,7 +152,8 @@ logic.move = function(c)
                     handleGhostMovement(c, oldXTile, oldYTile, newXTile, newYTile, newXOff, newYOff)
                 end
 
-                if c.dead and newYTile == c.houseY - 3 and newXTile == 14 and newXOff == 0 then
+                local houseCenter = getCurrentMaze().houseCenter
+                if c.dead and newYTile == c.houseY - 3 and newXTile == houseCenter.x and newXOff == 0 then
                     c.dir = 1
                     c.iDir = false
                     c.entering = true
@@ -246,8 +247,9 @@ logic.turn = function(c)
         if yOff == 0 then c.dir = 1 end
         if yOff == 7 then c.dir = 3 end
     elseif c.leaving then
-        if xTile < 14 then c.dir = 0
-        elseif xTile > 14 or xOff > 0 then c.dir = 2
+        local houseCenter = getCurrentMaze().houseCenter
+        if xTile < houseCenter.x then c.dir = 0
+        elseif xTile > houseCenter.x or xOff > 0 then c.dir = 2
         else c.dir = 3 end
     elseif c.entering then
         if yTile == c.houseY and yOff == constants.centerLine then 
