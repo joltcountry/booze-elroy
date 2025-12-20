@@ -183,6 +183,7 @@ local menu = {
             { text = "11", action = function() g.config.mazeColor = 11 end },
             { text = "12", action = function() g.config.mazeColor = 12 end },
             { text = "13", action = function() g.config.mazeColor = 13 end },
+            { text = "14", action = function() g.config.mazeColor = 14 end },
             { text = "Random", action = function() g.config.mazeColor = 0 end },
         }
     },
@@ -360,7 +361,7 @@ function options.draw()
     graphics.print("Phasing", 2, 15)
     graphics.print("Extra Ghosts", 2, 16)
     graphics.print("Background", 2, 17)
-    graphics.print("Maze Color", 2, 18)
+    graphics.print("Maze Style", 2, 18)
     graphics.print("Full screen", 2, 19)
     graphics.print("CRT Effect", 2, 20)
     graphics.print("Volume", 2, 21)
