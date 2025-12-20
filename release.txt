@@ -17,7 +17,7 @@ ALPHA 4 Release Notes
 ===================
 NEW MODE: Autoplay! (Highly experimental and dangerous)
 
-NEW OPTION: Phasing!  (space/A button to become invulnerable for 60 seconds.  60 second cooldown.)
+NEW OPTION: Phasing!  (space/A button to become invulnerable for 1 second, 1 second cooldown.)
 NEW OPTION: Blindfold (hide the maze, the dots, both, or everything!)
 NEW OPTION: Starting level
 
@@ -38,6 +38,7 @@ Changed in-menu sound effects to be awesomer
 Moved reset highscore to Options menu
 Changed extra ghost AI
 Alt-Enter now switches between fullscreen and windowed
+"M" mutes in-game
 
 
 ROADMAP
