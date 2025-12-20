@@ -6,7 +6,7 @@ local indexes = '123456789ABCDEFGHIJKLMNOPQRSTUVWXY'
 local afterDark = 'ABC7Y8DEFGHKL'
 
 -- Module-level constant
-local MAX_COLORS = 15
+local MAX_COLORS = 16
 
 local upperCase = function(c)
     local upper = string.upper(c)

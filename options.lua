@@ -379,7 +379,7 @@ function options.draw()
     menus.draw(menu, 18, 5, 1)
 
     if g.config.mazeColor > 0 and g.config.mazeColor < 99 then 
-        graphics.drawSpriteAtTile("spr8", g.config.mazeColor + 2, 20, 18)
+        graphics.drawSpriteAtTile("spr8", g.config.mazeColor + 2, 21, 18)
     end
 
     graphics.print("up/down to select", 4, 32, 2)
