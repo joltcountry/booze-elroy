@@ -5,7 +5,8 @@ local levels = require("levels")
 
 -- Helper to get current maze instance
 local function getCurrentMaze()
-    return maze.getMaze(g.config.maze)
+    if not g.currentMaze then g.currentMaze = g.config.maze end
+    return maze.getMaze(g.currentMaze)
 end
 
 local characters = {}

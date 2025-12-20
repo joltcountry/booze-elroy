@@ -9,7 +9,8 @@ local levels = require("levels")
 
 -- Helper to get current maze instance
 local function getCurrentMaze()
-    return maze.getMaze(g.config.maze)
+    if not g.currentMaze then g.currentMaze = g.config.maze end
+    return maze.getMaze(g.currentMaze)
 end
 
 local game = {
@@ -356,10 +357,10 @@ function game.start()
     g.wakka = false
     g.particles = {}  -- Initialize particles
 
-    getCurrentMaze().init()
 
     g.state = { hideMaze = true}
     levels.startLevel(g.levelNumber)
+    getCurrentMaze().init()
     characters.initialize()
     characters.reset()
 
@@ -454,6 +455,9 @@ function game.update(dt)
         end
 
         -- level complete
+        -- test mode
+        --if #g.dots == 200 then
+
         if #g.dots == 0 and #g.powers == 0 then
             mode.setMode("levelComplete")
         end
@@ -537,10 +541,12 @@ function game.draw()
 
     -- Draw mode messages
     if g.mode == "playerUp" then
-        graphics.print("player one", 9, 14, 3)
-        graphics.print("ready!", 11, 20, 6)
+        local currentMaze = getCurrentMaze()
+        graphics.print("player one", 9, currentMaze.houseCenter.y - 3, 3)
+        graphics.print("ready!", 11, currentMaze.houseCenter.y + 3, 6)
     elseif g.state.showReady then
-        graphics.print("ready!", 11, 20, 6)
+        local currentMaze = getCurrentMaze()
+        graphics.print("ready!", 11, currentMaze.houseCenter.y + 3, 6)
     end
 
     -- Draw score

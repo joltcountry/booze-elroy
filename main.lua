@@ -22,11 +22,11 @@ g.defaultConfig = {
     phasing = false,
     extraGhosts = 0,
     background = "none",
-    mazeColor = 1,
+    mazeColor = 99,
     fullscreen = false,
     crtEffect = true,
     volume = 7,
-    maze = "mspac1",
+    maze = "pac",
 }
 
 function resetConfigs()
@@ -137,8 +137,15 @@ g.backgrounds = {
     lines = love.graphics.newImage("backgrounds/lines.jpg"),
 }
 
+g.mazes = { "pac", "mspac1" }
+
+local function getCurrentMaze()
+    if not g.currentMaze then g.currentMaze = g.config.maze end
+    return maze.getMaze(g.currentMaze)
+end
+
 playSiren = function()
-    local currentMaze = maze.getMaze(g.config.maze)
+    local currentMaze = getCurrentMaze()
     local sirenTriggers = currentMaze.sirenTriggers
     for i = 1, #sirenTriggers do
         if #g.dots < sirenTriggers[i] then
@@ -301,6 +308,10 @@ function love.load()
     
     if g.config.background == "random" then
         g.currentBackground = backgroundOptions[math.random(2, #backgroundOptions)]
+    end
+
+    if g.config.maze == "random" then
+        g.currentMaze = g.mazes[math.random(1, #g.mazes)]
     end
 
     resizeCanvases()

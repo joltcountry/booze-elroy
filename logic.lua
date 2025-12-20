@@ -8,7 +8,8 @@ local fruits = require("fruits")
 
 -- Helper to get current maze instance
 local function getCurrentMaze()
-    return maze.getMaze(g.config.maze)
+    if not g.currentMaze then g.currentMaze = g.config.maze end
+    return maze.getMaze(g.currentMaze)
 end
 
 -- Helper function to check and handle collisions with collectibles
@@ -107,6 +108,11 @@ logic.advance = function(c, xOff, yOff)
             c.x = -2 * constants.tileSize + xOff
         elseif xTile == -3 then
             c.x = (currentMaze.w + 1) * constants.tileSize + xOff
+        end
+        if yTile == currentMaze.h + 2 then
+            c.y = -2 * constants.tileSize + yOff
+        elseif yTile == -3 then
+            c.y = (currentMaze.h + 1) * constants.tileSize + yOff
         end
     end
 

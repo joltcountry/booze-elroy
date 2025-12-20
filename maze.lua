@@ -176,11 +176,13 @@ instances.pac.decorate = function()
     graphics.print("OY", 23, 6, 3)
 end
 
+instances.pac.defaultColor = 1
+
 -- Create "pac" maze instance
 instances.mspac1 = Maze(maps.mspac1)
 instances.mspac1.maxColors = MAX_COLORS
-instances.mspac1.sirenTriggers = { 20, 40, 100, 150 }
-instances.mspac1.fruitTriggers = { 170, 70 }
+instances.mspac1.sirenTriggers = { 20, 40, 90, 140 }
+instances.mspac1.fruitTriggers = { 150, 60 }
 instances.mspac1.fruitLoc = { x = 14 * 8, y = 20 * 8 + 4 }
 instances.mspac1.houseCenter = { x = 14, y = 17 }
 instances.mspac1.pacStart = { x = 14, y = 26 }
@@ -199,6 +201,9 @@ instances.mspac1.scatterPositions = {
     inky = { x = 27, y = 33 },
     clyde = { x = 0, y = 33 },
 }
+
+instances.mspac1.defaultColor = 11
+
 
 -- Module table
 local maze = {}

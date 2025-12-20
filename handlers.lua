@@ -31,7 +31,7 @@ handlers.handleDotEaten = function()
     end
 
     local maze = require("maze")
-    local currentMaze = maze.getMaze(g.config.maze)
+    local currentMaze = maze.getMaze(g.currentMaze or g.config.maze)
     local sirenTriggers = currentMaze.sirenTriggers
     local found = false
     for i, v in ipairs(sirenTriggers) do

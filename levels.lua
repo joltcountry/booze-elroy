@@ -2,6 +2,11 @@ local levels = {}
 local fruits = require("fruits")
 local maze = require("maze")
 
+local function getCurrentMaze()
+    if not g.currentMaze then g.currentMaze = g.config.maze end
+    return maze.getMaze(g.currentMaze)
+end
+
 local levels = {
     normal = {
         [1] = {
@@ -784,7 +789,8 @@ levels.startLevel = function()
     g.frightened = false
     g.globalCounter = false
     g.suspendElroy = false
-    g.currentMazeColor = g.config.mazeColor == 0 and math.random(1, maze.maxColors - 1) or g.config.mazeColor
+    g.currentMaze = g.config.maze == "random" and g.mazes[math.random(1, #g.mazes)] or g.config.maze
+    g.currentMazeColor = g.config.mazeColor == 99 and getCurrentMaze().defaultColor or g.config.mazeColor == 0 and math.random(1, maze.maxColors - 1) or g.config.mazeColor
     g.currentBackground = g.config.background == "random" and backgroundOptions[math.random(2, #backgroundOptions)] or g.config.background
 end
 
