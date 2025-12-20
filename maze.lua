@@ -154,6 +154,10 @@ instances.pac.sirenTriggers = { 20, 40, 100, 150 }
 instances.pac.fruitTriggers = { 170, 70 }
 instances.pac.fruitLoc = { x = 14 * 8, y = 20 * 8 + 4 }
 instances.pac.houseCenter = { x = 14, y = 17 }
+instances.pac.pacStart = { x = 14, y = 26 }
+instances.pac.punkyStart = { x = 14, y = 8 }
+instances.pac.gunkyStart = { x = 14, y = 32 }
+instances.pac.gronkyStart = { x = -2, y = 17 }
 instances.pac.scatterTiles = {
     { x = 25, y = -1 },
     { x = 2, y = -1 },

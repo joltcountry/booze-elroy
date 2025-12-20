@@ -107,9 +107,10 @@ characters.initialize = function()
     local chars = {}
     local currentMaze = getCurrentMaze()
     local houseCenter = currentMaze.houseCenter
+    local pacStart = currentMaze.pacStart
     chars.pac = {
-        x = (8 * houseCenter.x),
-        y = (8 * 26) + 4,
+        x = (8 * pacStart.x),
+        y = (8 * pacStart.y) + 4,
         dir = 2, -- 0 = right, 1 down, 2 left, 3 right
         turnWindow = 3
     }
@@ -312,9 +313,10 @@ characters.initialize = function()
     chars.clyde.animator = createGhostAnimator("clyde", false)
 
     if g.config.extraGhosts >= 1 then
+        local punkyStart = currentMaze.punkyStart
         chars.punky = {
-            x = (8 * houseCenter.x),
-            y = (8 * 8) + 4,
+            x = (8 * punkyStart.x),
+            y = (8 * punkyStart.y) + 4,
             dir = 0,
             houseX = houseCenter.x, houseY = houseCenter.y,
             leavesRight = true,
@@ -352,9 +354,10 @@ characters.initialize = function()
     end
 
     if g.config.extraGhosts >= 2 then
+        local gunkyStart = currentMaze.gunkyStart
         chars.gunky = {
-            x = (8 * houseCenter.x),
-            y = (8 * 32) + 4,
+            x = (8 * gunkyStart.x),
+            y = (8 * gunkyStart.y) + 4,
             dir = 0,
             houseX = houseCenter.x, houseY = houseCenter.y,
             leavesRight = false,
@@ -398,9 +401,10 @@ characters.initialize = function()
     end
 
     if g.config.extraGhosts >= 3 then
+        local gronkyStart = currentMaze.gronkyStart
         chars.gronky = {
-            x = -2 * 8,
-            y = (8 * houseCenter.y) + 4,
+            x = (8 * gronkyStart.x),
+            y = (8 * gronkyStart.y) + 4,
             dir = math.random(0,1) * 2,
             houseX = houseCenter.x, houseY = houseCenter.y,
             leavesRight = math.random(0, 1) == 1,
@@ -524,9 +528,10 @@ characters.reset = function()
     end
 
     if g.config.extraGhosts >= 1 then
+        local punkyStart = currentMaze.punkyStart
         g.chars.punky.frame = 1
-        g.chars.punky.x = (8 * houseCenter.x)
-        g.chars.punky.y = (8 * 8) + 4
+        g.chars.punky.x = (8 * punkyStart.x)
+        g.chars.punky.y = (8 * punkyStart.y) + 4
         g.chars.punky.dir = 0
         g.chars.punky.iDir = nil
         g.chars.punky.entering = false
@@ -538,9 +543,10 @@ characters.reset = function()
     end
 
     if g.config.extraGhosts >= 2 then
+        local gunkyStart = currentMaze.gunkyStart
         g.chars.gunky.frame = 1
-        g.chars.gunky.x = (8 * houseCenter.x)
-        g.chars.gunky.y = (8 * 32) + 4
+        g.chars.gunky.x = (8 * gunkyStart.x)
+        g.chars.gunky.y = (8 * gunkyStart.y) + 4
         g.chars.gunky.dir = 0
         g.chars.gunky.iDir = nil
         g.chars.gunky.entering = false
@@ -552,10 +558,11 @@ characters.reset = function()
     end 
 
     if g.config.extraGhosts >= 3 then
+        local gronkyStart = currentMaze.gronkyStart
         g.chars.gronky.frame = 1
-        g.chars.gronky.x = (8 * -2)
-        g.chars.gronky.y = (8 * houseCenter.y) + 4
-        g.chars.gunky.dir = math.random(0,1) * 2
+        g.chars.gronky.x = (8 * gronkyStart.x)
+        g.chars.gronky.y = (8 * gronkyStart.y) + 4
+        g.chars.gronky.dir = math.random(0,1) * 2
         g.chars.gronky.iDir = nil
         g.chars.gronky.leavesRight = math.random(0, 1) == 1
         g.chars.gronky.entering = false
@@ -566,8 +573,9 @@ characters.reset = function()
         g.chars.gronky.speed = logic.getGhostSpeed(g.chars.gronky)
     end 
 
-    g.chars.pac.x = (8 * houseCenter.x)
-    g.chars.pac.y = (8 * 26) + 4
+    local pacStart = currentMaze.pacStart
+    g.chars.pac.x = (8 * pacStart.x)
+    g.chars.pac.y = (8 * pacStart.y) + 4
     g.chars.pac.dir = 2
     g.chars.pac.phased = false
     if g.config.fastPac then g.chars.pac.speed = 1.6 else
