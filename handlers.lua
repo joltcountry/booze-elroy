@@ -30,8 +30,11 @@ handlers.handleDotEaten = function()
         g.wakka = true
     end
 
+    local maze = require("maze")
+    local currentMaze = maze.getMaze(g.config.maze)
+    local sirenTriggers = currentMaze.sirenTriggers
     local found = false
-    for i, v in ipairs(g.sirenTriggers) do
+    for i, v in ipairs(sirenTriggers) do
         if v == #g.dots then
             found = true
             break
@@ -42,8 +45,12 @@ handlers.handleDotEaten = function()
         playSiren()
     end
 
-    if #g.dots == 170 or #g.dots == 70 then
-        g.fruitTimer = 9 * 60 + math.random(0, 60)
+    local fruitTriggers = currentMaze.fruitTriggers
+    for i, v in ipairs(fruitTriggers) do
+        if #g.dots == v then
+            g.fruitTimer = 9 * 60 + math.random(0, 60)
+            break
+        end
     end
     g.starvation = 0
 

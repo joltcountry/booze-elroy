@@ -6,6 +6,11 @@ local speedFactor = 20/16 -- 1.25
 local mode = require("mode")
 local fruits = require("fruits")
 
+-- Helper to get current maze instance
+local function getCurrentMaze()
+    return maze.getMaze(g.config.maze)
+end
+
 -- Helper function to check and handle collisions with collectibles
 local checkCollisions = function(collectibles, xTile, yTile)
     if g.chars.pac.phased and g.chars.pac.phased >= 0 then return end
@@ -53,7 +58,7 @@ end
 
 -- Helper function to update ghost speed based on location and state
 local updateGhostSpeed = function(char, xTile, yTile)
-    if not char.dead and maze.isTunnel(xTile, yTile) then
+    if not char.dead and getCurrentMaze().isTunnel(xTile, yTile) then
         char.speed = g.level.tunnelSpeed
     elseif char.frightened then
         char.speed = g.level.frightenedSpeed
@@ -96,11 +101,12 @@ logic.advance = function(c, xOff, yOff)
         end
 
         -- check for wraparound
-        xTile, xOff, yTile, yOff = maze.getLoc(c)
-        if xTile == maze.w + 2 then
+        local currentMaze = getCurrentMaze()
+        xTile, xOff, yTile, yOff = currentMaze.getLoc(c)
+        if xTile == currentMaze.w + 2 then
             c.x = -2 * constants.tileSize + xOff
         elseif xTile == -3 then
-            c.x = (maze.w + 1) * constants.tileSize + xOff
+            c.x = (currentMaze.w + 1) * constants.tileSize + xOff
         end
     end
 
@@ -120,25 +126,26 @@ logic.move = function(c)
     c.accum16 = c.accum16 + speed16;
     while c.accum16 >= 16 do
         c.moved = false
-        xTile, xOff, yTile, yOff = maze.getLoc(c)
+        local currentMaze = getCurrentMaze()
+        xTile, xOff, yTile, yOff = currentMaze.getLoc(c)
         local oldXTile, oldYTile = xTile, yTile
         c.accum16 = c.accum16 - 16;
 
-        if c.housing or c.leaving or c.entering or not maze.isBlocked(c, c.dir) or 
+        if c.housing or c.leaving or c.entering or not currentMaze.isBlocked(c, c.dir) or 
             (c.dir == 2 and xOff > constants.centerLine) or
             (c.dir == 3 and yOff > constants.centerLine) or
             (c.dir == 0 and xOff < constants.centerLine) or
             (c.dir == 1 and yOff < constants.centerLine) then 
             logic.advance(c, xOff, yOff)
         else 
-            if c.iDir and not maze.isBlocked(c, c.iDir) then
+            if c.iDir and not currentMaze.isBlocked(c, c.iDir) then
                 c.dir = c.iDir
                 logic.advance(c, xOff, yOff)
             end
         end
             
         if c.moved then
-            local newXTile, newXOff, newYTile, newYOff = maze.getLoc(c)
+            local newXTile, newXOff, newYTile, newYOff = currentMaze.getLoc(c)
             
             if c.target then
                 if not c.leaving and not c.housing then 
@@ -192,22 +199,22 @@ logic.move = function(c)
 
                 -- Check collision with Pac-Man when ghost moves
                 if g.mode ~= "ateGhost" then
-                    local pacXTile, pacXOff, pacYTile, pacYOff = maze.getLoc(g.chars.pac)
-                    local ghostXTile, ghostXOff, ghostYTile, ghostYOff = maze.getLoc(c)
+                    local pacXTile, pacXOff, pacYTile, pacYOff = currentMaze.getLoc(g.chars.pac)
+                    local ghostXTile, ghostXOff, ghostYTile, ghostYOff = currentMaze.getLoc(c)
                     if handleGhostCollision(c, pacXTile, pacYTile, ghostXTile, ghostYTile) then
                         break
                     end
                 end
             else
                 -- Check collisions with collectibles (reuse pac location from movement update)
-                local pacXTile, pacXOff, pacYTile, pacYOff = maze.getLoc(g.chars.pac)
+                local pacXTile, pacXOff, pacYTile, pacYOff = currentMaze.getLoc(g.chars.pac)
                 checkCollisions(g.powers, pacXTile, pacYTile, true)
                 checkCollisions(g.dots, pacXTile, pacYTile)
 
                 -- Check ghost collisions (reuse pac location)
                 for name, char in pairs(g.chars) do
                     if char.target then
-                        local ghostXTile, ghostXOff, ghostYTile, ghostYOff = maze.getLoc(char)
+                        local ghostXTile, ghostXOff, ghostYTile, ghostYOff = currentMaze.getLoc(char)
                         if handleGhostCollision(char, pacXTile, pacYTile, ghostXTile, ghostYTile) then
                             break
                         end
@@ -231,8 +238,8 @@ logic.move = function(c)
 end
 
 logic.turn = function(c)
-
-    local xTile, xOff, yTile, yOff = maze.getLoc(c)
+    local currentMaze = getCurrentMaze()
+    local xTile, xOff, yTile, yOff = currentMaze.getLoc(c)
 
     if c.housing then
         if yOff == 0 then c.dir = 1 end
@@ -255,13 +262,13 @@ logic.turn = function(c)
         end
 
         -- if perpendicular turn
-        if (c.dir - c.iDir) % 2 == 1 and xTile > 0 and xTile < maze.w then -- the xTile check is so he can't leave tunnel
+        if (c.dir - c.iDir) % 2 == 1 and xTile > 0 and xTile < currentMaze.w then -- the xTile check is so he can't leave tunnel
             local turnWindow = c.turnWindow or 0
             if c.dir % 2 == 0 then -- left or right
-                if not maze.isBlocked(c, c.iDir) and math.abs(xOff - constants.centerLine) <= turnWindow then -- moving up or down
+                if not currentMaze.isBlocked(c, c.iDir) and math.abs(xOff - constants.centerLine) <= turnWindow then -- moving up or down
                     c.dir = c.iDir
                 end
-            elseif not maze.isBlocked(c, c.iDir) and math.abs(yOff - constants.centerLine) <= turnWindow then
+            elseif not currentMaze.isBlocked(c, c.iDir) and math.abs(yOff - constants.centerLine) <= turnWindow then
                 c.dir = c.iDir
             end
         end

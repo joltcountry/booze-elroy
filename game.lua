@@ -7,6 +7,11 @@ local logic = require("logic")
 local mode = require("mode")
 local levels = require("levels")
 
+-- Helper to get current maze instance
+local function getCurrentMaze()
+    return maze.getMaze(g.config.maze)
+end
+
 local game = {
     name = "game"
 }
@@ -74,7 +79,8 @@ local isScaryMonster = function(xTile, yTile, dir, distance)
             local d = constants.deltas[dir]
             local targetX = xTile + (d.x * distance)
             local targetY = yTile + (d.y * distance)
-            local charXTile, charXOff, charYTile, charYOff = maze.getLoc(char)
+            local currentMaze = getCurrentMaze()
+            local charXTile, charXOff, charYTile, charYOff = currentMaze.getLoc(char)
             if charXTile == targetX and charYTile == targetY then
                 return true
             end
@@ -95,7 +101,8 @@ local handlePlayerInput = function()
 
     -- AUTOPLAY AI.  OOF --
     if g.autoplay or g.attract then 
-        local xTile, xOff, yTile, yOff = maze.getLoc(g.chars.pac)
+        local currentMaze = getCurrentMaze()
+        local xTile, xOff, yTile, yOff = currentMaze.getLoc(g.chars.pac)
         local oneAhead = { xTile = xTile + constants.deltas[g.chars.pac.dir].x, yTile = yTile + constants.deltas[g.chars.pac.dir].y }
         if isScaryMonster(xTile, yTile, g.chars.pac.dir, 1) 
             or isScaryMonster(xTile, yTile, g.chars.pac.dir, 2)
@@ -124,7 +131,8 @@ local handlePlayerInput = function()
 
             local candidates = {}
             for i = 0, 3 do
-                if not maze.isBlocked(g.chars.pac, i) 
+                local currentMaze = getCurrentMaze()
+                if not currentMaze.isBlocked(g.chars.pac, i) 
                 and 
                 (g.chars.pac.phased or 
                 (not isScaryMonster(xTile, yTile, i, 1) 
@@ -194,7 +202,8 @@ local handlePlayerInput = function()
 
             findBestDirection(g.chars.pac, xTile, yTile, bestTarget.x, bestTarget.y, candidates)
             if g.chars.pac.iDir and math.abs(g.chars.pac.iDir - g.chars.pac.dir) == 2 then
-                g.state.turnaroundCooldown = math.ceil(math.max(maze.w, maze.h) / 2)
+                local currentMaze = getCurrentMaze()
+                g.state.turnaroundCooldown = math.ceil(math.max(currentMaze.w, currentMaze.h) / 2)
             end
         end
     end
@@ -252,13 +261,14 @@ end
 -- Helper function to draw debug information
 local drawDebugInfo = function()
     if (g.chars) then
-        local xTile, xOff, yTile, yOff = maze.getLoc(g.chars.pac)
+        local currentMaze = getCurrentMaze()
+        local xTile, xOff, yTile, yOff = currentMaze.getLoc(g.chars.pac)
         love.graphics.print("PAC X/Y:      " .. g.chars.pac.x .. '/' .. g.chars.pac.y, 50, 50)
         love.graphics.print('PAC TILE X/Y: ' .. xTile .. "/" .. yTile, 50, 60)
         love.graphics.print('PAC OFF X/Y:  ' .. xOff .. "/" .. yOff, 50, 70)
         love.graphics.print("DIR/IDIR: " .. g.chars.pac.dir .. "/" .. (g.chars.pac.iDir or 'X'), 50, 100)
 
-        xTile, xOff, yTile, yOff = maze.getLoc(g.chars.blinky)
+        xTile, xOff, yTile, yOff = currentMaze.getLoc(g.chars.blinky)
         love.graphics.print("PINKY X/Y:      " .. g.chars.blinky.x .. '/' .. g.chars.blinky.y, 50, 120)
         love.graphics.print('BLINKY TILE X/Y: ' .. xTile .. "/" .. yTile, 50, 130)
         if (g.chars.blinky.targetX) then love.graphics.print('BLINKY TARGET X/Y: ' .. g.chars.blinky.targetX .. "/" .. g.chars.blinky.targetY, 50, 200) end
@@ -345,7 +355,7 @@ function game.start()
     g.wakka = false
     g.particles = {}  -- Initialize particles
 
-    maze.init()
+    getCurrentMaze().init()
 
     g.state = { hideMaze = true}
     levels.startLevel(g.levelNumber)
@@ -482,8 +492,9 @@ function game.update(dt)
         if not g.intermissionBoozes then
             g.intermissionBoozes = {}
             for i = 1, 50 do
-                local x = math.random(0, maze.w * 8)
-                local y = math.random(0, maze.h * 8)
+                local currentMaze = getCurrentMaze()
+                local x = math.random(0, currentMaze.w * 8)
+                local y = math.random(0, currentMaze.h * 8)
                 local vx = math.random() * 2 - 1
                 local vy = math.random() * 2 - 1
                 table.insert(g.intermissionBoozes, {spr = math.random(86,95), x = x, y = y, vx = vx, vy = vy})
@@ -493,16 +504,17 @@ function game.update(dt)
             booze.x = booze.x + booze.vx
             booze.y = booze.y + booze.vy
 
-            if booze.x > maze.w * 8 then
+            local currentMaze = getCurrentMaze()
+            if booze.x > currentMaze.w * 8 then
                 booze.x = 0
             elseif booze.x < 0 then
-                booze.x = maze.w * 8
+                booze.x = currentMaze.w * 8
             end
 
-            if booze.y > maze.h * 8 then
+            if booze.y > currentMaze.h * 8 then
                 booze.y = 0
             elseif booze.y < 0 then
-                booze.y = maze.h * 8
+                booze.y = currentMaze.h * 8
             end
         end
     end
@@ -541,10 +553,11 @@ function game.draw()
     end
 
     if not g.state.hideMaze then
+        local currentMaze = getCurrentMaze()
         if g.mode == "levelAnimation" and g.modeTimer % 20 > 10 then
-            maze.draw(maze.maxColors)
+            currentMaze.draw(maze.maxColors)
         elseif g.mode ~= "pause" then
-            maze.draw(g.currentMazeColor)
+            currentMaze.draw(g.currentMazeColor)
         end
         
         -- Draw scenery (use ipairs for arrays)
@@ -609,7 +622,8 @@ for i = 1, #g.level.levelDisplay do
     end
     
     if g.mode == "ateGhost" then
-        pacXTile, pacXOff, pacYTile, pacYOff = maze.getLoc(g.chars.pac)
+        local currentMaze = getCurrentMaze()
+        pacXTile, pacXOff, pacYTile, pacYOff = currentMaze.getLoc(g.chars.pac)
         graphics.drawGhostScore(g.ghostScore, g.chars.pac.x - 8, g.chars.pac.y - 8)
     end
     

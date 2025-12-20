@@ -1,6 +1,11 @@
 local characters = require("characters")
 local levels = require("levels")
 local maze = require("maze")
+
+-- Helper to get current maze instance
+local function getCurrentMaze()
+    return maze.getMaze(g.config.maze)
+end
 -- local game = require("game")
 -- local attract = require("attract")
 
@@ -181,7 +186,7 @@ local modes = {
                 levels.startLevel(g.levelNumber)
                 characters.initialize()
                 characters.reset()
-                maze.init()
+                getCurrentMaze().init()
                 g.newLevel = true
             end
         }

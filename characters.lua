@@ -3,6 +3,11 @@ local maze = require("maze")
 local constants = require("constants")
 local levels = require("levels")
 
+-- Helper to get current maze instance
+local function getCurrentMaze()
+    return maze.getMaze(g.config.maze)
+end
+
 local characters = {}
 local getRandomFrightenedDir = function()
     local r = math.random()
@@ -23,9 +28,10 @@ end
 
 -- Helper function to get valid direction candidates
 local getCandidates = function(self)
+    local currentMaze = getCurrentMaze()
     local candidates = {}
     for i = 0, 3 do
-        if not maze.isBlocked(self, i) and math.abs(i - self.dir) ~= 2 then
+        if not currentMaze.isBlocked(self, i) and math.abs(i - self.dir) ~= 2 then
             table.insert(candidates, i)
         end
     end
@@ -62,7 +68,8 @@ findBestDirection = function(self, xTile, yTile, targetX, targetY, candidates)
         local newYTile = yTile + constants.deltas[dir].y
         -- Dead ghosts can pass through disallowed tiles (x/y markers) to return to house
         -- Pac-man should never be blocked by disallowed tiles (only ghosts are)
-        if not isGhost or g.config.freeGhost or not maze.isDisallowed(newXTile, newYTile) then 
+        local currentMaze = getCurrentMaze()
+        if not isGhost or g.config.freeGhost or not currentMaze.isDisallowed(newXTile, newYTile) then 
             local dist = (newXTile - targetX) ^ 2 + (newYTile - targetY) ^ 2
             if dist <= shortest then 
                 shortest = dist
@@ -128,7 +135,8 @@ characters.initialize = function()
                 return
             end
 
-            local xTile, xOff, yTile, yOff = maze.getLoc(self)
+            local currentMaze = getCurrentMaze()
+            local xTile, xOff, yTile, yOff = currentMaze.getLoc(self)
             local candidates = getCandidates(self)
 
             if #candidates == 1 then 
@@ -141,7 +149,7 @@ characters.initialize = function()
                     if self.dead then
                         targetX, targetY = 13, 14
                     elseif g.level.chase or (#g.dots <= g.level.elroy1 and not g.suspendElroy) then
-                        local pacXTile, pacXOff, pacYTile, pacYOff = maze.getLoc(g.chars.pac)
+                        local pacXTile, pacXOff, pacYTile, pacYOff = currentMaze.getLoc(g.chars.pac)
                         targetX, targetY = pacXTile, pacYTile
                     else
                         targetX, targetY = self.scatterX, self.scatterY
@@ -172,7 +180,8 @@ characters.initialize = function()
                 return
             end
 
-            local xTile, xOff, yTile, yOff = maze.getLoc(self)
+            local currentMaze = getCurrentMaze()
+            local xTile, xOff, yTile, yOff = currentMaze.getLoc(self)
             local candidates = getCandidates(self)
 
             if #candidates == 1 then 
@@ -185,7 +194,7 @@ characters.initialize = function()
                     if self.dead then
                         targetX, targetY = 13, 14
                     elseif g.level.chase then
-                        local pacXTile, pacXOff, pacYTile, pacYOff = maze.getLoc(g.chars.pac)
+                        local pacXTile, pacXOff, pacYTile, pacYOff = currentMaze.getLoc(g.chars.pac)
                         targetX = pacXTile + constants.deltas[g.chars.pac.dir].x * 4
                         targetY = pacYTile + constants.deltas[g.chars.pac.dir].y * 4
                         -- Pinky bug
@@ -218,7 +227,8 @@ characters.initialize = function()
                 return
             end
 
-            local xTile, xOff, yTile, yOff = maze.getLoc(self)
+            local currentMaze = getCurrentMaze()
+            local xTile, xOff, yTile, yOff = currentMaze.getLoc(self)
             local candidates = getCandidates(self)
 
             if #candidates == 1 then 
@@ -231,8 +241,8 @@ characters.initialize = function()
                     if self.dead then
                         targetX, targetY = 13, 14
                     elseif g.level.chase then
-                        local pacXTile, pacXOff, pacYTile, pacYOff = maze.getLoc(g.chars.pac)
-                        local bXTile, bXOff, bYTile, bYOff = maze.getLoc(g.chars.blinky)
+                        local pacXTile, pacXOff, pacYTile, pacYOff = currentMaze.getLoc(g.chars.pac)
+                        local bXTile, bXOff, bYTile, bYOff = currentMaze.getLoc(g.chars.blinky)
 
                         local midX = pacXTile + constants.deltas[g.chars.pac.dir].x * 2
                         local midY = pacYTile + constants.deltas[g.chars.pac.dir].y * 2
@@ -271,7 +281,8 @@ characters.initialize = function()
                 return
             end
 
-            local xTile, xOff, yTile, yOff = maze.getLoc(self)
+            local currentMaze = getCurrentMaze()
+            local xTile, xOff, yTile, yOff = currentMaze.getLoc(self)
             local candidates = getCandidates(self)
 
             if #candidates == 1 then 
@@ -284,7 +295,7 @@ characters.initialize = function()
                     if self.dead then
                         targetX, targetY = 13, 14
                     elseif g.level.chase then
-                        local pacXTile, pacXOff, pacYTile, pacYOff = maze.getLoc(g.chars.pac)
+                        local pacXTile, pacXOff, pacYTile, pacYOff = currentMaze.getLoc(g.chars.pac)
                         if ((xTile - pacXTile) ^ 2 + (yTile - pacYTile) ^ 2) > 64 then
                             targetX = pacXTile
                             targetY = pacYTile
@@ -315,7 +326,8 @@ characters.initialize = function()
                     return
                 end
     
-                local xTile, xOff, yTile, yOff = maze.getLoc(self)
+                local currentMaze = getCurrentMaze()
+                local xTile, xOff, yTile, yOff = currentMaze.getLoc(self)
                 local candidates = getCandidates(self)
     
                 if #candidates == 1 then 
@@ -328,7 +340,7 @@ characters.initialize = function()
                         if self.dead then
                             targetX, targetY = 13, 14
                         else -- never scatters
-                            local pacXTile, pacXOff, pacYTile, pacYOff = maze.getLoc(g.chars.pac)
+                            local pacXTile, pacXOff, pacYTile, pacYOff = currentMaze.getLoc(g.chars.pac)
                             targetX = pacXTile + constants.deltas[g.chars.pac.dir].y * (math.random(0, 8) - 4)
                             targetY = pacYTile + constants.deltas[g.chars.pac.dir].x * (math.random(0, 8) - 4)
                         end
@@ -353,7 +365,8 @@ characters.initialize = function()
                     return
                 end
     
-                local xTile, xOff, yTile, yOff = maze.getLoc(self)
+                local currentMaze = getCurrentMaze()
+                local xTile, xOff, yTile, yOff = currentMaze.getLoc(self)
                 local candidates = getCandidates(self)
     
                 if #candidates == 1 then 
@@ -366,9 +379,9 @@ characters.initialize = function()
                         if self.dead then
                             targetX, targetY = 13, 14
                         else -- never scatters
-                            local pacXTile, pacXOff, pacYTile, pacYOff = maze.getLoc(g.chars.pac)
-                            local midXTile = maze.w / 2
-                            local midYTile = maze.h / 2
+                            local pacXTile, pacXOff, pacYTile, pacYOff = currentMaze.getLoc(g.chars.pac)
+                            local midXTile = currentMaze.w / 2
+                            local midYTile = currentMaze.h / 2
     
                             local px = midXTile - pacXTile
                             local py = midYTile - pacYTile
@@ -397,7 +410,8 @@ characters.initialize = function()
                     return
                 end
     
-                local xTile, xOff, yTile, yOff = maze.getLoc(self)
+                local currentMaze = getCurrentMaze()
+                local xTile, xOff, yTile, yOff = currentMaze.getLoc(self)
                 local candidates = getCandidates(self)
     
                 if #candidates == 1 then 
@@ -410,7 +424,7 @@ characters.initialize = function()
                         if self.dead then
                             targetX, targetY = 13, 14
                         else -- never scatters
-                            local myXTile, myXOff, myYTile, myYOff = maze.getLoc(self)
+                            local myXTile, myXOff, myYTile, myYOff = currentMaze.getLoc(self)
 
                             targetX = myXTile + constants.deltas[math.random(0, 3)].x
                             targetY = myYTile + constants.deltas[math.random(0, 3)].y

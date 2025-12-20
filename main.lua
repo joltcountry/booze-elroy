@@ -26,6 +26,7 @@ g.defaultConfig = {
     fullscreen = false,
     crtEffect = true,
     volume = 7,
+    maze = "pac",
 }
 
 function resetConfigs()
@@ -121,8 +122,6 @@ applyVolume = function()
     end
 end
 
-g.sirenTriggers = { 20, 40, 100, 150 }
-
 g.backgrounds = {
     stars = love.graphics.newImage("backgrounds/stars.jpg"),
     beach = love.graphics.newImage("backgrounds/beach.jpg"),
@@ -139,8 +138,10 @@ g.backgrounds = {
 }
 
 playSiren = function()
-    for i = 1, #g.sirenTriggers do
-        if #g.dots < g.sirenTriggers[i] then
+    local currentMaze = maze.getMaze(g.config.maze)
+    local sirenTriggers = currentMaze.sirenTriggers
+    for i = 1, #sirenTriggers do
+        if #g.dots < sirenTriggers[i] then
             love.audio.play( g.sounds["siren" .. 6-i] )
             return
         end
