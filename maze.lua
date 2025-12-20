@@ -95,6 +95,7 @@ local function Maze(map)
                 if (c == '.' or c == ':') then table.insert(dots, {x= (x-1), y=(y-1)}) end
             end
         end
+        --print(#dots)
         return dots
     end
 
@@ -228,14 +229,14 @@ instances.booze1.punkyStart = { x = 14, y = 21 }
 instances.booze1.gunkyStart = { x = 14, y = 30 }
 instances.booze1.gronkyStart = { x = -2, y = 24 }
 instances.booze1.scatterTiles = {
-    { x = 25, y = -1 },
-    { x = 2, y = -1 },
+    { x = 25, y = 10 },
+    { x = 5, y = 10 },
     { x = 27, y = 33 },
     { x = 0, y = 33 },
 }
 instances.booze1.scatterPositions = {
-    blinky = { x = 25, y = -1 },
-    pinky = { x = 2, y = -1 },
+    blinky = { x = 25, y = 10 },
+    pinky = { x = 5, y = 10 },
     inky = { x = 27, y = 33 },
     clyde = { x = 0, y = 33 },
 }

@@ -281,7 +281,7 @@ function options.resetSelectedOptions(fullscreenOnly)
         return
     end
     
-    menu[1].selectedOption = g.config.maze == "random" and 3 or g.config.maze == "pac" and 1 or g.config.maze == "mspac1" and 2 or g.config.maze == "booze1" and 3
+    menu[1].selectedOption = g.config.maze == "random" and 4 or g.config.maze == "pac" and 1 or g.config.maze == "mspac1" and 2 or g.config.maze == "booze1" and 3
     menu[2].selectedOption = g.config.startingLives == 1 and 1 or g.config.startingLives == 3 and 2 or g.config.startingLives == 5 and 3
     menu[3].selectedOption = g.config.startingLevel
     menu[4].selectedOption = g.config.freeGuy
@@ -294,7 +294,7 @@ function options.resetSelectedOptions(fullscreenOnly)
     menu[11].selectedOption = g.config.phasing and 1 or 2
     menu[12].selectedOption = g.config.extraGhosts + 1
     menu[13].selectedOption = g.config.background == "random" and 14 or getBackgroundIndex()
-    menu[14].selectedOption = g.config.mazeColor == 99 and 1 or g.config.mazeColor == 0 and maze.maxColors + 1 or g.config.mazeColor + 1
+    menu[14].selectedOption = g.config.mazeColor == 99 and 1 or g.config.mazeColor == 0 and maze.maxColors or g.config.mazeColor + 1
     menu[15].selectedOption = g.config.fullscreen and 1 or 2
     menu[16].selectedOption = g.config.crtEffect and 1 or 2
     menu[17].selectedOption = g.config.volume + 1
@@ -307,7 +307,7 @@ function options.resetSelectedOptions(fullscreenOnly)
 end
 
 function options.start()
-    menu[1].selectedOption = g.config.maze == "random" and 3 or g.config.maze == "pac" and 1 or g.config.maze == "mspac1" and 2 or g.config.maze == "booze1" and 3
+    menu[1].selectedOption = g.config.maze == "random" and 4 or g.config.maze == "pac" and 1 or g.config.maze == "mspac1" and 2 or g.config.maze == "booze1" and 3
     menu[2].selectedOption = g.config.startingLives == 1 and 1 or g.config.startingLives == 3 and 2 or g.config.startingLives == 5 and 3
     menu[3].selectedOption = g.config.startingLevel
     menu[4].selectedOption = g.config.freeGuy
@@ -320,7 +320,7 @@ function options.start()
     menu[11].selectedOption = g.config.phasing and 1 or 2
     menu[12].selectedOption = g.config.extraGhosts + 1
     menu[13].selectedOption = g.config.background == "random" and 14 or getBackgroundIndex()
-    menu[14].selectedOption = g.config.mazeColor == 99 and 1 or g.config.mazeColor == 0 and maze.maxColors + 1 or g.config.mazeColor + 1
+    menu[14].selectedOption = g.config.mazeColor == 99 and 1 or g.config.mazeColor == 0 and maze.maxColors or g.config.mazeColor + 1
     menu[15].selectedOption = g.config.fullscreen and 1 or 2
     menu[16].selectedOption = g.config.crtEffect and 1 or 2
     menu[17].selectedOption = g.config.volume + 1

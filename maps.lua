@@ -88,30 +88,30 @@ maps.booze1 = {
     "     6_9            6_9     ", --  2
     "12222F D222222222222F D22225", --  3
     "6..........................9", --  4
-    "6.abbc.abbc.abbc.abbc.abbc.9", --  5
-    "6`&yy*.&hef.deef.deg*.&yy*`9", --  6
+    "6.abbc.abbbbbbbbbbbbc.abbc.9", --  5
+    "6`&yy*.&heeeeeeeeeeg*.&yy*`9", --  6
     "6.deef.&*....  ....&*.deef.9", --  7
     "6......&*.abbbbbbc.&*......9", --  8
     "IJC.ac.&*.deeeeeef.&*.ac.AJM", -- 9
     "  6.&*.df..........df.&*.9  ", -- 10
     "22F.&*....ac.ac.ac....&*.D22", -- 11 (warp tunnels row; spaces = void)
     "__ .&kbbc.&*.&*.&*.abbl*. __", -- 12 (entrance to house row)
-    "JJC.deeef.df.&*.df.deeef.AJJ", -- 13
-    "  6..........&*..........9  ", -- 14
-    "  6.ac.ac.ac.&*.ac.ac.ac.9  ", -- 15 (center row; gate ==)
-    "  6.&*.&*.&*.&*.&*.&*.&*.9  ", -- 16
-    "  6.&*.&*.&*.&*.&*.&*.&*.9  ", -- 17
-    "  6.&*.df.&*.df.&*.df.&*.9  ", -- 18
+    "JJC.deeg*.&*.&*.&*.&heef.AJJ", -- 13
+    "  6....&*.&*.&*.&*.&*....9  ", -- 14
+    "  6.ac.&*.&*.&*.&*.&*.ac.9  ", -- 15 (center row; gate ==)
+    "  6.&*.&*.df.&*.df.&*.&*.9  ", -- 16
+    "  6.&*.&*....&*....&*.&*.9  ", -- 17
+    "  6.&*.df.ac.df.ac.df.&*.9  ", -- 18
     "  6.&*....&*.  .&*....&*.9  ", -- 19
-    "  6.&*.abblkbbbblkbbc.&*.9  ", -- 20
-    "22F.df.deeeeeeeeeeeef.df.D22", -- 21
-    "__ ......          ...... __", -- 22
-    "JJC.ac.ac NJOPPQJR ac.ac.AJJ", --23
-    "  6.&*.&* 9      6 &*.&*.9  ", -- 24 (^^ above house: no-ghost tiles)
-    "  6.&*.&* 9      6 &*.&*.9  ", -- 25
-    "  6`&*.&* 9      6 &*.&*`9  ", -- 26
-    "  6.df.df S222222T df.df.9  ", -- 27
-    "  6......          ......9  ", -- 28
+    "  6.&*.ac.&kbbbbl*.ac.&*.9  ", -- 20
+    "22F.df.df.deeeeeef.df.df.D22", -- 21
+    "__ .......        ....... __", -- 22
+    "JJC.ac.ac.NJOPPQJR.ac.ac.AJJ", --23
+    "  6.&*.&*.9      6.&*.&*.9  ", -- 24 (^^ above house: no-ghost tiles)
+    "  6.&*.&*.9      6.&*.&*.9  ", -- 25
+    "  6`&*.&*.9      6.&*.&*`9  ", -- 26
+    "  6.df.df.S222222T.df.df.9  ", -- 27
+    "  6.......        .......9  ", -- 28
     "  IJJC AJJJJJJJJJJJJC AJJM  ", -- 29
     "     6_9            6_9     ", -- 30
     "     6_9            6_9     ", -- 31 (bottom "void" row; often unused)
