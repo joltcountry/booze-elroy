@@ -39,8 +39,6 @@ local fruits = {
         quad = 93,
         score = 5000,
     },
-    x = 14 * 8,
-    y = 20 * 8 + 4,
 }
 
 return fruits

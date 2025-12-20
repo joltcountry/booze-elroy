@@ -152,6 +152,7 @@ instances.pac = Maze(maps.defaultMap)
 instances.pac.maxColors = MAX_COLORS
 instances.pac.sirenTriggers = { 20, 40, 100, 150 }
 instances.pac.fruitTriggers = { 170, 70 }
+instances.pac.fruitLoc = { x = 14 * 8, y = 20 * 8 + 4 }
 
 -- Module table
 local maze = {}

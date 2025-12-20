@@ -168,7 +168,8 @@ local handlePlayerInput = function()
             -- if #positions == 0 then
             -- INSERT_YOUR_CODE
             if g.fruitTimer then
-                table.insert(positions, {x = fruits.x/8, y = fruits.y/8})
+                local fruitLoc = getCurrentMaze().fruitLoc
+                table.insert(positions, {x = fruitLoc.x/8, y = fruitLoc.y/8})
             end
             for _, dot in ipairs(g.dots) do
                 table.insert(positions, {x = dot.x, y = dot.y})
@@ -604,11 +605,13 @@ for i = 1, #g.level.levelDisplay do
     
     -- Draw fruit
     if g.fruitTimer then
-        graphics.drawSprite(g.level.fruit.sheet, g.level.fruit.quad, fruits.x - 8, fruits.y - 8)
+        local fruitLoc = getCurrentMaze().fruitLoc
+        graphics.drawSprite(g.level.fruit.sheet, g.level.fruit.quad, fruitLoc.x - 8, fruitLoc.y - 8)
     end
   
     if g.mode == "ateFruit" then
-        graphics.drawFruitScore(g.level.fruit.score, fruits.x - 8, fruits.y - 8)
+        local fruitLoc = getCurrentMaze().fruitLoc
+        graphics.drawFruitScore(g.level.fruit.score, fruitLoc.x - 8, fruitLoc.y - 8)
     end
 
     -- Draw characters (ghosts last)

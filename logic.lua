@@ -224,7 +224,8 @@ logic.move = function(c)
 
             logic.turn(c)
 
-            if g.fruitTimer and g.chars.pac.x == fruits.x and g.chars.pac.y == fruits.y and (not g.chars.pac.phased or g.chars.pac.phased <= 0) then
+            local fruitLoc = getCurrentMaze().fruitLoc
+            if g.fruitTimer and g.chars.pac.x == fruitLoc.x and g.chars.pac.y == fruitLoc.y and (not g.chars.pac.phased or g.chars.pac.phased <= 0) then
                 score(g.level.fruit.score)
                 g.fruitTimer = false
                 mode.setMode("ateFruit")
