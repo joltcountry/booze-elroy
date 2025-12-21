@@ -61,6 +61,7 @@ local menu = {
             { text = "pac", action = function() g.config.maze = "pac"; g.currentMaze = "pac" end },
             { text = "mspac1", action = function() g.config.maze = "mspac1"; g.currentMaze = "mspac1" end },
             { text = "mspac2", action = function() g.config.maze = "mspac2"; g.currentMaze = "mspac2" end },
+            { text = "mspac3", action = function() g.config.maze = "mspac3"; g.currentMaze = "mspac3" end },
             { text = "booze1", action = function() g.config.maze = "booze1"; g.currentMaze = "booze1" end },
             { text = "random", action = function() g.config.maze = "random"; g.currentMaze = g.mazes[math.random(1, #g.mazes)] end },
         }
@@ -153,10 +154,14 @@ local menu = {
     },
     {
         options = {
-            { text = "0", action = function() g.config.extraGhosts = 0 end },
-            { text = "1", action = function() g.config.extraGhosts = 1 end },
-            { text = "2", action = function() g.config.extraGhosts = 2 end },
-            { text = "3", action = function() g.config.extraGhosts = 3 end },
+            { text = "0", action = function() g.config.ghostCount = 0 end },
+            { text = "1", action = function() g.config.ghostCount = 1 end },
+            { text = "2", action = function() g.config.ghostCount = 2 end },
+            { text = "3", action = function() g.config.ghostCount = 3 end },
+            { text = "4", action = function() g.config.ghostCount = 4 end },
+            { text = "5", action = function() g.config.ghostCount = 5 end },
+            { text = "6", action = function() g.config.ghostCount = 6 end },
+            { text = "7", action = function() g.config.ghostCount = 7 end },
         }
     },
     {
@@ -277,6 +282,18 @@ local menu = {
     }
 }
 
+local function getMazeMenuIndex(mazeName)
+    if mazeName == "random" then
+        return #g.mazes + 1
+    end
+    for i, name in ipairs(g.mazes) do
+        if name == mazeName then
+            return i
+        end
+    end
+    return 1 -- fallback
+end
+
 function options.resetSelectedOptions(fullscreenOnly)
 
     if fullscreenOnly then
@@ -284,7 +301,7 @@ function options.resetSelectedOptions(fullscreenOnly)
         return
     end
     
-    menu[1].selectedOption = g.config.maze == "random" and 5 or g.config.maze == "pac" and 1 or g.config.maze == "mspac1" and 2 or g.config.maze == "mspac2" and 3 or g.config.maze == "booze1" and 4
+    menu[1].selectedOption = getMazeMenuIndex(g.config.maze)
     menu[2].selectedOption = g.config.startingLives == 1 and 1 or g.config.startingLives == 3 and 2 or g.config.startingLives == 5 and 3
     menu[3].selectedOption = g.config.startingLevel
     menu[4].selectedOption = g.config.freeGuy
@@ -295,7 +312,7 @@ function options.resetSelectedOptions(fullscreenOnly)
     menu[9].selectedOption = g.config.freeGhost and 1 or 2
     menu[10].selectedOption = g.config.fastPac and 1 or 2
     menu[11].selectedOption = g.config.phasing and 1 or 2
-    menu[12].selectedOption = g.config.extraGhosts + 1
+    menu[12].selectedOption = g.config.ghostCount + 1
     menu[13].selectedOption = g.config.background == "random" and 14 or getBackgroundIndex()
     menu[14].selectedOption = g.config.mazeColor == 99 and 1 or g.config.mazeColor == 0 and maze.maxColors or g.config.mazeColor + 1
     menu[15].selectedOption = g.config.fullscreen and 1 or 2
@@ -310,7 +327,7 @@ function options.resetSelectedOptions(fullscreenOnly)
 end
 
 function options.start()
-    menu[1].selectedOption = g.config.maze == "random" and 5 or g.config.maze == "pac" and 1 or g.config.maze == "mspac1" and 2 or g.config.maze == "mspac2" and 3 or g.config.maze == "booze1" and 4
+    menu[1].selectedOption = getMazeMenuIndex(g.config.maze)
     menu[2].selectedOption = g.config.startingLives == 1 and 1 or g.config.startingLives == 3 and 2 or g.config.startingLives == 5 and 3
     menu[3].selectedOption = g.config.startingLevel
     menu[4].selectedOption = g.config.freeGuy
@@ -321,7 +338,7 @@ function options.start()
     menu[9].selectedOption = g.config.freeGhost and 1 or 2
     menu[10].selectedOption = g.config.fastPac and 1 or 2
     menu[11].selectedOption = g.config.phasing and 1 or 2
-    menu[12].selectedOption = g.config.extraGhosts + 1
+    menu[12].selectedOption = g.config.ghostCount + 1
     menu[13].selectedOption = g.config.background == "random" and 14 or getBackgroundIndex()
     menu[14].selectedOption = g.config.mazeColor == 99 and 1 or g.config.mazeColor == 0 and maze.maxColors or g.config.mazeColor + 1
     menu[15].selectedOption = g.config.fullscreen and 1 or 2
@@ -374,7 +391,7 @@ function options.draw()
     graphics.print("Free Ghosts", 2, 13)
     graphics.print("Fast Pac", 2, 14)
     graphics.print("Phasing", 2, 15)
-    graphics.print("Extra Ghosts", 2, 16)
+    graphics.print("Ghosts", 2, 16)
     graphics.print("Background", 2, 17)
     graphics.print("Maze Style", 2, 18)
     graphics.print("Full screen", 2, 19)

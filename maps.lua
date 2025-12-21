@@ -118,6 +118,45 @@ maps.mspac2 = {
     "                            ",
 }
 
+maps.mspac3 = {
+    -- 28 columns each
+    "                            ",
+    "                            ",
+    "                            ",
+    "1222222222342222342222222225", --  1
+    "6.........&*....&*.........9", --  2
+    "6.abbbbbc.&*.ac.&*.abbbbbc.9", --  3
+    "6`&heeeef.df.&*.df.deeeeg*`9", --  4
+    "6.&*.........&*.........&*.9", --  5
+    "6.df.ac.abbc.&*.abbc.ac.df.9", --  6
+    "6....&*.&yy*.&*.&yy*.&*....9", --  7
+    "XBBC.&*.deef.df.deef.&*.ABBV", --  8
+    "EEEF.&*..............&*.DEEE", -- 9
+    "_....&kbc abbbbbbc abl*...._", -- 10
+    "C.ac deef deeeeeef deef ac.A", -- 11 (warp tunnels row; spaces = void)
+    "6.&*                    &*.9", -- 12 (entrance to house row)
+    "6.&kbc ac NJOPPQJR ac abl*.9", -- 13
+    "6.deef &* 9      6 &* deef.9", -- 14
+    "6.     &* 9      6 &*     .9", -- 15 (center row; gate ==)
+    "6.ac abl* 9      6 &kbc ac.9", -- 16
+    "6.&* deef S222222T deef &*.9", -- 17
+    "6.&*                    &*.9", -- 18
+    "6.&kbc abbbc ac abbbc abl*.9", -- 19
+    "6.deef &heef &* deeg* deef.9", -- 20
+    "6......&*....&*....&*......9", -- 21
+    "XBC.ac.&*.abblkbbc.&*.ac.ABV", -- 22
+    "WEF.&*.df.deeeeeef.df.&*.DEU", -- 23
+    "6`..&*.......  .......&*..`9", -- 24 (^^ above house: no-ghost tiles)
+    "6.abl*.abbbc.ac.abbbc.&kbc.9", -- 25
+    "6.deef.&heef.&*.deeg*.deef.9", -- 26
+    "6......&*....&*....&*......9", -- 27
+    "6.abbc.&*.abblkbbc.&*.abbc.9", -- 28
+    "6.deef.&*.deeeeeef.&*.deef.9", -- 29
+    "6......&*..........&*......9", -- 30
+    "IJJJJJJLKJJJJJJJJJJLKJJJJJJM", -- 31 (bottom "void" row; often unused)
+    "                            ",
+}
+
 maps.booze1 = {
     -- 28 columns each
     "                            ",

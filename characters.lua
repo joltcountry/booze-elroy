@@ -122,6 +122,9 @@ characters.initialize = function()
     local currentMaze = getCurrentMaze()
     local scatterPositions = currentMaze.scatterPositions
     local houseCenter = currentMaze.houseCenter
+
+
+    if g.config.ghostCount > 0 then    
     chars.blinky = {
         x = (8 * houseCenter.x),
         y = (8 * (houseCenter.y - 3)) + 4,
@@ -163,6 +166,8 @@ characters.initialize = function()
 
     }
     chars.blinky.animator = createGhostAnimator("blinky", true)
+end
+    if g.config.ghostCount > 1 then
 
     chars.pinky = {
         x = (8 * houseCenter.x),
@@ -210,7 +215,8 @@ characters.initialize = function()
     }
 
     chars.pinky.animator = createGhostAnimator("pinky", false)
-
+end
+if g.config.ghostCount > 2 then
     chars.inky = {
         x = (8 * (houseCenter.x - 2)),
         y = (8 * houseCenter.y) + 4,
@@ -264,7 +270,9 @@ characters.initialize = function()
         end
     }
     chars.inky.animator = createGhostAnimator("inky", false)
+end
 
+if g.config.ghostCount > 3 then
     chars.clyde = {
         x = (8 * (houseCenter.x + 2)),
         y = (8 * houseCenter.y) + 4,
@@ -312,8 +320,8 @@ characters.initialize = function()
         end
     }
     chars.clyde.animator = createGhostAnimator("clyde", false)
-
-    if g.config.extraGhosts >= 1 then
+end
+if g.config.ghostCount > 4 then
         local punkyStart = currentMaze.punkyStart
         chars.punky = {
             x = (8 * punkyStart.x),
@@ -354,7 +362,7 @@ characters.initialize = function()
         chars.punky.animator = createGhostAnimator("punky", false)
     end
 
-    if g.config.extraGhosts >= 2 then
+    if g.config.ghostCount > 5 then
         local gunkyStart = currentMaze.gunkyStart
         chars.gunky = {
             x = (8 * gunkyStart.x),
@@ -401,7 +409,7 @@ characters.initialize = function()
         chars.gunky.animator = createGhostAnimator("gunky", false)
     end
 
-    if g.config.extraGhosts >= 3 then
+    if g.config.ghostCount > 6 then
         local gronkyStart = currentMaze.gronkyStart
         chars.gronky = {
             x = (8 * gronkyStart.x),
@@ -449,6 +457,8 @@ end
 characters.reset = function()
     local currentMaze = getCurrentMaze()
     local houseCenter = currentMaze.houseCenter
+
+    if g.config.ghostCount > 0 then
     g.chars.blinky.frame = 1
     g.chars.blinky.x = (8 * houseCenter.x)
     g.chars.blinky.y = (8 * (houseCenter.y - 3)) + 4
@@ -467,7 +477,8 @@ characters.reset = function()
         g.chars.blinky.scatterX = randomScatter.x
         g.chars.blinky.scatterY = randomScatter.y
     end
-
+end
+if g.config.ghostCount > 1 then
     g.chars.pinky.x = (8 * houseCenter.x)
     g.chars.pinky.y = (8 * houseCenter.y) + 4
     g.chars.pinky.frame = 1
@@ -487,7 +498,8 @@ characters.reset = function()
         g.chars.pinky.scatterX = randomScatter.x
         g.chars.pinky.scatterY = randomScatter.y
     end
-
+end
+if g.config.ghostCount > 2 then
     g.chars.inky.x = (8 * (houseCenter.x - 2))
     g.chars.inky.y = (8 * houseCenter.y) + 4
     g.chars.inky.frame = 1
@@ -507,7 +519,8 @@ characters.reset = function()
         g.chars.inky.scatterX = randomScatter.x
         g.chars.inky.scatterY = randomScatter.y
     end
-
+end
+if g.config.ghostCount > 3 then
     g.chars.clyde.x = (8 * (houseCenter.x + 2))
     g.chars.clyde.y = (8 * houseCenter.y) + 4
     g.chars.clyde.frame = 1
@@ -527,8 +540,8 @@ characters.reset = function()
         g.chars.clyde.scatterX = randomScatter.x
         g.chars.clyde.scatterY = randomScatter.y
     end
-
-    if g.config.extraGhosts >= 1 then
+end
+if g.config.ghostCount > 4 then
         local punkyStart = currentMaze.punkyStart
         g.chars.punky.frame = 1
         g.chars.punky.x = (8 * punkyStart.x)
@@ -541,9 +554,8 @@ characters.reset = function()
         g.chars.punky.frightened = false
         g.chars.punky.leaveRight = false
         g.chars.punky.speed = logic.getGhostSpeed(g.chars.punky)
-    end
-
-    if g.config.extraGhosts >= 2 then
+end
+if g.config.ghostCount > 5 then
         local gunkyStart = currentMaze.gunkyStart
         g.chars.gunky.frame = 1
         g.chars.gunky.x = (8 * gunkyStart.x)
@@ -558,7 +570,7 @@ characters.reset = function()
         g.chars.gunky.speed = logic.getGhostSpeed(g.chars.gunky)
     end 
 
-    if g.config.extraGhosts >= 3 then
+    if g.config.ghostCount > 6 then
         local gronkyStart = currentMaze.gronkyStart
         g.chars.gronky.frame = 1
         g.chars.gronky.x = (8 * gronkyStart.x)
