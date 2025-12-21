@@ -9,8 +9,25 @@ handlers.activateFrightenedMode = function()
 		love.audio.play( g.sounds.scared )
         stopSiren()
 	end
+    -- PLUS MODE
+
+    local immuneChar
+
+    if g.config.plusMode and not g.fruitFrightened then -- fruit always frightens everyone
+        local coinflip = math.random() < 0.5
+        if coinflip then
+            local candidates = {}
+            for name, char in pairs(g.chars) do
+                if char.target and not char.dead then
+                    table.insert(candidates, char)
+                end
+            end
+            immuneChar = candidates[math.random(1, #candidates)]
+        end
+    end
+
     for name, char in pairs(g.chars) do
-        if char.target and not char.dead then
+        if char.target and not char.dead and char ~= immuneChar then
             char.frightened = true
             char.speed = logic.getGhostSpeed(char)
             if not char.housing and not char.leaving and not char.entering then
