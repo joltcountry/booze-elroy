@@ -5,6 +5,7 @@ local maze = require("maze")
 local speedFactor = 20/16 -- 1.25
 local mode = require("mode")
 local fruits = require("fruits")
+local handlers = require("handlers")
 
 -- Helper to get current maze instance
 local function getCurrentMaze()
@@ -43,7 +44,7 @@ local handleGhostCollision = function(ghost, pacXTile, pacYTile, ghostXTile, gho
             ghost.hidden = true
             mode.setMode("ateGhost")
             g.sounds.ateGhost:play()
-            if g.ghostScore then g.ghostScore = g.ghostScore * 2 else g.ghostScore = 200 end
+            if g.ghostScore then g.ghostScore = g.ghostScore * 2 else g.ghostScore = g.fruitFrightened and 400 or 200 end
             score(g.ghostScore)
             return true -- collision handled
         elseif not ghost.dead then
@@ -237,6 +238,10 @@ logic.move = function(c)
                 g.fruitTimer = false
                 mode.setMode("ateFruit")
                 g.sounds.fruit:play()
+                if g.config.plusMode then
+                    handlers.activateFrightenedMode()
+                    g.fruitFrightened = true
+                end
             end
 
         end

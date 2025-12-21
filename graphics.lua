@@ -159,6 +159,7 @@ end
 
 graphics.updateAnimation = function(o, frameCounter)
     local a = o:animator()
+    if not a then return end
     o.frame = o.frame or 1 
     if a.speed and frameCounter % a.speed == 0 then
         o.frame = (o.frame % #a.frames) + 1

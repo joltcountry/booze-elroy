@@ -36,6 +36,7 @@ local updateFrightenedState = function()
             if not anyDead then
                 playSiren()
             end
+            g.fruitFrightened = false
             g.frightened = false
             if not g.config.fastPac then g.chars.pac.speed = g.level.pacSpeed end
             for _, c in pairs(g.chars) do

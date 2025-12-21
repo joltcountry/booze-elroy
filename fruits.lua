@@ -39,6 +39,37 @@ local fruits = {
         quad = 93,
         score = 5000,
     },
+    cola = {
+        sheet = "spr16",
+        quad = 94,
+        score = 100,
+    },
+    cocktail = {
+        sheet = "spr16",
+        quad = 95,
+        score = 300,
+    },
+    peas = {
+        sheet = "spr16",
+        quad = 96,
+        score = 500,
+    },
+    grapes = {
+        sheet = "spr16",
+        quad = 97,
+        score = 1000,
+    },
+    bread = {
+        sheet = "spr16",
+        quad = 98,
+        score = 3000,
+    },
+    pancakes = {
+        sheet = "spr16",
+        quad = 99,
+        score = 5000,
+    },
+
 }
 
 return fruits
