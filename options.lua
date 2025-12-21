@@ -113,7 +113,7 @@ local menu = {
     },
     {
         options = {
-            { text = "No", action = function() g.config.afterDark = false end },
+            { text = "Off", action = function() g.config.afterDark = false end },
             { text = "Maze", action = function() g.config.afterDark = 1 end },
             { text = "Dots", action = function() g.config.afterDark = 2 end },
             { text = "Both", action = function() g.config.afterDark = 3 end },
