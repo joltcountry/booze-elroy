@@ -7,6 +7,10 @@ local function getCurrentMaze()
     return maze.getMaze(g.currentMaze)
 end
 
+local function getDefaultColor()
+    if g.config.plusMode then return 5 else return getCurrentMaze().defaultColor end
+end
+
 local levels = {
     normal = {
         [1] = {
@@ -790,7 +794,7 @@ levels.startLevel = function()
     g.globalCounter = false
     g.suspendElroy = false
     g.currentMaze = g.config.maze == "random" and g.mazes[math.random(1, #g.mazes)] or g.config.maze
-    g.currentMazeColor = g.config.mazeColor == 99 and getCurrentMaze().defaultColor or g.config.mazeColor == 0 and math.random(1, maze.maxColors - 1) or g.config.mazeColor
+    g.currentMazeColor = g.config.mazeColor == 99 and getDefaultColor() or g.config.mazeColor == 0 and math.random(1, maze.maxColors - 1) or g.config.mazeColor
     g.currentBackground = g.config.background == "random" and backgroundOptions[math.random(2, #backgroundOptions)] or g.config.background
 end
 

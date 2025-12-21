@@ -87,9 +87,9 @@ local createGhostAnimator = function(ghostName, elroyCheck)
             return graphics.animations.dead[self.dir]
         elseif self.frightened then
             if g.frightened < 120 and math.floor(g.frightened / 14) % 2 == 0 then
-                return graphics.animations.scaredWhite
+                return g.config.plusMode and graphics.animations.scaredWhitePlus or graphics.animations.scaredWhite
             else
-                return graphics.animations.scaredBlue
+                return g.config.plusMode and graphics.animations.scaredBluePlus or graphics.animations.scaredBlue
             end
         elseif elroyCheck and #g.dots <= g.level.elroy1 and not g.suspendElroy then
             return graphics.animations.booze

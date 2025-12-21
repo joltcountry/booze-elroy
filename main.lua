@@ -27,7 +27,7 @@ g.defaultConfig = {
     crtEffect = true,
     volume = 7,
     maze = "pac",
-    pacPlus = false,
+    plusMode = false,
 }
 
 function resetConfigs()

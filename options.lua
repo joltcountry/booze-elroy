@@ -105,8 +105,8 @@ local menu = {
     { 
         y=7,
         options = {
-            { text = "Off", action = function() g.config.pacPlus = false end },
-            { text = "On", action = function() g.config.pacPlus = true end },
+            { text = "Off", action = function() g.config.plusMode = false end },
+            { text = "On", action = function() g.config.plusMode = true end },
         }
     },
     {
@@ -339,7 +339,7 @@ function options.resetSelectedOptions(fullscreenOnly)
     menu[1].selectedOption = getMazeMenuIndex(g.config.maze)
     menu[2].selectedOption = g.config.startingLevel
     menu[3].selectedOption = g.config.hardMode and 1 or 2
-    menu[4].selectedOption = g.config.pacPlus and 2 or 1
+    menu[4].selectedOption = g.config.plusMode and 2 or 1
     menu[5].selectedOption = g.config.afterDark == false and 1 or g.config.afterDark == 1 and 2 or g.config.afterDark == 2 and 3 or g.config.afterDark == 3 and 4 or g.config.afterDark == 4 and 5
     menu[6].selectedOption = g.config.startingLives == 1 and 1 or g.config.startingLives == 3 and 2 or g.config.startingLives == 5 and 3
     menu[7].selectedOption = g.config.freeGuy
@@ -366,7 +366,7 @@ function options.start()
     menu[1].selectedOption = getMazeMenuIndex(g.config.maze)
     menu[2].selectedOption = g.config.startingLevel
     menu[3].selectedOption = g.config.hardMode and 1 or 2
-    menu[4].selectedOption = g.config.pacPlus and 2 or 1
+    menu[4].selectedOption = g.config.plusMode and 2 or 1
     menu[5].selectedOption = g.config.afterDark == false and 1 or g.config.afterDark == 1 and 2 or g.config.afterDark == 2 and 3 or g.config.afterDark == 3 and 4 or g.config.afterDark == 4 and 5
     menu[6].selectedOption = g.config.startingLives == 1 and 1 or g.config.startingLives == 3 and 2 or g.config.startingLives == 5 and 3
     menu[7].selectedOption = g.config.freeGuy
