@@ -202,6 +202,7 @@ local menu = {
             { text = "14", action = function() g.config.mazeColor = 14 end },
             { text = "15", action = function() g.config.mazeColor = 15 end },
             { text = "16", action = function() g.config.mazeColor = 16 end },
+            { text = "17", action = function() g.config.mazeColor = 17 end },
             { text = "Random", action = function() g.config.mazeColor = 0 end },
         }
     },

@@ -6,7 +6,7 @@ local indexes = '123456789ABCDEFGHIJKLMNOPQRSTUVWXY'
 local afterDark = 'ABC7Y8DEFGHKL'
 
 -- Module-level constant
-local MAX_COLORS = 17
+local MAX_COLORS = 18
 
 local upperCase = function(c)
     local upper = string.upper(c)
@@ -216,7 +216,7 @@ instances.mspac1.scatterPositions = {
 instances.mspac1.playerone = 14
 instances.mspac1.ready = 20
 
-instances.mspac1.defaultColor = 11
+instances.mspac1.defaultColor = 12
 
 
 -- Create "pac" maze instance
@@ -245,7 +245,7 @@ instances.mspac2.scatterPositions = {
 instances.mspac2.playerone = 14
 instances.mspac2.ready = 20
 
-instances.mspac2.defaultColor = 12
+instances.mspac2.defaultColor = 13
 
 -- Create "pac" maze instance
 instances.mspac3 = Maze(maps.mspac3)
@@ -273,7 +273,7 @@ instances.mspac3.scatterPositions = {
 instances.mspac3.playerone = 14
 instances.mspac3.ready = 20
 
-instances.mspac3.defaultColor = 13
+instances.mspac3.defaultColor = 14
 
 -- Create "pac" maze instance
 instances.mspac4 = Maze(maps.mspac4)
@@ -301,7 +301,7 @@ instances.mspac4.scatterPositions = {
 instances.mspac4.playerone = 14
 instances.mspac4.ready = 20
 
-instances.mspac4.defaultColor = 14
+instances.mspac4.defaultColor = 11
 
 -- Create "pac" maze instance
 instances.booze1 = Maze(maps.booze1)

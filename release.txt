@@ -55,12 +55,14 @@ New mazes
 / mspac1
 / mspac2
 / mspac3
-mspac4
+/ mspac4
 ultra1
 ultra2
 ultra3
 ultra4
 booze2
+
+Reorganize/nicen-up options menu
 
 "Pac-Man Plus" mode + default color
 Default colors per Maze/Mode
