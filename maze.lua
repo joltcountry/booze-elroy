@@ -95,7 +95,7 @@ local function Maze(map)
                 if (c == '.' or c == ':') then table.insert(dots, {x= (x-1), y=(y-1)}) end
             end
         end
-        print(#dots)
+        --print(#dots)
         return dots
     end
 
@@ -257,7 +257,7 @@ instances.mspac3.houseCenter = { x = 14, y = 17 }
 instances.mspac3.pacStart = { x = 14, y = 26 }
 instances.mspac3.punkyStart = { x = 14, y = 4 }
 instances.mspac3.gunkyStart = { x = 14, y = 32 }
-instances.mspac3.gronkyStart = { x = -2, y = 4 }
+instances.mspac3.gronkyStart = { x = -2, y = 12 }
 instances.mspac3.scatterTiles = {
     { x = 25, y = -1 },
     { x = 2, y = -1 },
@@ -284,8 +284,8 @@ instances.mspac4.fruitLoc = { x = 14 * 8, y = 20 * 8 + 4 }
 instances.mspac4.houseCenter = { x = 14, y = 17 }
 instances.mspac4.pacStart = { x = 14, y = 26 }
 instances.mspac4.punkyStart = { x = 14, y = 4 }
-instances.mspac4.gunkyStart = { x = 14, y = 32 }
-instances.mspac4.gronkyStart = { x = -2, y = 4 }
+instances.mspac4.gunkyStart = { x = 14, y = 29 }
+instances.mspac4.gronkyStart = { x = -2, y = 16 }
 instances.mspac4.scatterTiles = {
     { x = 25, y = -1 },
     { x = 2, y = -1 },

@@ -159,7 +159,7 @@ menus.draw = function(menu, x, y, spacing)
         elseif item.options then
             for j, option in ipairs(item.options) do
                 if item.selectedOption == j then
-                    graphics.print(option.text, x, y + (i - 1) * spacing, color)
+                    graphics.print(option.text, item.x or x, item.y or y + (i - 1) * spacing, color)
                 end
             end
         end                                                                 

@@ -48,6 +48,8 @@ ALPHA 5 (1/1/2026)
 ===================
 / "Random" maze mode (pick mazes randomly, not random maze generation)
 / Can now set between 0 and 7 ghosts
+/ Reorganize/nicen-up options menu
+
 
 New mazes
 ---------
@@ -61,8 +63,6 @@ ultra2
 ultra3
 ultra4
 booze2
-
-Reorganize/nicen-up options menu
 
 "Pac-Man Plus" mode + default color
 Default colors per Maze/Mode
@@ -82,3 +82,6 @@ Improved attract screen
  --- that's it
 Intermissions
 Two player mode
+
+
+
