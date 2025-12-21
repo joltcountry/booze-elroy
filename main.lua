@@ -26,7 +26,7 @@ g.defaultConfig = {
     fullscreen = false,
     crtEffect = true,
     volume = 7,
-    maze = "mspac3",
+    maze = "pac",
 }
 
 function resetConfigs()
@@ -137,7 +137,7 @@ g.backgrounds = {
     lines = love.graphics.newImage("backgrounds/lines.jpg"),
 }
 
-g.mazes = { "pac", "mspac1", "mspac2","mspac3","booze1" }
+g.mazes = { "pac", "mspac1", "mspac2","mspac3","mspac4", "booze1" }
 
 local function getCurrentMaze()
     if not g.currentMaze then g.currentMaze = g.config.maze end

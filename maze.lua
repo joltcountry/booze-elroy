@@ -222,7 +222,7 @@ instances.mspac1.defaultColor = 11
 -- Create "pac" maze instance
 instances.mspac2 = Maze(maps.mspac2)
 instances.mspac2.maxColors = MAX_COLORS
-instances.mspac2.sirenTriggers = { 20, 40, 90, 140 }
+instances.mspac2.sirenTriggers = { 20, 40, 100, 150 }
 instances.mspac2.fruitTriggers = { 170, 70 }
 instances.mspac2.fruitLoc = { x = 14 * 8, y = 20 * 8 + 4 }
 instances.mspac2.houseCenter = { x = 14, y = 17 }
@@ -250,7 +250,7 @@ instances.mspac2.defaultColor = 12
 -- Create "pac" maze instance
 instances.mspac3 = Maze(maps.mspac3)
 instances.mspac3.maxColors = MAX_COLORS
-instances.mspac3.sirenTriggers = { 20, 40, 90, 140 }
+instances.mspac3.sirenTriggers = { 20, 40, 100, 150 }
 instances.mspac3.fruitTriggers = { 170, 70 }
 instances.mspac3.fruitLoc = { x = 14 * 8, y = 20 * 8 + 4 }
 instances.mspac3.houseCenter = { x = 14, y = 17 }
@@ -275,6 +275,33 @@ instances.mspac3.ready = 20
 
 instances.mspac3.defaultColor = 13
 
+-- Create "pac" maze instance
+instances.mspac4 = Maze(maps.mspac4)
+instances.mspac4.maxColors = MAX_COLORS
+instances.mspac4.sirenTriggers = { 20, 40, 100, 150 }
+instances.mspac4.fruitTriggers = { 170, 70 }
+instances.mspac4.fruitLoc = { x = 14 * 8, y = 20 * 8 + 4 }
+instances.mspac4.houseCenter = { x = 14, y = 17 }
+instances.mspac4.pacStart = { x = 14, y = 26 }
+instances.mspac4.punkyStart = { x = 14, y = 4 }
+instances.mspac4.gunkyStart = { x = 14, y = 32 }
+instances.mspac4.gronkyStart = { x = -2, y = 4 }
+instances.mspac4.scatterTiles = {
+    { x = 25, y = -1 },
+    { x = 2, y = -1 },
+    { x = 27, y = 33 },
+    { x = 0, y = 33 },
+}
+instances.mspac4.scatterPositions = {
+    blinky = { x = 25, y = -1 },
+    pinky = { x = 2, y = -1 },
+    inky = { x = 27, y = 33 },
+    clyde = { x = 0, y = 33 },
+}
+instances.mspac4.playerone = 14
+instances.mspac4.ready = 20
+
+instances.mspac4.defaultColor = 14
 
 -- Create "pac" maze instance
 instances.booze1 = Maze(maps.booze1)

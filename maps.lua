@@ -124,9 +124,9 @@ maps.mspac3 = {
     "                            ",
     "                            ",
     "1222222222342222342222222225", --  1
-    "6.........&*....&*.........9", --  2
-    "6.abbbbbc.&*.ac.&*.abbbbbc.9", --  3
-    "6`&heeeef.df.&*.df.deeeeg*`9", --  4
+    "6.........78....78.........9", --  2
+    "6.abbbbbc.78.ac.78.abbbbbc.9", --  3
+    "6`&heeeef.DF.&*.DF.deeeeg*`9", --  4
     "6.&*.........&*.........&*.9", --  5
     "6.df.ac.abbc.&*.abbc.ac.df.9", --  6
     "6....&*.&yy*.&*.&yy*.&*....9", --  7
@@ -147,13 +147,52 @@ maps.mspac3 = {
     "XBC.ac.&*.abblkbbc.&*.ac.ABV", -- 22
     "WEF.&*.df.deeeeeef.df.&*.DEU", -- 23
     "6`..&*.......  .......&*..`9", -- 24 (^^ above house: no-ghost tiles)
-    "6.abl*.abbbc.ac.abbbc.&kbc.9", -- 25
-    "6.deef.&heef.&*.deeg*.deef.9", -- 26
-    "6......&*....&*....&*......9", -- 27
-    "6.abbc.&*.abblkbbc.&*.abbc.9", -- 28
-    "6.deef.&*.deeeeeef.&*.deef.9", -- 29
-    "6......&*..........&*......9", -- 30
+    "6.abl*.ABBBC.ac.ABBBC.&kbc.9", -- 25
+    "6.deef.7HEEF.&*.DEEG8.deef.9", -- 26
+    "6......78....&*....78......9", -- 27
+    "6.abbc.78.abblkbbc.78.abbc.9", -- 28
+    "6.deef.78.deeeeeef.78.deef.9", -- 29
+    "6......78..........78......9", -- 30
     "IJJJJJJLKJJJJJJJJJJLKJJJJJJM", -- 31 (bottom "void" row; often unused)
+    "                            ",
+}
+
+maps.mspac4 = {
+    -- 28 columns each
+    "                            ",
+    "                            ",
+    "                            ",
+    "1222222222222222222222222225", --  1
+    "6..........................9", --  2
+    "6.ac.abbc.abbbbbbc.abbc.ac.9", --  3
+    "6`&*.&yy*.&heeeeg*.&yy*.&*`9", --  4
+    "6.&*.deef.&*....&*.deef.&*.9", --  5
+    "6.&*......&*.ac.&*......&*.9", --  6
+    "6.&kbc.ac.&*.&*.&*.ac.abl*.9", --  7
+    "6.deef.&*.df.&*.df.&*.deef.9", --  8
+    "6......&*....&*....&*......9", -- 9
+    "IJC.abblkbbc &* abblkbbc.AJM", -- 10
+    "  6.deegheef df deegheef.9  ", -- 11 (warp tunnels row; spaces = void)
+    "  6....&*          &*....9  ", -- 12 (entrance to house row)
+    "22F AC.&* NJOPPQJR &*.AC D22", -- 13
+    "____78.df 9      6 df.78____", -- 14
+    "BBBBL8.   9      6   .7KBBBB", -- 15 (center row; gate ==)
+    "EEEEG8.ac 9      6 ac.7HEEEE", -- 16
+    "____78.&* S222222T &*.78____", -- 17
+    "JJC DF.&*          &*.DF AJJ", -- 18
+    "  6....&kbbc ac abbl*....9  ", -- 19
+    "  6.ac.deeef &* deeef.ac.9  ", -- 20
+    "  6.&*....   &*   ....&*.9  ", -- 21
+    "  6.&kbbc.ac &* ac.abbl*.9  ", -- 22
+    "12F.deeef.&* df &*.deeef.D25", -- 23
+    "6.........&*    &*.........9", -- 24 (^^ above house: no-ghost tiles)
+    "6.abbc.ac.&kbbbbl*.ac.abbc.9", -- 25
+    "6.&hef.&*.deeeeeef.&*.deg*.9", -- 26
+    "6.&*...&*..........&*...&*.9", -- 27
+    "6`&*.ablkbbc.AC.abblkbc.&*`9", -- 28
+    "6.df.deeeeef.78.deeeeef.df.9", -- 29
+    "6............78............9", -- 30
+    "IJJJJJJJJJJJJLKJJJJJJJJJJJJM", -- 31 (bottom "void" row; often unused)
     "                            ",
 }
 

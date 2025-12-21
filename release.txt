@@ -44,26 +44,34 @@ Alt-Enter now switches between fullscreen and windowed
 ROADMAP
 -------
 
-ALPHA 5 (1/4/2026)
+ALPHA 5 (1/1/2026)
 ===================
 / "Random" maze mode (pick mazes randomly, not random maze generation)
-/ Default colors per maze
+/ Can now set between 0 and 7 ghosts
+
 New mazes
+---------
+/ booze1
+/ mspac1
+/ mspac2
+/ mspac3
+mspac4
+ultra1
+ultra2
+ultra3
+ultra4
+booze2
+
+"Pac-Man Plus" mode + default color
+Default colors per Maze/Mode
 Additional backgrounds/maze colors
-Can now set between 0 and 7 ghosts
 
-ALPHA 6 (1/18/2026)
-===================
-"Pac-Man Plus" mode
-Default colors per mode (so pac plus is the aqua one by default)
-Additional mazes/backgrounds/maze colors
-
-ALPHA 7 (2/15/2026)
+ALPHA 6 (2/1/2026)
 ===================
 Large mazes
 Additional mazes/backgrounds/maze colors
 
-BETA 1 (3/1/2026)
+BETA 1 (2/26/2026)
 ==================
 Improved attract screen
  --- six ghosts waddle out, leaving a gap in the middle
