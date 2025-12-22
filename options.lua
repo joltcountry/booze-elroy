@@ -66,6 +66,7 @@ local menu = {
             { text = "mspac3", action = function() g.config.maze = "mspac3"; g.currentMaze = "mspac3" end },
             { text = "mspac4", action = function() g.config.maze = "mspac4"; g.currentMaze = "mspac4" end },
             { text = "booze1", action = function() g.config.maze = "booze1"; g.currentMaze = "booze1" end },
+            { text = "booze2", action = function() g.config.maze = "booze2"; g.currentMaze = "booze2" end },
             { text = "random", action = function() g.config.maze = "random"; g.currentMaze = g.mazes[math.random(1, #g.mazes)] end },
         }
     },
@@ -236,6 +237,7 @@ local menu = {
             { text = "15", action = function() g.config.mazeColor = 15 end },
             { text = "16", action = function() g.config.mazeColor = 16 end },
             { text = "17", action = function() g.config.mazeColor = 17 end },
+            { text = "18", action = function() g.config.mazeColor = 18 end },
             { text = "Random", action = function() g.config.mazeColor = 0 end },
         }
     },

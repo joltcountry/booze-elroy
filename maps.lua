@@ -235,6 +235,45 @@ maps.booze1 = {
     "                            ",
 }
 
+maps.booze2 = {
+    -- 28 columns each
+    "                            ",
+    "                            ",
+    "                            ",
+    "1222222222222342222222222225", --  1
+    "6............78............9", --  2
+    "6.abbc.abbbc.78.abbbc.abbc.9", --  3
+    "6.deg*.&yyy*.78.&yyy*.&hef.9", --  4
+    "6`..&*.deeef.78.deeef.&*..`9", --  5
+    "IJC.&*.......78.......&*.AJM", --  6
+    "  6.&*.AC.ABBLKBBC.AC.&*.9  ", --  7
+    "22F.df.78.DEEEEEEF.78.df.D22", --  8
+    "__ ....78..........78.... __", -- 9
+    "BBBBBBBL8 abbbbbbc 7KBBBBBBB", -- 10
+    "WEEEEEEEF deeeeeef DEEEEEEEU", -- 11 (warp tunnels row; spaces = void)
+    "6......              ......9", -- 12 (entrance to house row)
+    "6.abbc.ac NJOPPQJR ac.abbc.9", -- 13
+    "6.&hef.&* 9      6 &*.deg*.9", -- 14
+    "6.&*...&* 9      6 &*...&*.9", -- 15 (center row; gate ==)
+    "6.&*.abl* 9      6 &kbc.&*.9", -- 16
+    "6.df.deef S222222T deef.df.9", -- 17
+    "6......              ......9", -- 18
+    "6.abbc.ac abbbbbbc ac.abbc.9", -- 19
+    "F.deef.&* deegheef &*.deef.D", -- 20
+    "_......&*    &*    &*......_", -- 21
+    "BBC.ac.&kbbc &* abbl*.ac.ABB", -- 22
+    "WEF.&*.deeef df deeef.&*.DEU", -- 23
+    "6...&*....        ....&*...9", -- 24 (^^ above house: no-ghost tiles)
+    "6.abl*.ac.abbbbbbc.ac.&kbc.9", -- 25
+    "6.deef.&*.deegheef.&*.deef.9", -- 26
+    "6......&*....&*....&*......9", -- 27
+    "6`abbbblkbbc.&*.abblkbbbbc`9", -- 28
+    "6.deeeeeeeef.df.deeeeeeeef.9", -- 29
+    "6............  ............9", -- 30
+    "IJJJJJJJJJJJJJJJJJJJJJJJJJJM", -- 31 (bottom "void" row; often unused)
+    "                            ",
+}
+
 -- local defaultMap = {
 --     -- 28 columns each
 --     "                            ",

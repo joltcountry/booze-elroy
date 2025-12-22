@@ -169,6 +169,9 @@ local modes = {
         levelAnimation = {
             state = { running = false, showPac = false, showGhosts = false },
             frames = 85,
+            startFunc = function()
+                g.fruitTimer = false
+            end,
             endFunc = function()
                 if g.levelNumber == 2 or g.levelNumber == 5 or g.levelNumber == 9 or g.levelNumber == 13 or g.levelNumber == 17 then 
                     mode.setMode("intermission1")

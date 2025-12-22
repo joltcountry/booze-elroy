@@ -85,8 +85,7 @@ function attract.draw()
     local msg2 = "presents"
     local msg3 = "booze elroy"
     local msg4 = "press \"Z\" to start"
-    local msg5 = "a completely new game idea"
-    local msg6 = "Alpha4 2025-12-19"
+    local msg6 = "Alpha5 2026-01-01"
 
     -- Draw score
     graphics.print("1up", 3, 0)
@@ -105,7 +104,9 @@ function attract.draw()
     end
     if g.state.showGameName then
         graphics.print(msg3, 14 - string.len(msg3) / 2, 15, math.random(0,6))
-        graphics.print(msg5, 14 - string.len(msg5) / 2, 17, 3)
+        graphics.print("pac-man", 3, 17, 6)
+        graphics.print(" - ", 10, 17)
+        graphics.print("with a twist!", 13, 17, 3)
         graphics.print(msg6, 14 - string.len(msg6) / 2, 19, 2)
     end
     if g.state.showBooze then

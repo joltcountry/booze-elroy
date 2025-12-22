@@ -453,7 +453,7 @@ function game.update(dt)
                 local y = math.random(0, currentMaze.h * 8)
                 local vx = math.random() * 2 - 1
                 local vy = math.random() * 2 - 1
-                table.insert(g.intermissionBoozes, {spr = math.random(86,95), x = x, y = y, vx = vx, vy = vy})
+                table.insert(g.intermissionBoozes, {spr = math.random(86,101), x = x, y = y, vx = vx, vy = vy})
             end
         end
         for i, booze in ipairs(g.intermissionBoozes) do

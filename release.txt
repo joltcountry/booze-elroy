@@ -59,7 +59,7 @@ ALPHA 5 (1/1/2026)
 / Dumb graphic effect for elroy
 
 TO DO:
-- hide emitters on level complete/caught/restart/next level
+Add happy new year background
 - 6 more mazes
 
 

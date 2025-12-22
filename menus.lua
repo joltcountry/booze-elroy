@@ -14,7 +14,7 @@ end
 
 menus.main = {
     {
-        text = "Play",
+        text = "Play 1P",
         x = 10, y = 25,
         action = function()
             g.autoplay = false
@@ -22,21 +22,21 @@ menus.main = {
         end
     },
     {
-        x = 10, y = 26,
+        x = 10, y = 27,
         text = "Options",
         action = function()
             setScene("options")
         end
     },
     {
-        x = 10, y = 27,
+        x = 10, y = 28,
         text = "Credits",
         action = function()
             setScene("credits")
         end
     },
     {
-        x = 10, y = 28,
+        x = 10, y = 29,
         text = "Exit",
         action = function()
             love.event.quit()
@@ -44,7 +44,7 @@ menus.main = {
     },
     {
         text = "Autoplay",
-        x = 10, y = 30,
+        x = 10, y = 31,
         action = function()
             g.autoplay = true
             mode.setMode("play")

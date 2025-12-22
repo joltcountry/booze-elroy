@@ -6,7 +6,7 @@ local indexes = '123456789ABCDEFGHIJKLMNOPQRSTUVWXY'
 local afterDark = 'ABC7Y8DEFGHKL'
 
 -- Module-level constant
-local MAX_COLORS = 18
+local MAX_COLORS = 19
 
 local upperCase = function(c)
     local upper = string.upper(c)
@@ -95,7 +95,7 @@ local function Maze(map)
                 if (c == '.' or c == ':') then table.insert(dots, {x= (x-1), y=(y-1)}) end
             end
         end
-        --print(#dots)
+        print(#dots)
         return dots
     end
 
@@ -330,6 +330,36 @@ instances.booze1.playerone = 24
 instances.booze1.ready = 30
 
 instances.booze1.defaultColor = 10
+
+
+-- Create "pac" maze instance
+instances.booze2 = Maze(maps.booze2)
+instances.booze2.maxColors = MAX_COLORS
+instances.booze2.sirenTriggers = { 20, 40, 100, 150 }
+instances.booze2.fruitTriggers = { 170, 70 }
+instances.booze2.fruitLoc = { x = 14 * 8, y = 20 * 8 + 4 }
+instances.booze2.houseCenter = { x = 14, y = 17 }
+instances.booze2.pacStart = { x = 14, y = 26 }
+instances.booze2.punkyStart = { x = 14, y = 11 }
+instances.booze2.gunkyStart = { x = 14, y = 32 }
+instances.booze2.gronkyStart = { x = -2, y = 11 }
+instances.booze2.scatterTiles = {
+    { x = 25, y = -1 },
+    { x = 2, y = -1 },
+    { x = 27, y = 33 },
+    { x = 0, y = 33 },
+}
+instances.booze2.scatterPositions = {
+    blinky = { x = 25, y = -1 },
+    pinky = { x = 2, y = -1 },
+    inky = { x = 27, y = 33 },
+    clyde = { x = 0, y = 33 },
+}
+
+instances.booze2.playerone = 14
+instances.booze2.ready = 20
+
+instances.booze2.defaultColor = 15
 
 -- Module table
 local maze = {}
