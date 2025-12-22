@@ -49,7 +49,7 @@ local handleGhostCollision = function(ghost, pacXTile, pacYTile, ghostXTile, gho
             return true -- collision handled
         elseif not ghost.dead then
             mode.setMode("caught")
-            g.suspendElroy = true
+            if g.chars.clyde then g.suspendElroy = true end
             g.globalCounter = 0
             return true -- collision handled
         end

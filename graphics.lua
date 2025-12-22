@@ -167,10 +167,10 @@ graphics.updateAnimation = function(o, frameCounter)
 end
 
 -- Particle system
-local particles = {}
+g.particles = {}
 
 function graphics.initParticles()
-    particles = {}
+    g.particles = {}
 end
 
 function graphics.createParticleExplosion(x, y)
@@ -180,7 +180,7 @@ function graphics.createParticleExplosion(x, y)
         local speed = math.random() * 1.5
         local vx = math.cos(angle) * speed
         local vy = math.sin(angle) * speed
-        table.insert(particles, {
+        table.insert(g.particles, {
             x = x + (math.random() - 0.5) * 4,  -- Slight random offset for spread
             y = y + (math.random() - 0.5) * 4,
             vx = vx,
@@ -219,7 +219,7 @@ function graphics.emitBlinkyBubbles(x, y)
         local vx = math.cos(angle) * speed
         local vy = math.sin(angle) * speed
         
-        table.insert(particles, {
+        table.insert(g.particles, {
             x = x + offsetX,
             y = y + offsetY,
             vx = vx,
@@ -238,8 +238,8 @@ function graphics.emitBlinkyBubbles(x, y)
 end
 
 function graphics.updateParticles()
-    for i = #particles, 1, -1 do
-        local p = particles[i]
+    for i = #g.particles, 1, -1 do
+        local p = g.particles[i]
         p.x = p.x + p.vx
         p.y = p.y + p.vy
         p.vx = p.vx * 0.97  -- friction
@@ -252,13 +252,13 @@ function graphics.updateParticles()
         end
         
         if p.life <= 0 then
-            table.remove(particles, i)
+            table.remove(g.particles, i)
         end
     end
 end
 
 function graphics.drawParticles()
-    for _, p in ipairs(particles) do
+    for _, p in ipairs(g.particles) do
         local alpha = p.alpha or 1  -- Use particle's alpha if it exists, otherwise fully opaque
         love.graphics.setColor(p.colors[1], p.colors[2], p.colors[3], alpha)
         love.graphics.circle("fill", p.x, p.y, p.size)

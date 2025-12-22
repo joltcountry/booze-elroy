@@ -112,7 +112,8 @@ local modes = {
             state = { running = false, showPac = true, showGhosts = true },
             frames = 60,
             nextMode = "dying",
-            startFunc = function()
+            startFunc = function()                
+                g.particles = {}
                 g.state.turnaroundCooldown = nil
                 stopSiren()
                 g.sounds.dead:stop()
@@ -150,6 +151,7 @@ local modes = {
             state = { running = false, showPac = true, showGhosts = true },
             frames = 120,
             startFunc = function()
+                g.particles = {}
                 stopSiren()
                 g.sounds.dead:stop()
                 g.sounds.scared:stop()
