@@ -46,25 +46,20 @@ ROADMAP
 
 ALPHA 5 (1/1/2026)
 ===================
+/ New mazes!
 / "Random" maze mode (pick mazes randomly, not random maze generation)
+/ "Pac-Man Plus" mode
+/ "Plus" difficulty option
 / Can now set between 0 and 7 ghosts
 / Reorganize/nicen-up options menu
 / Default colors per Maze/Mode
-/ "Pac-Man Plus" mode
 / Enabled analog stick in menus (thanks ICJ!)
 / Reassigned gamepad buttons (thanks ICJ!)
+/ Additional backgrounds/maze colors
+/ Dumb graphic effect for elroy
 
-New mazes
----------
-/ booze1
-/ mspac1
-/ mspac2
-/ mspac3
-/ mspac4
-
-"Plus" difficulty
 6 more mazes
-Additional backgrounds/maze colors
+
 
 ALPHA 6 (2/1/2026)
 ===================

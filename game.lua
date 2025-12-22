@@ -315,6 +315,39 @@ g.createParticleExplosion = function(x, y)
     end
 end
 
+g.emitBlinkyBubbles = function(x, y)
+    -- Emit bubbles from Blinky's head position
+    -- Bubbles drift upward and outward, creating a wake effect
+    local numBubbles = math.random(0, 1)  -- Emit 1-2 bubbles per frame
+    for i = 1, numBubbles do
+        -- Position bubbles around head area (slightly above center)
+        local offsetX = (math.random() - 0.5) * 8
+        local offsetY = -4 + (math.random() - 0.5) * 4
+        
+        -- Bubbles move in a completely random direction
+        local angle = math.random() * math.pi * 2  -- Any random angle
+        local speed = 1 + math.random() * 0.2
+        local vx = math.cos(angle) * speed
+        local vy = math.sin(angle) * speed
+        
+        table.insert(g.particles, {
+            x = x + offsetX,
+            y = y + offsetY,
+            vx = vx,
+            vy = vy,
+            life = 20,  -- frames to live
+            maxLife = 20,
+            size = 1.5 + math.random() * 1.5,
+            colors = {
+                .5,
+                .5,
+                1.0
+            },
+            alpha = 0.6  -- Start with some transparency
+        })
+    end
+end
+
 local updateParticles = function()
     for i = #g.particles, 1, -1 do
         local p = g.particles[i]
@@ -323,6 +356,12 @@ local updateParticles = function()
         p.vx = p.vx * 0.97  -- friction
         p.vy = p.vy * 0.97
         p.life = p.life - 1
+        
+        -- Update alpha for bubbles (fade out over time)
+        if p.alpha then
+            p.alpha = (p.life / p.maxLife) * 0.6
+        end
+        
         if p.life <= 0 then
             table.remove(g.particles, i)
         end
@@ -331,8 +370,8 @@ end
 
 local drawParticles = function()
     for _, p in ipairs(g.particles) do
-        local alpha = 1
-        love.graphics.setColor(p.colors[1], p.colors[2], p.colors[3], alpha)  -- Yellow-white particles
+        local alpha = p.alpha or 1  -- Use particle's alpha if it exists, otherwise fully opaque
+        love.graphics.setColor(p.colors[1], p.colors[2], p.colors[3], alpha)
         love.graphics.circle("fill", p.x, p.y, p.size)
     end
     love.graphics.setColor(1, 1, 1)  -- Reset color
@@ -462,6 +501,11 @@ function game.update(dt)
 
         if #g.dots == 0 and #g.powers == 0 then
             mode.setMode("levelComplete")
+        end
+        
+        -- Emit bubbles from Blinky's head
+        if g.chars.blinky and not g.chars.blinky.dead and not g.chars.blinky.frightened and not g.chars.blinky.hidden and g.state.showGhosts and #g.dots <= g.level.elroy1 and not g.suspendElroy then
+            g.emitBlinkyBubbles(g.chars.blinky.x, g.chars.blinky.y)
         end
         
         -- Update particles
