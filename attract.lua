@@ -50,7 +50,8 @@ function attract.update(dt)
     fc = fc + 1
 
     mode.handle()
-
+    menus.update(menu, dt)
+    
     if (g.state.showBooze) then
         g.booze.x = g.booze.x + 1
         if g.booze.x > 224 then g.booze.x = 0 end

@@ -111,6 +111,49 @@ local right = function(menu)
     end
 end
 
+menus.update = function(menu, dt)
+
+    if joystick and not g.joystickCooldown then
+        local deadzone = 0.3  -- Threshold to avoid drift
+        local leftX = joystick:getGamepadAxis("leftx")
+        local leftY = joystick:getGamepadAxis("lefty")
+        
+        -- Find the axis with the largest absolute value
+        local absX = math.abs(leftX)
+        local absY = math.abs(leftY)
+        
+        if absX > deadzone or absY > deadzone then
+            -- Determine direction based on dominant axis
+            if absX > absY then
+                -- Horizontal movement
+                if leftX > 0 then
+                    right(menu)
+                else
+                    left(menu)
+                end
+            else
+                -- Vertical movement
+                if leftY > 0 then
+                    down(menu)
+                else
+                    up(menu)
+                end
+            end
+            g.joystickCooldown = .15
+
+        end
+        if menu.selectedItem < 1 then menu.selectedItem = #menu end
+        if menu.selectedItem > #menu then menu.selectedItem = 1 end
+
+    end
+    if g.joystickCooldown and g.joystickCooldown > 0 then
+        g.joystickCooldown = g.joystickCooldown - dt
+        if g.joystickCooldown <= 0 then
+            g.joystickCooldown = nil
+        end
+    end
+end
+
 menus.gamepadpressed = function(menu, button)
     if button == "dpup"  then
         up(menu)

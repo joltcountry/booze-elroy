@@ -50,7 +50,9 @@ ALPHA 5 (1/1/2026)
 / Can now set between 0 and 7 ghosts
 / Reorganize/nicen-up options menu
 / Default colors per Maze/Mode
-
+/ "Pac-Man Plus" mode
+/ Enabled analog stick in menus (thanks ICJ!)
+/ Reassigned gamepad buttons (thanks ICJ!)
 
 New mazes
 ---------
@@ -59,13 +61,9 @@ New mazes
 / mspac2
 / mspac3
 / mspac4
-ultra1
-ultra2
-ultra3
-ultra4
-booze2
 
-"Pac-Man Plus" mode
+"Plus" difficulty
+6 more mazes
 Additional backgrounds/maze colors
 
 ALPHA 6 (2/1/2026)

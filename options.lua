@@ -10,7 +10,7 @@ local maze = require("maze")
 
 local gw, gh = 224, 288
 
-backgroundOptions = { "none", "stars", "beach", "arcade", "forest", "canyon", "clouds", "abstract", "wave1", "wave2", "lines", "retro","xmas" }
+backgroundOptions = { "none", "stars", "beach", "arcade", "forest", "city", "canyon", "clouds", "planets", "abstract", "wave1", "wave2", "lines", "retro","xmas" }
 
 local function getBackgroundIndex()
     for i, name in ipairs(backgroundOptions) do
@@ -98,8 +98,9 @@ local menu = {
     {
         y=6,
         options = {
-            { text = "On", action = function() g.config.hardMode = true end },
-            { text = "Off", action = function() g.config.hardMode = false end },
+            { text = "Normal", action = function() g.config.difficulty = 0 end },
+            { text = "Hard", action = function() g.config.difficulty = 1 end },
+            { text = "Plus", action = function() g.config.difficulty = 2 end },
         }
     },
     { 
@@ -201,8 +202,10 @@ local menu = {
             { text = "Beach", action = function() g.config.background = "beach"; g.currentBackground = "beach" end },
             { text = "Arcade", action = function() g.config.background = "arcade"; g.currentBackground = "arcade" end },
             { text = "Forest", action = function() g.config.background = "forest"; g.currentBackground = "forest" end },
+            { text = "City", action = function() g.config.background = "city"; g.currentBackground = "city" end },
             { text = "Canyon", action = function() g.config.background = "canyon"; g.currentBackground = "canyon" end },
             { text = "Clouds", action = function() g.config.background = "clouds"; g.currentBackground = "clouds" end },
+            { text = "Planets", action = function() g.config.background = "planets"; g.currentBackground = "planets" end },
             { text = "Abstract", action = function() g.config.background = "abstract"; g.currentBackground = "abstract" end },
             { text = "Wave1", action = function() g.config.background = "wave1"; g.currentBackground = "wave1" end },
             { text = "Wave2", action = function() g.config.background = "wave2"; g.currentBackground = "wave2" end },
@@ -338,7 +341,7 @@ function options.resetSelectedOptions(fullscreenOnly)
     
     menu[1].selectedOption = getMazeMenuIndex(g.config.maze)
     menu[2].selectedOption = g.config.startingLevel
-    menu[3].selectedOption = g.config.hardMode and 1 or 2
+    menu[3].selectedOption = g.config.difficulty == 1 and 2 or 1
     menu[4].selectedOption = g.config.plusMode and 2 or 1
     menu[5].selectedOption = g.config.afterDark == false and 1 or g.config.afterDark == 1 and 2 or g.config.afterDark == 2 and 3 or g.config.afterDark == 3 and 4 or g.config.afterDark == 4 and 5
     menu[6].selectedOption = g.config.startingLives == 1 and 1 or g.config.startingLives == 3 and 2 or g.config.startingLives == 5 and 3
@@ -349,7 +352,7 @@ function options.resetSelectedOptions(fullscreenOnly)
     menu[11].selectedOption = g.config.pinkyBug and 1 or 2
     menu[12].selectedOption = g.config.scatterOption == false and 1 or g.config.scatterOption == 1 and 2 or g.config.scatterOption == 2 and 3
     menu[13].selectedOption = g.config.freeGhost and 1 or 2
-    menu[14].selectedOption = g.config.background == "random" and 14 or getBackgroundIndex()
+    menu[14].selectedOption = g.config.background == "random" and #backgroundOptions + 1 or getBackgroundIndex()
     menu[15].selectedOption = g.config.mazeColor == 99 and 1 or g.config.mazeColor == 0 and maze.maxColors or g.config.mazeColor + 1
     menu[16].selectedOption = g.config.fullscreen and 1 or 2
     menu[17].selectedOption = g.config.crtEffect and 1 or 2
@@ -365,7 +368,7 @@ end
 function options.start()
     menu[1].selectedOption = getMazeMenuIndex(g.config.maze)
     menu[2].selectedOption = g.config.startingLevel
-    menu[3].selectedOption = g.config.hardMode and 1 or 2
+    menu[3].selectedOption = g.config.difficulty == 1 and 2 or 1
     menu[4].selectedOption = g.config.plusMode and 2 or 1
     menu[5].selectedOption = g.config.afterDark == false and 1 or g.config.afterDark == 1 and 2 or g.config.afterDark == 2 and 3 or g.config.afterDark == 3 and 4 or g.config.afterDark == 4 and 5
     menu[6].selectedOption = g.config.startingLives == 1 and 1 or g.config.startingLives == 3 and 2 or g.config.startingLives == 5 and 3
@@ -376,7 +379,7 @@ function options.start()
     menu[11].selectedOption = g.config.pinkyBug and 1 or 2
     menu[12].selectedOption = g.config.scatterOption == false and 1 or g.config.scatterOption == 1 and 2 or g.config.scatterOption == 2 and 3
     menu[13].selectedOption = g.config.freeGhost and 1 or 2
-    menu[14].selectedOption = g.config.background == "random" and 14 or getBackgroundIndex()
+    menu[14].selectedOption = g.config.background == "random" and #backgroundOptions + 1 or getBackgroundIndex()
     menu[15].selectedOption = g.config.mazeColor == 99 and 1 or g.config.mazeColor == 0 and maze.maxColors or g.config.mazeColor + 1
     menu[16].selectedOption = g.config.fullscreen and 1 or 2
     menu[17].selectedOption = g.config.crtEffect and 1 or 2
@@ -385,6 +388,7 @@ function options.start()
 end
 
 function options.update(dt)
+    menus.update(menu, dt)
 end
 
 function options.keypressed(key)
@@ -419,7 +423,7 @@ function options.draw()
     graphics.print("GAME OPTIONS", 3, 3, 3)
     graphics.print("Maze", 3, 4)
     graphics.print("Starting Level", 3, 5)
-    graphics.print("Hard Mode", 3, 6)
+    graphics.print("Difficulty", 3, 6)
     graphics.print("Plus Mode", 3, 7)
     graphics.print("Blindfold", 3, 8)
     

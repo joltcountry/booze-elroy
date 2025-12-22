@@ -13,7 +13,7 @@ g.defaultConfig = {
     startingLives = 3,
     startingLevel = 1,
     freeGuy = 1,
-    hardMode = false,
+    difficulty = 0,
     afterDark = false,
     pinkyBug = true,
     scatterOption = false,
@@ -128,10 +128,12 @@ g.backgrounds = {
     beach = love.graphics.newImage("backgrounds/beach.jpg"),
     arcade = love.graphics.newImage("backgrounds/arcade.jpg"),
     forest = love.graphics.newImage("backgrounds/forest.jpg"),
+    city = love.graphics.newImage("backgrounds/city.jpg"),
     abstract = love.graphics.newImage("backgrounds/abstract.jpg"),
     xmas = love.graphics.newImage("backgrounds/xmas.jpg"),
     canyon = love.graphics.newImage("backgrounds/canyon.jpg"),
     clouds = love.graphics.newImage("backgrounds/clouds.jpg"),
+    planets = love.graphics.newImage("backgrounds/planets.jpg"),
     retro = love.graphics.newImage("backgrounds/retro.jpg"),
     wave1 = love.graphics.newImage("backgrounds/wave1.jpg"),
     wave2 = love.graphics.newImage("backgrounds/wave2.jpg"),
@@ -229,11 +231,25 @@ score = function(s)
     if g.attract then return end
     local oldScore = g.score
     g.score = g.score + s
-    if (g.config.freeGuy == 1 and oldScore < 10000 and g.score >= 10000)
-        or (g.config.freeGuy == 2 and oldScore < 20000 and g.score >= 20000)
-        or (g.config.freeGuy == 3 and oldScore % 10000 > g.score % 10000) then
-        love.audio.play( g.sounds.extrapac )
-        g.lives = g.lives + 1
+    if g.config.freeGuy == 1 then
+        if oldScore < 10000 and g.score >= 10000 then
+            love.audio.play(g.sounds.extrapac)
+            g.lives = g.lives + 1
+        end
+    elseif g.config.freeGuy == 2 then
+        if oldScore < 20000 and g.score >= 20000 then
+            love.audio.play(g.sounds.extrapac)
+            g.lives = g.lives + 1
+        end
+    elseif g.config.freeGuy == 3 then
+        -- Award a life for every 10,000-point threshold crossed this update
+        local oldTier = math.floor(oldScore / 10000)
+        local newTier = math.floor(g.score / 10000)
+        local extraLives = newTier - oldTier
+        if extraLives > 0 then
+            love.audio.play(g.sounds.extrapac)
+            g.lives = g.lives + extraLives
+        end
     end
         
     -- Update high score
@@ -438,10 +454,12 @@ function love.keypressed(key)
 end
 
 function love.gamepadpressed(joystick, button)
-    if button == "b" then
+    if button == "start" then
+        setScene("attract")
+    elseif button == "b" then
         if g.scene == attract then
             love.event.quit()
-        else
+        elseif g.scene == options or g.scene == credits then
             setScene("attract")
         end
         return

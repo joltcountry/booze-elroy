@@ -8,7 +8,7 @@ handlers.activateFrightenedMode = function(byFruit)
     end
 
     local logic = require("logic")
-    g.frightened = g.level.frightened
+    g.frightened = byFruit and g.level.fruitFrightenedDuration or g.level.frightened
     g.ghostScore = false
     if not g.config.fastPac then g.chars.pac.speed = g.level.pacFrightenedSpeed end
     if not g.sounds.scared:isPlaying( ) then
