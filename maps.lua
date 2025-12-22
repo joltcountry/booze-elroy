@@ -256,9 +256,9 @@ maps.booze2 = {
     "6.&hef.&* 9      6 &*.deg*.9", -- 14
     "6.&*...&* 9      6 &*...&*.9", -- 15 (center row; gate ==)
     "6.&*.abl* 9      6 &kbc.&*.9", -- 16
-    "6.df.deef S222222T deef.df.9", -- 17
-    "6......              ......9", -- 18
-    "6.abbc.ac abbbbbbc ac.abbc.9", -- 19
+    "6.&*.deef S222222T deef.&*.9", -- 17
+    "6.&*...              ...&*.9", -- 18
+    "6.&kbc.ac abbbbbbc ac.abl*.9", -- 19
     "F.deef.&* deegheef &*.deef.D", -- 20
     "_......&*    &*    &*......_", -- 21
     "BBC.ac.&kbbc &* abbl*.ac.ABB", -- 22
