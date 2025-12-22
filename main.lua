@@ -131,6 +131,7 @@ g.backgrounds = {
     city = love.graphics.newImage("backgrounds/city.jpg"),
     abstract = love.graphics.newImage("backgrounds/abstract.jpg"),
     xmas = love.graphics.newImage("backgrounds/xmas.jpg"),
+    newyear = love.graphics.newImage("backgrounds/newyear.jpg"),
     canyon = love.graphics.newImage("backgrounds/canyon.jpg"),
     clouds = love.graphics.newImage("backgrounds/clouds.jpg"),
     planets = love.graphics.newImage("backgrounds/planets.jpg"),
