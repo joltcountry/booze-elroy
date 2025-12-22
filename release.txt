@@ -59,24 +59,27 @@ ALPHA 5 (1/1/2026)
 / Dumb graphic effect for elroy
 
 TO DO:
-Add happy new year background
-- 6 more mazes
+- 5 more mazes
+
+
 
 
 ALPHA 6 (2/1/2026)
 ===================
-Large mazes
-Additional mazes/backgrounds/maze colors
-
-BETA 1 (2/26/2026)
-==================
 Improved attract screen
  --- six ghosts waddle out, leaving a gap in the middle
  --- elroy rises from the bottom with the logo, taking his place in the middle
  --- then some text appears
  --- that's it
-Intermissions
+Intermissions ('want some rye?')
 Two player mode
+
+
+
+BETA 1 (2/26/2026)
+==================
+Large mazes
+Additional mazes/backgrounds/maze colors
 
 
 
