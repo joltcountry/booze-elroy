@@ -1154,6 +1154,8 @@ levels.startLevel = function()
     g.level.timer = 0
     g.level.chase = g.config.scatterOption == 2 and true or false
     g.frightened = false
+    g.mazeFrightened = false
+    g.fruitFrightened = false
     g.globalCounter = false
     g.suspendElroy = false
     g.currentMaze = g.config.maze == "random" and g.mazes[math.random(1, #g.mazes)] or g.config.maze
@@ -1168,6 +1170,8 @@ levels.resetLevel = function()
     g.level.timer = 0
     g.level.chase = g.config.scatterOption == 2 and true or false
     g.frightened = false
+    g.mazeFrightened = false
+    g.fruitFrightened = false
 end
 
 return levels

@@ -38,6 +38,7 @@ local updateFrightenedState = function()
             end
             g.fruitFrightened = false
             g.frightened = false
+            g.mazeFrightened = false
             if not g.config.fastPac then g.chars.pac.speed = g.level.pacSpeed end
             for _, c in pairs(g.chars) do
                 if c.target and c.frightened then
@@ -563,11 +564,11 @@ function game.draw()
         if g.mode == "levelAnimation" and g.modeTimer % 20 > 10 then
             currentMaze.draw(maze.maxColors)
         elseif g.mode ~= "pause" then
-            currentMaze.draw(g.currentMazeColor)
+            if not g.mazeFrightened then currentMaze.draw(g.currentMazeColor) end
         end
         
         -- Draw scenery (use ipairs for arrays)
-        if (not g.config.afterDark or g.config.afterDark == 1) then
+        if (not g.config.afterDark or g.config.afterDark == 1) and not g.mazeFrightened then
             if (g.mode == "playerUp") then
                 local a = (135 - g.modeTimer) / 135
                 love.graphics.setColor(a, a, a)

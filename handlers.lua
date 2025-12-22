@@ -1,6 +1,12 @@
 local handlers = {}
 
-handlers.activateFrightenedMode = function()
+handlers.activateFrightenedMode = function(byFruit)
+    byFruit = byFruit or false
+    if not byFruit then
+        g.fruitFrightened = false
+        g.mazeFrightened = false
+    end
+
     local logic = require("logic")
     g.frightened = g.level.frightened
     g.ghostScore = false
@@ -13,7 +19,9 @@ handlers.activateFrightenedMode = function()
 
     local immuneChar
 
-    if g.config.plusMode and not g.fruitFrightened then -- fruit always frightens everyone
+    if g.config.plusMode and not byFruit then -- these are the real power pellet shit
+        
+        -- determine if one ghost is immune
         local coinflip = math.random() < 0.5
         if coinflip then
             local candidates = {}
@@ -24,12 +32,22 @@ handlers.activateFrightenedMode = function()
             end
             immuneChar = candidates[math.random(1, #candidates)]
         end
+
+        if g.levelNumber > 2 then
+            coinflip = math.random() < 0.5
+            if coinflip then
+                g.mazeFrightened = true
+            end
+        end
+
     end
 
     for name, char in pairs(g.chars) do
-        if char.target and not char.dead and char ~= immuneChar then
-            char.frightened = true
-            char.speed = logic.getGhostSpeed(char)
+        if char.target and not char.dead then
+            if char ~= immuneChar then
+                char.frightened = true
+                char.speed = logic.getGhostSpeed(char)
+            end
             if not char.housing and not char.leaving and not char.entering then
                 char.dir = (char.dir + 2) % 4
                 char:target()
