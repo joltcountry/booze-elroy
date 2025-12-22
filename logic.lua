@@ -239,8 +239,8 @@ logic.move = function(c)
                 mode.setMode("ateFruit")
                 g.sounds.fruit:play()
                 if g.config.plusMode then
-                    handlers.activateFrightenedMode()
                     g.fruitFrightened = true
+                    handlers.activateFrightenedMode()
                 end
             end
 
