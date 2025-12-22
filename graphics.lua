@@ -166,5 +166,105 @@ graphics.updateAnimation = function(o, frameCounter)
     end
 end
 
+-- Particle system
+local particles = {}
+
+function graphics.initParticles()
+    particles = {}
+end
+
+function graphics.createParticleExplosion(x, y)
+    -- Create random particles like fireworks
+    for i = 1, 50 do
+        local angle = math.random() * math.pi * 2  -- Completely random angle
+        local speed = math.random() * 1.5
+        local vx = math.cos(angle) * speed
+        local vy = math.sin(angle) * speed
+        table.insert(particles, {
+            x = x + (math.random() - 0.5) * 4,  -- Slight random offset for spread
+            y = y + (math.random() - 0.5) * 4,
+            vx = vx,
+            vy = vy,
+            life = 60,  -- frames to live
+            maxLife = 60,
+            size = 0.5 + math.random(),
+            colors = {
+                -- Pick either yellow (#ffff00) or purple (#B000ff) at random
+                (function()
+                    if math.random() < 0.5 then
+                        -- yellow: 1, 1, 0
+                        return {1, 1, 0}
+                    else
+                        -- purple: 176/255, 0, 1
+                        return {176/255, 0, 1}
+                    end
+                end)()
+            }
+        })
+    end
+end
+
+function graphics.emitBlinkyBubbles(x, y)
+    -- Emit bubbles from Blinky's head position
+    -- Bubbles drift upward and outward, creating a wake effect
+    local numBubbles = math.random(0, 1)  -- Emit 0-1 bubbles per frame
+    for i = 1, numBubbles do
+        -- Position bubbles around head area (slightly above center)
+        local offsetX = (math.random() - 0.5) * 8
+        local offsetY = -4 + (math.random() - 0.5) * 4
+        
+        -- Bubbles move in a completely random direction
+        local angle = math.random() * math.pi * 2  -- Any random angle
+        local speed = 1 + math.random() * 0.2
+        local vx = math.cos(angle) * speed
+        local vy = math.sin(angle) * speed
+        
+        table.insert(particles, {
+            x = x + offsetX,
+            y = y + offsetY,
+            vx = vx,
+            vy = vy,
+            life = 20,  -- frames to live
+            maxLife = 20,
+            size = 1.5 + math.random() * 1.5,
+            colors = {
+                .5,
+                .5,
+                1.0
+            },
+            alpha = 0.6  -- Start with some transparency
+        })
+    end
+end
+
+function graphics.updateParticles()
+    for i = #particles, 1, -1 do
+        local p = particles[i]
+        p.x = p.x + p.vx
+        p.y = p.y + p.vy
+        p.vx = p.vx * 0.97  -- friction
+        p.vy = p.vy * 0.97
+        p.life = p.life - 1
+        
+        -- Update alpha for bubbles (fade out over time)
+        if p.alpha then
+            p.alpha = (p.life / p.maxLife) * 0.6
+        end
+        
+        if p.life <= 0 then
+            table.remove(particles, i)
+        end
+    end
+end
+
+function graphics.drawParticles()
+    for _, p in ipairs(particles) do
+        local alpha = p.alpha or 1  -- Use particle's alpha if it exists, otherwise fully opaque
+        love.graphics.setColor(p.colors[1], p.colors[2], p.colors[3], alpha)
+        love.graphics.circle("fill", p.x, p.y, p.size)
+    end
+    love.graphics.setColor(1, 1, 1)  -- Reset color
+end
+
 return graphics
 
