@@ -99,6 +99,12 @@ function attract.draw()
     if g.state.showHelperText then
         graphics.print(msg1, 14 - string.len(msg1) / 2, 5)
         graphics.print(msg2, 14 - string.len(msg2) / 2, 7)
+
+        -- graphics.print ("booze", 10, 3, 3)
+        -- graphics.print ("elroy", 11, 4, 3)
+        -- graphics.drawSprite ("spr16", 91, 81, 40)
+        -- graphics.drawSprite ("spr16", 15, 96, 41)
+        -- graphics.drawSprite ("spr16", 2, 113, 42)
         
         menus.draw(menus.main, 6, 23, 1)
     end

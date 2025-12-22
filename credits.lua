@@ -59,7 +59,7 @@ function credits.draw()
     local msg6 = "special thanks to"
     local msg7 = "dj larry"
     local msg8 = "the beefer"
-    local msg10 = "loosely inspired by"
+    local msg10 = "based on"
     local msg11 = "by toru iwatani"
     -- Draw score
     graphics.print("1up", 3, 0)
