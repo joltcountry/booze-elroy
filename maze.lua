@@ -137,7 +137,7 @@ local function Maze(map)
                 end
             end
         end
-        if self.decorate then
+        if self.decorate and showMaze then
             self.decorate()
         end
     end
