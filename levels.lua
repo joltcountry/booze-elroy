@@ -43,7 +43,7 @@ local levels = {
             elroy1Speed = .9,
             elroy2 = 15,
             elroy2Speed = .95,
-            switch = {7*60, 27*60, 34*60, 54*60, 59*60, 65520, 65521},
+            switch = {700*60, 27*60, 34*60, 54*60, 59*60, 65520, 65521},
             fruit = fruits.strawberry,
             levelDisplay = { fruits.cherry, fruits.strawberry },
             starvation = 4 * 60,
@@ -1257,6 +1257,7 @@ levels.startLevel = function()
     g.fruitFrightened = false
     g.globalCounter = false
     g.suspendElroy = false
+    particles = {}
     g.currentMaze = g.config.maze == "random" and g.mazes[math.random(1, #g.mazes)] or g.config.maze
     g.currentMazeColor = g.config.mazeColor == 99 and getDefaultColor() or g.config.mazeColor == 0 and math.random(1, maze.maxColors - 1) or g.config.mazeColor
     g.currentBackground = g.config.background == "random" and backgroundOptions[math.random(2, #backgroundOptions)] or g.config.background
@@ -1271,6 +1272,7 @@ levels.resetLevel = function()
     g.frightened = false
     g.mazeFrightened = false
     g.fruitFrightened = false
+    particles = {}
 end
 
 return levels

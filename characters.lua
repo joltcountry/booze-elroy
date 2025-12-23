@@ -307,7 +307,7 @@ if g.config.ghostCount > 3 then
                         targetX, targetY = houseCenter.x - 1, houseCenter.y - 3
                     elseif g.level.chase then
                         local pacXTile, pacXOff, pacYTile, pacYOff = currentMaze.getLoc(g.chars.pac)
-                        if ((xTile - pacXTile) ^ 2 + (yTile - pacYTile) ^ 2) > 64 then
+                        if ((xTile - pacXTile) ^ 2 + (yTile - pacYTile) ^ 2) >= 64 then
                             targetX = pacXTile
                             targetY = pacYTile
                         else

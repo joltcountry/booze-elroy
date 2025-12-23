@@ -67,6 +67,7 @@ local menu = {
             { text = "mspac4", action = function() g.config.maze = "mspac4"; g.currentMaze = "mspac4" end },
             { text = "booze1", action = function() g.config.maze = "booze1"; g.currentMaze = "booze1" end },
             { text = "booze2", action = function() g.config.maze = "booze2"; g.currentMaze = "booze2" end },
+            { text = "booze3", action = function() g.config.maze = "booze3"; g.currentMaze = "booze3" end },
             { text = "random", action = function() g.config.maze = "random"; g.currentMaze = g.mazes[math.random(1, #g.mazes)] end },
         }
     },
@@ -356,7 +357,7 @@ function options.resetSelectedOptions(fullscreenOnly)
     menu[12].selectedOption = g.config.scatterOption == false and 1 or g.config.scatterOption == 1 and 2 or g.config.scatterOption == 2 and 3
     menu[13].selectedOption = g.config.freeGhost and 1 or 2
     menu[14].selectedOption = g.config.background == "random" and #backgroundOptions + 1 or getBackgroundIndex()
-    menu[15].selectedOption = g.config.mazeColor == 99 and 1 or g.config.mazeColor == 0 and maze.maxColors or g.config.mazeColor + 1
+    menu[15].selectedOption = g.config.mazeColor == 99 and 1 or g.config.mazeColor == 0 and maze.maxColors + 1 or g.config.mazeColor + 1
     menu[16].selectedOption = g.config.fullscreen and 1 or 2
     menu[17].selectedOption = g.config.crtEffect and 1 or 2
     menu[18].selectedOption = g.config.volume + 1
@@ -383,7 +384,7 @@ function options.start()
     menu[12].selectedOption = g.config.scatterOption == false and 1 or g.config.scatterOption == 1 and 2 or g.config.scatterOption == 2 and 3
     menu[13].selectedOption = g.config.freeGhost and 1 or 2
     menu[14].selectedOption = g.config.background == "random" and #backgroundOptions + 1 or getBackgroundIndex()
-    menu[15].selectedOption = g.config.mazeColor == 99 and 1 or g.config.mazeColor == 0 and maze.maxColors or g.config.mazeColor + 1
+    menu[15].selectedOption = g.config.mazeColor == 99 and 1 or g.config.mazeColor == 0 and maze.maxColors + 1 or g.config.mazeColor + 1
     menu[16].selectedOption = g.config.fullscreen and 1 or 2
     menu[17].selectedOption = g.config.crtEffect and 1 or 2
     menu[18].selectedOption = g.config.volume + 1

@@ -361,6 +361,37 @@ instances.booze2.ready = 20
 
 instances.booze2.defaultColor = 15
 
+
+-- Create "pac" maze instance
+instances.booze3 = Maze(maps.booze3)
+instances.booze3.maxColors = MAX_COLORS
+instances.booze3.sirenTriggers = { 20, 40, 90, 140 }
+instances.booze3.fruitTriggers = { 160, 60 }
+instances.booze3.fruitLoc = { x = 14 * 8, y = 20 * 8 + 4 }
+instances.booze3.houseCenter = { x = 14, y = 17 }
+instances.booze3.pacStart = { x = 14, y = 26 }
+instances.booze3.punkyStart = { x = 14, y = 8 }
+instances.booze3.gunkyStart = { x = 14, y = 32 }
+instances.booze3.gronkyStart = { x = -2, y = 11 }
+instances.booze3.scatterTiles = {
+    { x = 20, y = 6 },
+    { x = 4, y = 6 },
+    { x = 23, y = 25 },
+    { x = 4, y = 25 },
+}
+instances.booze3.scatterPositions = {
+    blinky = { x = 20, y = 6 },
+    pinky = { x = 4, y = 6 },
+    inky = { x = 23, y = 25 },
+    clyde = { x = 4, y = 25 },
+}
+
+instances.booze3.playerone = 14
+instances.booze3.ready = 20
+
+instances.booze3.defaultColor = 9
+
+
 -- Module table
 local maze = {}
 

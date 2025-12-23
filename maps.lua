@@ -262,15 +262,55 @@ maps.booze2 = {
     "F.deef.&* deegheef &*.deef.D", -- 20
     "_......&*    &*    &*......_", -- 21
     "BBC.ac.&kbbc &* abbl*.ac.ABB", -- 22
-    "WEF.&*.deeef df deeef.&*.DEU", -- 23
-    "6...&*....        ....&*...9", -- 24 (^^ above house: no-ghost tiles)
+    "WEF.&*.deeef;df;deeef.&*.DEU", -- 23
+    "6`..&*....        ....&*..`9", -- 24 (^^ above house: no-ghost tiles)
     "6.abl*.ac.abbbbbbc.ac.&kbc.9", -- 25
     "6.deef.&*.deegheef.&*.deef.9", -- 26
     "6......&*....&*....&*......9", -- 27
-    "6`abbbblkbbc.&*.abblkbbbbc`9", -- 28
+    "6.abbbblkbbc.&*.abblkbbbbc.9", -- 28
     "6.deeeeeeeef.df.deeeeeeeef.9", -- 29
     "6............  ............9", -- 30
     "IJJJJJJJJJJJJJJJJJJJJJJJJJJM", -- 31 (bottom "void" row; often unused)
+    "                            ",
+}
+
+
+maps.booze3 = {
+    -- 28 columns each
+    "                            ",
+    "                            ",
+    "                            ",
+    "6_D2222222222342222222222F_9", --  1
+    "6............78............9", --  2
+    "6.abbc.abbbc.78.abbbc.abbc.9", --  3
+    "6.deg*.&yyy*.78.&yyy*.&hef.9", --  4
+    "6`..&*.deeef.DF.deeef.&*..`9", --  5
+    "IJC.&*................&*.AJM", --  6
+    "  6.&*.ac.abbbbbbc.ac.&*.9  ", --  7
+    "22F.df.&*.deegheef.&*.df.D22", --  8
+    "__ ....&*....&*....&*.... __", -- 9
+    "JJC.abblkbbc &* abblkbbc.AJJ", -- 10
+    "  6.deegheef;df;deegheef.9  ", -- 11 (warp tunnels row; spaces = void)
+    "  6....&*          &*....9  ", -- 12 (entrance to house row)
+    "  6.ac.&* NJOPPQJR &*.ac.9  ", -- 13
+    "12F.&*.df 9      6 df.&*.D25", -- 14
+    "6...&*.   9      6   .&*...9", -- 15 (center row; gate ==)
+    "6.abl*.ac 9      6 ac.&kbc.9", -- 16
+    "6.deef.&* S222222T &*.deef.9", -- 17
+    "6......&*          &*......9", -- 18
+    "XBC.abblkbbc ac abblkbbc.ABV", -- 19
+    "WEF.deegheef &* deegheef.DEU", -- 20
+    "6......&*....&*....&*......9", -- 21
+    "6.abbc.&*.abblkbbc.&*.abbc.9", -- 22
+    "6.deg*.df:deeeeeef:df.&hef.9", -- 23
+    "6`..&*.......  .......&*..`9", -- 24 (^^ above house: no-ghost tiles)
+    "XBC.&*.AC.abbbbbbc.AC.&*.ABV", -- 25
+    "WEF.df.78.deegheef.78.df.DEU", -- 26
+    "6  ....78....&*....78....  9", -- 27
+    "6_AJJJJLKJJC.&*.AJJLKJJJJC_9", -- 28
+    "6_9        6.df.9        6_9", -- 29
+    "6_9        6....9        6_9", -- 30
+    "6_9        IJJJJM        6_9", -- 31 (bottom "void" row; often unused)
     "                            ",
 }
 
