@@ -555,13 +555,21 @@ function game.draw()
 
 -- Draw level display
     for i = 1, #g.level.levelDisplay do
-        graphics.drawSpriteAtTile(g.level.levelDisplay[i].sheet, g.level.levelDisplay[i].quad, 26 - (i*2), 34)
+        local displayFruit = g.level.levelDisplay[i]
+        if g.config.plusMode then
+            displayFruit = levels.plusModeFruitMap[displayFruit]
+        end
+        graphics.drawSpriteAtTile(displayFruit.sheet, displayFruit.quad, 26 - (i*2), 34)
     end
     
     -- Draw fruit
     if g.fruitTimer then
         local fruitLoc = getCurrentMaze().fruitLoc
-        graphics.drawSprite(g.level.fruit.sheet, g.level.fruit.quad, fruitLoc.x - 8, fruitLoc.y - 8)
+        local fruit = g.level.fruit
+        if g.config.plusMode then
+            fruit = levels.plusModeFruitMap[fruit]
+        end
+        graphics.drawSprite(fruit.sheet, fruit.quad, fruitLoc.x - 8, fruitLoc.y - 8)
     end
   
     if g.mode == "ateFruit" then
@@ -646,7 +654,7 @@ function game.keypressed(key)
         g.muted = not g.muted
         return
     end
-    if g.state.running and key == "space" and not g.chars.pac.phased and g.config.phasing then
+    if g.state.running and (key == "space" or key == "lalt")and not g.chars.pac.phased and g.config.phasing then
         phasePac()
     end
     if key == "tab" then
