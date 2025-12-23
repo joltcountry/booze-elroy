@@ -392,6 +392,58 @@ instances.booze3.ready = 20
 instances.booze3.defaultColor = 9
 
 
+-- Create "pac" maze instance
+instances.booze4 = Maze(maps.booze4)
+instances.booze4.maxColors = MAX_COLORS
+instances.booze4.sirenTriggers = { 20, 40, 100, 150 }
+instances.booze4.fruitTriggers = { 170, 70 }
+instances.booze4.fruitLoc = { x = 14 * 8, y = 20 * 8 + 4 }
+instances.booze4.houseCenter = { x = 14, y = 17 }
+instances.booze4.pacStart = { x = 14, y = 26 }
+instances.booze4.punkyStart = { x = 14, y = 4 }
+instances.booze4.gunkyStart = { x = 14, y = 29 }
+instances.booze4.gronkyStart = { x = -2, y = 20 }
+instances.booze4.scatterTiles = {
+    { x = 20, y = 6 },
+    { x = 4, y = 6 },
+    { x = 23, y = 25 },
+    { x = 4, y = 25 },
+}
+instances.booze4.scatterPositions = {
+    blinky = { x = 20, y = 6 },
+    pinky = { x = 4, y = 6 },
+    inky = { x = 23, y = 25 },
+    clyde = { x = 4, y = 25 },
+}
+
+instances.booze4.decorate = function()
+    graphics.drawSprite ("spr16", 91, 88, 55)
+    graphics.drawSprite ("spr16", 15, 103, 56)
+    graphics.drawSprite ("spr16", 2, 120, 57)
+    graphics.print("p", 0, 12, 2)
+    graphics.print("i", 0, 13, 2)
+    graphics.print("n", 0, 14, 2)
+    graphics.print("b", 0, 15, 2)
+    graphics.print("a", 0, 16, 2)
+    graphics.print("c", 0, 17, 2)
+    graphics.print("k", 0, 18, 2)
+
+    graphics.print("w", 27, 12, 2)
+    graphics.print("a", 27, 13, 2)
+    graphics.print("s", 27, 14, 2)
+    graphics.print("h", 27, 15, 2)
+    graphics.print("e", 27, 16, 2)
+    graphics.print("r", 27, 17, 2)
+    graphics.print("e", 27, 18, 2)
+
+end
+
+
+instances.booze4.playerone = 14
+instances.booze4.ready = 20
+
+instances.booze4.defaultColor = 16
+
 -- Module table
 local maze = {}
 

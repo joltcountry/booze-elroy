@@ -141,7 +141,7 @@ g.backgrounds = {
     lines = love.graphics.newImage("backgrounds/lines.jpg"),
 }
 
-g.mazes = { "pac", "mspac1", "mspac2","mspac3","mspac4", "booze1", "booze2", "booze3" }
+g.mazes = { "pac", "mspac1", "mspac2","mspac3","mspac4", "booze1", "booze2", "booze3", "booze4" }
 
 local function getCurrentMaze()
     if not g.currentMaze then g.currentMaze = g.config.maze end

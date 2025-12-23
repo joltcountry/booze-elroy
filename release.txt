@@ -59,7 +59,9 @@ ALPHA 5 (1/1/2026)
 / Dumb graphic effect for elroy
 
 TO DO:
-- 5 more mazes
+- 1 more maze/ 1 more color
+
+Banner
 
 
 

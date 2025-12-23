@@ -1,5 +1,7 @@
 Frame/pixel-level discrepancies
 =========================
+*** I think they start a couple frames too late out of the box, hence Inky's incorrect path on level 5+
+
 Elroy only kicks in on the next tile rather than instantaneously.  
 Pinky/Blinky's house spot is one pixel to the right for some bizarre reason wtf
 They turn right like a frame or two too late after leaving the pen, I think

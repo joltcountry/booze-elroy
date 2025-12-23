@@ -68,6 +68,7 @@ local menu = {
             { text = "booze1", action = function() g.config.maze = "booze1"; g.currentMaze = "booze1" end },
             { text = "booze2", action = function() g.config.maze = "booze2"; g.currentMaze = "booze2" end },
             { text = "booze3", action = function() g.config.maze = "booze3"; g.currentMaze = "booze3" end },
+            { text = "booze4", action = function() g.config.maze = "booze4"; g.currentMaze = "booze4" end },
             { text = "random", action = function() g.config.maze = "random"; g.currentMaze = g.mazes[math.random(1, #g.mazes)] end },
         }
     },
@@ -312,7 +313,7 @@ local menu = {
         x = 6, y = 31,
         action = function()
             -- Overwrite the file with empty string to reset it
-            love.filesystem.write("player.dat", "")
+            -- love.filesystem.write("player.dat", "")
             g.highScore = false
         end
     },
