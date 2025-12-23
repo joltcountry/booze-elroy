@@ -8,7 +8,7 @@ local function getCurrentMaze()
 end
 
 local function getDefaultColor()
-    if g.config.plusMode then return 5 else return getCurrentMaze().defaultColor end
+    if g.config.plusMode and g.currentMaze == "pac" then return 5 else return getCurrentMaze().defaultColor end
 end
 
 local levels = {
