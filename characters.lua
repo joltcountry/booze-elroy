@@ -454,12 +454,6 @@ if g.config.ghostCount > 4 then
         chars.gronky.animator = createGhostAnimator("gronky", false)
     end
 
-    for _, char in pairs(chars) do
-        if char.housing == true and char.dotCounter == 0 then
-            char.housing = false
-            char.leaving = true
-        end
-    end
     g.chars = chars
 end
 
