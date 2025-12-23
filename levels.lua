@@ -1213,6 +1213,23 @@ local fruitFrightenedDurations = {
     [21] = 2,
 }
 
+-- Helper function to copy a level table (deep copy with shallow copy for nested tables)
+local function copyLevelTable(source)
+    local copy = {}
+    for k, v in pairs(source) do
+        if type(v) == "table" then
+            -- shallow copy for tables
+            copy[k] = {}
+            for k2, v2 in pairs(v) do
+                copy[k][k2] = v2
+            end
+        else
+            copy[k] = v
+        end
+    end
+    return copy
+end
+
 levels.getLevel = function(levelNumber)
     local currentLevels = g.config.difficulty == 1 and levels.hard or g.config.difficulty == 2 and levels.plus or levels.normal
     local defaultLevel = g.config.difficulty == 1 and 19 or 21
@@ -1220,10 +1237,12 @@ levels.getLevel = function(levelNumber)
 
     -- I don't love this
     if currentLevels[levelNumber] then
-        currentLevel = currentLevels[levelNumber]
+        -- Deep copy (shallow, for the level table, since values are primitives/tables)
+        currentLevel = copyLevelTable(currentLevels[levelNumber])
         currentLevel.fruitFrightenedDuration = fruitFrightenedDurations[levelNumber] * 60
     else
-        currentLevel = currentLevels[defaultLevel]
+        -- Create a copy of the default level instead of assigning
+        currentLevel = copyLevelTable(currentLevels[defaultLevel])
         currentLevel.fruitFrightenedDuration = fruitFrightenedDurations[#fruitFrightenedDurations] * 60
     end
 
