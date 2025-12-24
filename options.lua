@@ -69,6 +69,7 @@ local menu = {
             { text = "booze2", action = function() g.config.maze = "booze2"; g.currentMaze = "booze2" end },
             { text = "booze3", action = function() g.config.maze = "booze3"; g.currentMaze = "booze3" end },
             { text = "booze4", action = function() g.config.maze = "booze4"; g.currentMaze = "booze4" end },
+            { text = "booze5", action = function() g.config.maze = "booze5"; g.currentMaze = "booze5" end },
             { text = "random", action = function() g.config.maze = "random"; g.currentMaze = g.mazes[math.random(1, #g.mazes)] end },
         }
     },

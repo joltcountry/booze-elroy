@@ -46,28 +46,24 @@ ROADMAP
 
 ALPHA 5 (1/1/2026)
 ===================
-/ New mazes!
-/ "Random" maze mode (pick mazes randomly, not random maze generation)
+/ New mazes (10 total)
+/ "Random" maze mode (picks mazes randomly, not random maze generation)
 / "Pac-Man Plus" mode
 / "Plus" difficulty option
 / Can now set between 0 and 7 ghosts
-/ Reorganize/nicen-up options menu
+/ Reorganize options menu
+/ New maze styles (20 total)
+/ New backgrounds
 / Default colors per Maze/Mode
 / Enabled analog stick in menus (thanks ICJ!)
 / Reassigned gamepad buttons (thanks ICJ!)
-/ Additional backgrounds/maze colors
-/ Dumb graphic effect for elroy
-
-TO DO:
-- 1 more maze/ 1 more color
-
-Banner
-
+/ Added fun (?) graphic effect for elroy
 
 
 
 ALPHA 6 (2/1/2026)
 ===================
+New backgrounds
 Improved attract screen
  --- six ghosts waddle out, leaving a gap in the middle
  --- elroy rises from the bottom with the logo, taking his place in the middle

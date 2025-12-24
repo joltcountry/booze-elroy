@@ -190,9 +190,9 @@ maps.mspac4 = {
     "6.&hef.&*.deeeeeef.&*.deg*.9", -- 26
     "6.&*...&*..........&*...&*.9", -- 27
     "6`&*.ablkbbc.AC.abblkbc.&*`9", -- 28
-    "6.df.deeeeef.78.deeeeef.df.9", -- 29
-    "6............78............9", -- 30
-    "IJJJJJJJJJJJJLKJJJJJJJJJJJJM", -- 31 (bottom "void" row; often unused)
+    "6.df.deeeeef.96.deeeeef.df.9", -- 29
+    "6............96............9", -- 30
+    "IJJJJJJJJJJJJMIJJJJJJJJJJJJM", -- 31 (bottom "void" row; often unused)
     "                            ",
 }
 
@@ -269,7 +269,7 @@ maps.booze2 = {
     "6......&*....&*....&*......9", -- 27
     "6.abbbblkbbc.&*.abblkbbbbc.9", -- 28
     "6.deeeeeeeef.df.deeeeeeeef.9", -- 29
-    "6............  ............9", -- 30
+    "6..........................9", -- 30
     "IJJJJJJJJJJJJJJJJJJJJJJJJJJM", -- 31 (bottom "void" row; often unused)
     "                            ",
 }
@@ -348,49 +348,50 @@ maps.booze4 = {
     "WEEEEF.&*.&heeeeg*.&*.DEEEEU", -- 26
     "6`.....&*.&*....&*.&*.....`9", -- 27
     "6.abbc.&*.&*.AC.&*.&*.abbc.9", -- 28
-    "6.deef.df.df.78.df.df.deef.9", -- 29
-    "6............78............9", -- 30
-    "IJJJJC_AJJJJJLKJJJJJC_AJJJJM", -- 31 (bottom "void" row; often unused)
+    "6.deef.df.df.96.df.df.deef.9", -- 29
+    "6............96............9", -- 30
+    "IJJJJC_AJJJJJMIJJJJJC_AJJJJM", -- 31 (bottom "void" row; often unused)
     "                            ",
 }
 
--- local defaultMap = {
---     -- 28 columns each
---     "                            ",
---     "                            ",
---     "                            ",
---     "1222222222222342222222222225", --  1
---     "6            78            9", --  2
---     "6 ABBC ABBBC 78 ABBBC ABBC 9", --  3
---     "6 7YY8 7YYY8 78 7YYY8 7YY8 9", --  4
---     "6 DEEF DEEEF DF DEEEF DEEF 9", --  5
---     "6                          9", --  6
---     "6 ABBC AC ABBBBBBC AC ABBC 9", --  7
---     "6 DEEF 78 DEEGHEEF 78 DEEF 9", --  8
---     "6      78    78    78      9", --  9
---     "IJJJJC 7KBBC 78 ABBL8 AJJJJM", -- 10
---     "     6 7HEEFxDFxDEEG8 9     ", -- 11 (warp tunnels row; spaces = void)
---     "     6 78          78 9     ", -- 12 (entrance to house row)
---     "     6 78 NJOPPQJR 78 9     ", -- 13
---     "22222F DF 9      6 DF D22222", -- 14
---     "_____     9      6     _____", -- 15 (center row; gate ==)
---     "JJJJJC AC 9      6 AC AJJJJJ", -- 16
---     "     6 78 S222222T 78 9     ", -- 17
---     "     6 78          78 9     ", -- 18
---     "     6 78 ABBBBBBC 78 9     ", -- 19
---     "12222F DF DEEGHEEF DF D22225", -- 20
---     "6            78            9", -- 21
---     "6.ABBC ABBBC 78 ABBBC ABBC 9", -- 22
---     "6.DEG8 DEEEF DF DEEEF 7HEF 9", -- 23
---     "6o..78                78   9", -- 24 (^^ above house: no-ghost tiles)
---     "XBC 78 AC ABBBBBBC AC 78 ABV", -- 25
---     "WEF DF 78 DEEGHEEF 78 DF DEU", -- 26
---     "6      78    78    78      9", -- 27
---     "6 ABBBBLKBBC 78 ABBLKBBBBC 9", -- 28
---     "6 DEEEEEEEEF DF DEEEEEEEEF 9", -- 29
---     "6                          9", -- 30
---     "IJJJJJJJJJJJJJJJJJJJJJJJJJJM", -- 31 (bottom "void" row; often unused)
---     "                            ",
--- }
+maps.booze5 = {
+    -- 28 columns each
+    "                            ",
+    "                            ",
+    "                            ",
+    "12222222225      12222222225", --  1
+    "6.........9      6.........9", --  2
+    "6.abbc.ac.9      6.ac.abbc.9", --  3
+    "6`&yy*.&*.91222256.&*.&yy*`9", --  4
+    "6.deef.&*.96....96.&*.deef.9", --  5
+    "6......&*.96.ac.96.&*......9", --  6
+    "IJC.abbl*.96.&*.96.&kbbc.AJM", --  7
+    "  6.deeg*.DF.&*.DF.&heef.9  ", --  8
+    "  6....&*....&*....&*....9  ", -- 9
+    "  IJJC.&* abblkbbc &*.AJJM  ", -- 10
+    "     6.&* deeeeeef &*.9     ", -- 11 (warp tunnels row; spaces = void)
+    "     6.&*          &*.9     ", -- 12 (entrance to house row)
+    "     6.&* NJOPPQJR &*.9     ", -- 13
+    "22222F.df 9      6 df.D22222", -- 14
+    "__ ....   9      6   .... __", -- 15 (center row; gate ==)
+    "JJC.abbbc 9      6 abbbc.AJJ", -- 16
+    "  6.deeg* S222222T &heef.9  ", -- 17
+    "  6....&*          &*....9  ", -- 18
+    "  6.ac.&* abbbbbbc &*.ac.9  ", -- 19
+    "12F.&*.df deegheef df.&*.D25", -- 20
+    "6...&*.......&*.......&*...9", -- 21
+    "6.ablkbbc.ac.&*.ac.abblkbc.9", -- 22
+    "6.deeeeef.&*.df.&*.deeeeef.9", -- 23
+    "6.........&*.  .&*.........9", -- 24 (^^ above house: no-ghost tiles)
+    "IJJJJC.ac.&kbbbbl*.ac.AJJJJM", -- 25
+    "   12F.&*.deeeeeef.&*.D25   ", -- 26
+    "   6`..&*..........&*..`9   ", -- 27
+    "   6.ablkbbc.AC.abblkbc.9   ", -- 28
+    "   6.deeeeef.96.deeeeef.9   ", -- 29
+    "   6.........96.........9   ", -- 30
+    "   IJJJJJJJJJMIJJJJJJJJJM   ", -- 31 (bottom "void" row; often unused)
+    "                            ",
+}
+
 
 return maps

@@ -95,7 +95,7 @@ local function Maze(map)
                 if (c == '.' or c == ':') then table.insert(dots, {x= (x-1), y=(y-1)}) end
             end
         end
-        print(#dots)
+        --print(#dots)
         return dots
     end
 
@@ -443,6 +443,38 @@ instances.booze4.playerone = 14
 instances.booze4.ready = 20
 
 instances.booze4.defaultColor = 17
+
+
+
+-- Create "pac" maze instance
+instances.booze5 = Maze(maps.booze5)
+instances.booze5.maxColors = MAX_COLORS
+instances.booze5.sirenTriggers = { 20, 40, 90, 140 }
+instances.booze5.fruitTriggers = { 160, 60 }
+instances.booze5.fruitLoc = { x = 14 * 8, y = 20 * 8 + 4 }
+instances.booze5.houseCenter = { x = 14, y = 17 }
+instances.booze5.pacStart = { x = 14, y = 26 }
+instances.booze5.punkyStart = { x = 14, y = 7 }
+instances.booze5.gunkyStart = { x = 14, y = 29 }
+instances.booze5.gronkyStart = { x = -2, y = 17 }
+instances.booze5.scatterTiles = {
+    { x = 25, y = -1 },
+    { x = 2, y = -1 },
+    { x = 27, y = 33 },
+    { x = 0, y = 33 },
+}
+instances.booze5.scatterPositions = {
+    blinky = { x = 25, y = -1 },
+    pinky = { x = 2, y = -1 },
+    inky = { x = 27, y = 33 },
+    clyde = { x = 0, y = 33 },
+}
+
+
+instances.booze5.playerone = 14
+instances.booze5.ready = 20
+
+instances.booze5.defaultColor = 2
 
 -- Module table
 local maze = {}
