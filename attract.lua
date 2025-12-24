@@ -20,13 +20,15 @@ local state = {}
 
 g.booze = {
     x = 0,
-    y = 100,
+    y = 180,
     dir = 0,
     speed = .75,
     animator = function() return animations.booze end
 }
 
 local menu = menus.main
+
+local banner = love.graphics.newImage("images/boozebanner.png")
 
 function attract.start()
     mode.setMode("startup")
@@ -109,7 +111,9 @@ function attract.draw()
         menus.draw(menus.main, 6, 23, 1)
     end
     if g.state.showGameName then
-        graphics.print(msg3, 14 - string.len(msg3) / 2, 15, math.random(0,6))
+        love.graphics.setColor(1, 1, 1)
+
+        love.graphics.draw(banner, 16, 80)
         graphics.print("pac-man", 3, 17, 6)
         graphics.print(" - ", 10, 17)
         graphics.print("with a twist!", 13, 17, 3)
