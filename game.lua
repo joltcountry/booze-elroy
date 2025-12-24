@@ -557,7 +557,7 @@ function game.draw()
     for i = 1, #g.level.levelDisplay do
         local displayFruit = g.level.levelDisplay[i]
         if g.config.plusMode then
-            displayFruit = levels.plusModeFruitMap[displayFruit]
+            displayFruit = levels.plusModeFruitMap[displayFruit] or displayFruit
         end
         graphics.drawSpriteAtTile(displayFruit.sheet, displayFruit.quad, 26 - (i*2), 34)
     end
@@ -565,11 +565,11 @@ function game.draw()
     -- Draw fruit
     if g.fruitTimer then
         local fruitLoc = getCurrentMaze().fruitLoc
-        local fruit = g.level.fruit
+        local displayFruit = g.level.fruit
         if g.config.plusMode then
-            fruit = levels.plusModeFruitMap[fruit]
+            displayFruit = levels.plusModeFruitMap[displayFruit] or displayFruit
         end
-        graphics.drawSprite(fruit.sheet, fruit.quad, fruitLoc.x - 8, fruitLoc.y - 8)
+        graphics.drawSprite(displayFruit.sheet, displayFruit.quad, fruitLoc.x - 8, fruitLoc.y - 8)
     end
   
     if g.mode == "ateFruit" then
