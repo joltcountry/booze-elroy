@@ -6,7 +6,7 @@ local indexes = '123456789ABCDEFGHIJKLMNOPQRSTUVWXY'
 local afterDark = 'ABC7Y8DEFGHKL'
 
 -- Module-level constant
-local MAX_COLORS = 20
+local MAX_COLORS = 21
 
 local upperCase = function(c)
     local upper = string.upper(c)
@@ -216,7 +216,7 @@ instances.mspac1.scatterPositions = {
 instances.mspac1.playerone = 14
 instances.mspac1.ready = 20
 
-instances.mspac1.defaultColor = 12
+instances.mspac1.defaultColor = 13
 
 
 -- Create "pac" maze instance
@@ -245,7 +245,7 @@ instances.mspac2.scatterPositions = {
 instances.mspac2.playerone = 14
 instances.mspac2.ready = 20
 
-instances.mspac2.defaultColor = 13
+instances.mspac2.defaultColor = 14
 
 -- Create "pac" maze instance
 instances.mspac3 = Maze(maps.mspac3)
@@ -273,7 +273,7 @@ instances.mspac3.scatterPositions = {
 instances.mspac3.playerone = 14
 instances.mspac3.ready = 20
 
-instances.mspac3.defaultColor = 14
+instances.mspac3.defaultColor = 15
 
 -- Create "pac" maze instance
 instances.mspac4 = Maze(maps.mspac4)
@@ -301,7 +301,7 @@ instances.mspac4.scatterPositions = {
 instances.mspac4.playerone = 14
 instances.mspac4.ready = 20
 
-instances.mspac4.defaultColor = 11
+instances.mspac4.defaultColor = 12
 
 -- Create "pac" maze instance
 instances.booze1 = Maze(maps.booze1)
@@ -329,7 +329,7 @@ instances.booze1.scatterPositions = {
 instances.booze1.playerone = 24
 instances.booze1.ready = 30
 
-instances.booze1.defaultColor = 10
+instances.booze1.defaultColor = 11
 
 
 -- Create "pac" maze instance
@@ -359,7 +359,7 @@ instances.booze2.scatterPositions = {
 instances.booze2.playerone = 14
 instances.booze2.ready = 20
 
-instances.booze2.defaultColor = 15
+instances.booze2.defaultColor = 16
 
 
 -- Create "pac" maze instance
@@ -389,7 +389,7 @@ instances.booze3.scatterPositions = {
 instances.booze3.playerone = 14
 instances.booze3.ready = 20
 
-instances.booze3.defaultColor = 9
+instances.booze3.defaultColor = 10
 
 
 -- Create "pac" maze instance
@@ -442,7 +442,7 @@ end
 instances.booze4.playerone = 14
 instances.booze4.ready = 20
 
-instances.booze4.defaultColor = 16
+instances.booze4.defaultColor = 17
 
 -- Module table
 local maze = {}

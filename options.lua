@@ -10,7 +10,7 @@ local maze = require("maze")
 
 local gw, gh = 224, 288
 
-backgroundOptions = { "none", "stars", "beach", "arcade", "forest", "city", "canyon", "clouds", "planets", "abstract", "wave1", "wave2", "lines", "retro","xmas", "newyear" }
+backgroundOptions = { "none", "stars", "beach", "arcade", "forest", "city", "canyon", "clouds", "planets", "abstract", "wave1", "wave2", "lines", "retro", "tan", "aqua", "xmas", "newyear" }
 
 local function getBackgroundIndex()
     for i, name in ipairs(backgroundOptions) do
@@ -214,6 +214,8 @@ local menu = {
             { text = "Wave2", action = function() g.config.background = "wave2"; g.currentBackground = "wave2" end },
             { text = "Lines", action = function() g.config.background = "lines"; g.currentBackground = "lines" end },
             { text = "Retro", action = function() g.config.background = "retro"; g.currentBackground = "retro" end },
+            { text = "Tan", action = function() g.config.background = "tan"; g.currentBackground = "tan" end },
+            { text = "Aqua", action = function() g.config.background = "aqua"; g.currentBackground = "aqua" end },
             { text = "Xmas", action = function() g.config.background = "xmas"; g.currentBackground = "xmas" end },
             { text = "Newyear", action = function() g.config.background = "newyear"; g.currentBackground = "newyear" end },
             { text = "Random", action = function() g.config.background = "random"; g.currentBackground = backgroundOptions[math.random(2, #backgroundOptions)] end },
@@ -242,6 +244,7 @@ local menu = {
             { text = "17", action = function() g.config.mazeColor = 17 end },
             { text = "18", action = function() g.config.mazeColor = 18 end },
             { text = "19", action = function() g.config.mazeColor = 19 end },
+            { text = "20", action = function() g.config.mazeColor = 20 end },
             { text = "Random", action = function() g.config.mazeColor = 0 end },
         }
     },
