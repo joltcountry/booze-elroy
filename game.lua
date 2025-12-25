@@ -19,6 +19,7 @@ local game = {
 
 -- Game state variables
 local fc = 0
+local keyPressTimes = {}  -- Track when each key was pressed (frame number)
 
 -- Helper function to update frightened state
 local updateFrightenedState = function()
@@ -251,8 +252,35 @@ local handlePlayerInput = function()
             end
         end
     end
+    
+    -- Track when keys are pressed/released and find the most recently pressed key
+    local currentlyDown = {}
     for joyDir, dir in pairs(constants.joyDirs) do
-        if love.keyboard.isDown(joyDir) then g.chars.pac.iDir = dir end
+        if love.keyboard.isDown(joyDir) then
+            -- If key just became down, record the current frame
+            if not keyPressTimes[joyDir] then
+                keyPressTimes[joyDir] = fc
+            end
+            currentlyDown[joyDir] = dir
+        else
+            -- Key is not down, remove from tracking
+            keyPressTimes[joyDir] = nil
+        end
+    end
+    
+    -- Find the key that was pressed most recently (highest frame number = shortest time down)
+    local mostRecentKey = nil
+    local mostRecentFrame = -1
+    for joyDir, dir in pairs(currentlyDown) do
+        if keyPressTimes[joyDir] and keyPressTimes[joyDir] > mostRecentFrame then
+            mostRecentFrame = keyPressTimes[joyDir]
+            mostRecentKey = joyDir
+        end
+    end
+    
+    -- Set direction based on most recently pressed key
+    if mostRecentKey then
+        g.chars.pac.iDir = currentlyDown[mostRecentKey]
     end
 end
 
@@ -285,6 +313,8 @@ end
 function game.start()
     g.volumeBeforeMute = nil
     g.muted = false
+    -- Clear key press tracking
+    keyPressTimes = {}
     -- One-time audio-device-sensitive reload of sources when starting the game
     if reloadAudioSources then
         reloadAudioSources()

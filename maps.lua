@@ -305,9 +305,9 @@ maps.booze3 = {
     "6.deg*.df:deeeeeef:df.&hef.9", -- 23
     "6`..&*.......  .......&*..`9", -- 24 (^^ above house: no-ghost tiles)
     "XBC.&*.AC.abbbbbbc.AC.&*.ABV", -- 25
-    "WEF.df.78.deegheef.78.df.DEU", -- 26
-    "6  ....78....&*....78....  9", -- 27
-    "6_AJJJJLKJJC.&*.AJJLKJJJJC_9", -- 28
+    "WEF.df.96.deegheef.96.df.DEU", -- 26
+    "6  ....96....&*....96....  9", -- 27
+    "6_AJJJJMIJJC.&*.AJJMIJJJJC_9", -- 28
     "6_9        6.df.9        6_9", -- 29
     "6_9        6....9        6_9", -- 30
     "6_9        IJJJJM        6_9", -- 31 (bottom "void" row; often unused)
