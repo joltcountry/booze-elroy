@@ -146,15 +146,15 @@ local menu = {
     {
         y=13,
         options = {
-            { text = "Yes", action = function() g.config.phasing = true end },
-            { text = "No", action = function() g.config.phasing = false end },
+            { text = "On", action = function() g.config.phasing = true end },
+            { text = "Off", action = function() g.config.phasing = false end },
         },
     },
     {
         y=14,
         options = {
-            { text = "Yes", action = function() g.config.fastPac = true end },
-            { text = "No", action = function() g.config.fastPac = false end },
+            { text = "On", action = function() g.config.fastPac = true end },
+            { text = "Off", action = function() g.config.fastPac = false end },
         },
     },
 
@@ -175,8 +175,8 @@ local menu = {
     {
         y=18,
         options = {
-            { text = "Yes", action = function() g.config.pinkyBug = true end },
-            { text = "No", action = function() g.config.pinkyBug = false end },
+            { text = "On", action = function() g.config.pinkyBug = true end },
+            { text = "Off", action = function() g.config.pinkyBug = false end },
         },
     },
     {
@@ -190,8 +190,8 @@ local menu = {
     {
         y=20,
         options = {
-            { text = "Yes", action = function() g.config.freeGhost = true end },
-            { text = "No", action = function() g.config.freeGhost = false end },
+            { text = "On", action = function() g.config.freeGhost = true end },
+            { text = "Off", action = function() g.config.freeGhost = false end },
         }
     },
 
@@ -252,7 +252,7 @@ local menu = {
     {
         y=25,
         options = {
-            { text = "Yes", action = function() 
+            { text = "On", action = function() 
                 g.config.fullscreen = true
                 local _, _, flags = love.window.getMode()
                 local desktopWidth, desktopHeight = love.window.getDesktopDimensions()
@@ -261,7 +261,7 @@ local menu = {
                 })
                 resizeCanvases()
             end },
-            { text = "No", action = function() 
+            { text = "Off", action = function() 
                 g.config.fullscreen = false
                 love.window.setMode(224 * g.scaleOption, 288 * g.scaleOption, {resizable = true})
                 resizeCanvases()
@@ -271,8 +271,8 @@ local menu = {
     {
         y=26,
         options = {
-            { text = "Yes", action = function() g.config.crtEffect = true; resizeCanvases() end },
-            { text = "No", action = function() g.config.crtEffect = false; resizeCanvases() end },
+            { text = "On", action = function() g.config.crtEffect = true; resizeCanvases() end },
+            { text = "Off", action = function() g.config.crtEffect = false; resizeCanvases() end },
         }
     },
     {
