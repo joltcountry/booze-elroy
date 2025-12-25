@@ -240,6 +240,7 @@ logic.move = function(c)
                 g.sounds.fruit:play()
                 if g.config.plusMode then
                     g.fruitFrightened = true
+                    g.mazeFrightened = false
                     handlers.activateFrightenedMode(true)
                 end
             end
