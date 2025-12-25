@@ -448,7 +448,7 @@ function options.draw()
     graphics.print("Ghosts", 3, 17)
     graphics.print("Pinky Bug", 3, 18)
     graphics.print("Scatter", 3, 19)
-    graphics.print("Free Ghosts", 3, 20)
+    graphics.print("Unrestricted", 3, 20)
 
     graphics.print("AV OPTIONS", 3, 22, 3)
     graphics.print("Background", 3, 23)
