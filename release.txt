@@ -59,14 +59,10 @@ Reassigned gamepad buttons (thanks ICJ!)
 Added fun (?) graphic effect for elroy
 
 
+TO-DO  
+------
 
-Pre-launch
-----
-Fix keyboard.
-Fix bottom tiles on one booze map
 
-/ periodically check for new joysticks/audio sources
-/ CHECK WHAT HAPPENS WHEN YOU EAT FRUIT AFTER MAZE IS DISAPPEARED
 
 
 ROADMAP
