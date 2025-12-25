@@ -58,6 +58,8 @@ local t = 0
 local accumulator = 0
 local fixed_dt = 1/60.606061
 local frameCounter = 0;
+local joystickCheckTimer = 0
+local joystickCheckInterval = 1.0  -- Check for joysticks once per second
 local spritesheet16
 local spritesheet8
 local spritesheetText8
@@ -387,6 +389,21 @@ function love.update(dt)
     --     g.scene.update(fixed_dt)
     --     accumulator = accumulator - fixed_dt
     -- end
+    
+    -- Periodically check for joysticks (handles hot-plugging)
+    -- Only check once per second to avoid unnecessary overhead
+    joystickCheckTimer = joystickCheckTimer + dt
+    if joystickCheckTimer >= joystickCheckInterval then
+        joystickCheckTimer = 0
+        if not joystick or not joystick:isConnected() then
+            local joysticks = love.joystick.getJoysticks()
+            if #joysticks > 0 then
+                joystick = joysticks[1]
+            else
+                joystick = nil
+            end
+        end
+    end
 end
 
 function love.draw()

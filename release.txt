@@ -41,25 +41,33 @@ Alt-Enter now switches between fullscreen and windowed
 "M" mutes in-game
 
 
-ROADMAP
--------
+
 
 ALPHA 5 (1/1/2026)
 ===================
-/ New mazes (10 total)
-/ "Random" maze mode (picks mazes randomly, not random maze generation)
-/ "Pac-Man Plus" mode
-/ "Plus" difficulty option
-/ Can now set between 0 and 7 ghosts
-/ Reorganize options menu
-/ New maze styles (20 total)
-/ New backgrounds
-/ Default colors per Maze/Mode
-/ Enabled analog stick in menus (thanks ICJ!)
-/ Reassigned gamepad buttons (thanks ICJ!)
-/ Added fun (?) graphic effect for elroy
+New mazes (10 total)
+"Random" maze mode (picks mazes randomly, not random maze generation)
+"Pac-Man Plus" mode
+"Plus" difficulty option
+Can now set between 0 and 7 ghosts
+Reorganize options menu
+New maze styles (20 total)
+New backgrounds
+Default colors per Maze/Mode
+Enabled analog stick in menus (thanks ICJ!)
+Reassigned gamepad buttons (thanks ICJ!)
+Added fun (?) graphic effect for elroy
 
 
+
+Pre-launch
+----
+/ periodically check for new joysticks/audio sources
+
+
+
+ROADMAP
+-------
 
 ALPHA 6 (2/1/2026)
 ===================
