@@ -145,7 +145,7 @@ g.backgrounds = {
     lines = love.graphics.newImage("backgrounds/lines.jpg"),
 }
 
-g.mazes = { "pac", "mspac1", "mspac2","mspac3","mspac4", "booze1", "booze2", "booze3", "booze4", "booze5" }
+g.mazes = { "pac", "mspac1", "mspac2","mspac3","mspac4", "booze1", "booze2", "booze3", "booze4", "booze5", "arrange1" }
 
 local function getCurrentMaze()
     if not g.currentMaze then g.currentMaze = g.config.maze end
@@ -156,7 +156,7 @@ playSiren = function()
     local currentMaze = getCurrentMaze()
     local sirenTriggers = currentMaze.sirenTriggers
     for i = 1, #sirenTriggers do
-        if #g.dots < sirenTriggers[i] then
+        if #g.dots <= sirenTriggers[i] then
             love.audio.play( g.sounds["siren" .. 6-i] )
             return
         end

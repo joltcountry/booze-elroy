@@ -394,4 +394,45 @@ maps.booze5 = {
 }
 
 
+
+
+maps.arrange1 = {
+    -- 28 columns each
+    "                            ",
+    "                            ",
+    "                            ",
+    "  122222222223422222222225  ", --  1
+    "  6..........78..........9  ", --  2
+    "12F.ac abbbc.DF.abbbc ac.D25", --  3
+    "6.`.&* deeg*....&heef &*.`.9", --  4
+    "6.abl*....&* ac &*....&kbc.9", --  5
+    "6.deef.ac.df &* df.ac.deef.9", --  6
+    "6......&*.   &*   .&*......9", --  7
+    "IJJC abl*.abblkbbc.&kbc AJJM", --  8
+    "   6 deef.deeeeeef.deef 9   ", -- 9
+    "   6......        ......9   ", -- 10
+    "   6.abbc NJOPPQJR abbc.9   ", -- 11 (warp tunnels row; spaces = void)
+    "   6.&yy* 9      6 &yy*.9   ", -- 12 (entrance to house row)
+    "   6.&yy* 9      6 &yy*.9   ", -- 13
+    "222F.deef 9      6 deef.D222", -- 14
+    "___ .     9      6     . ___",  -- 15 (center row; gate ==)
+    "JJJC.abbc S222222T abbc.AJJJ", -- 16
+    "   6.&yy*          &yy*.9   ", -- 17
+    "   6.&yy* abbbbbbc &yy*.9   ", -- 18
+    "   6.deef deegheef deef.9   ", -- 19
+    "   6.........&*.........9   ", -- 20
+    "   6 abbbbbc.&*.abbbbbc 9   ", -- 21
+    "122F degheef.df.deeghef D225", -- 22
+    "6......&*...    ...&*......9", -- 23
+    "6.abbc.df.ac.AC.ac.df.abbc.9", -- 24 (^^ above house: no-ghost tiles)
+    "6.deg*....&*.78.&*....&hef.9", -- 25
+    "6...&* abbl*.78.&kbbc &*...9", -- 26
+    "IJC`df deeef.78.deeef df`AJM", -- 27
+    "  6..........78..........9  ", -- 28
+    "  IJJJJJJJJJJLKJJJJJJJJJJM  ", -- 29
+    "                            ", -- 30
+    "                            ", -- 31 (bottom "void" row; often unused)
+    "                            ",
+}
+
 return maps

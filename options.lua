@@ -70,6 +70,7 @@ local menu = {
             { text = "booze3", action = function() g.config.maze = "booze3"; g.currentMaze = "booze3" end },
             { text = "booze4", action = function() g.config.maze = "booze4"; g.currentMaze = "booze4" end },
             { text = "booze5", action = function() g.config.maze = "booze5"; g.currentMaze = "booze5" end },
+            { text = "arrange1", action = function() g.config.maze = "arrange1"; g.currentMaze = "arrange1" end },
             { text = "random", action = function() g.config.maze = "random"; g.currentMaze = g.mazes[math.random(1, #g.mazes)] end },
         }
     },
@@ -246,6 +247,7 @@ local menu = {
             { text = "18", action = function() g.config.mazeColor = 18 end },
             { text = "19", action = function() g.config.mazeColor = 19 end },
             { text = "20", action = function() g.config.mazeColor = 20 end },
+            { text = "21", action = function() g.config.mazeColor = 21 end },
             { text = "Random", action = function() g.config.mazeColor = 0 end },
         }
     },
